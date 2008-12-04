@@ -1,0 +1,11 @@
+#summary Declare a referee via the console
+
+Sometimes you would whish to quickly add a referee without have to connect to the FTP and edit the file then change the level...
+
+So there is a command "*cssmatch_grant*". This command allows you to add a referee via RCON.
+e.g :
+{{{
+rcon cssmatch_grant "STEAM_0:1:6823445"
+}}}
+
+_*Note :* the steamIDs added with *cssmatch_grant* are automatically removed from the adminlist at the next map change._
