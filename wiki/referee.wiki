@@ -1,4 +1,4 @@
-#summary How to become referee ?
+#summary How to become referee (admin) ?
 
   .
 === Become referee : ===
