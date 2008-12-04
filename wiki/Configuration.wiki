@@ -1,0 +1,36 @@
+#summary Configure CSSMatch / Configure a match
+
+== How to configure CSSMatch ? ==
+
+CSSMatch is configured via your match configuration files. If you are interested, please read this tutorial :)
+
+  .
+== How to configure a match ? ==
+  # Visit the _cfg/cssmatch/configurations_ folder. This folder contains all the match configurations which can be executed when you start a match. The .cfg files which are in this folder are automatically listed in the menu.
+  # Open the _default.cfg_ file. This file is a match configuration example. You can see the "variables" specific to the plugin (to structure the match) all prefixed by "cssmatch_" and some examples of variables which adjust the configuration of your server during the match.
+    * Feel free to modify the plugin's variable (all the variable are documentated)
+    * Feel free to add/modify/remove the server's variable
+
+  .
+=== How to add a configuration file ? ===
+
+It is useful to be able to choice a different configurations in the menu. So, as said above, the .cfg file contained in the _cfg/cssmatch/configurations_ folder are automatically listed in the referee menu when you start a match.
+
+*To add a custom configuration file :*
+
+  # Create a new file
+  # "Save as" it with the name you want, and add ".cfg" at the end of the name
+  # The .cfg file can be opened with any text editor, open your new file .cfg
+  # Open the default.cfg file
+  # Copy/Paste the plugin's variable in your new configuration file (they are all prefixed by "cssmatch_")
+  # Add your server configuration at the end of the file
+  # Save the file, then send it on your server in the _cfg/cssmatch/configurations_ folder
+  # Change the map or reboot your server
+
+
+  .
+=== "My file does not appear in the list when I start a match :" ===
+  * Verify that your file is in the _cfg/cssmatch/configurations_ folder 
+  * Verify that file's extension is ".cfg", if needed you can "save as" again adding ".cfg" at the end of the file's name
+  * Make sure you have changed the map or reboot your server since you have sent the file (try gain)
+If your file still does not appear in the menu, ask for help.Configura
