@@ -1,0 +1,19 @@
+#summary How to become referee (admin) ?
+
+  .
+=== Become referee : ===
+  # Open the adminlist.txt file localized in the _cfg/cssmatch_ folder
+  # Add your [http://en.wikipedia.org/wiki/SteamID steamID] at the end of the file
+  # Change the map or reboot your server
+
+  .
+=== Check your rights and use of the referee menu : ===
+  # Bind the following command in your config.cfg or via your console : `cssmatch`
+    * e.g.: `bind "e" "cssmatch"`
+    * Note : if you won't bind the command, it is possible to access the menu typing `cssmatch` in the chat since the version 1.2
+  # Connect to your server, then press the touch you bound (or type `cssmatch`
+    * If you see the menu, you are referee
+    * If a message appear saying you are not referee, your steamID is not correct, the file has not been sent on your server, or you forgot to change the map (or reboot your server) since you have modified the adminlist.txt file
+  # If you don't show any message, CSSMatch is not correctly installed
+
+_*Note :* if some steamID are already wrote in the adminlist.txt file when you install CSSMatch, remove them._
