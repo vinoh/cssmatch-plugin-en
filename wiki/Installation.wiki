@@ -1,0 +1,18 @@
+#summary How to install CSSMatch ?
+
+  # [http://code.google.com/p/cssmatch-plugin-en/downloads/list Download the plugin]
+  # Extract the archive on your compute (e.g. with [http://www.7-zip.org/fr/ 7Zip])
+  # Send the content of the _addons_ folder in the server's _addons_ folder
+  # Send the content of the _cfg_ folder in the server's _cfg_ folder
+  # Reboot your server
+
+  .
+== Check the installation :==
+  # Type the following command in the server's console (using RCON or [http://fr.wikipedia.org/wiki/HLSW HLSW]) : `plugin_print`. This command displays the list of the plugin installed on your server.
+  # Make sure that CSSMatch is listed
+    * If no, install CSSMatch again
+    * If yes, your installation is correct
+
+  .
+=== If you have some problem : ===
+Don't forget to write all the steps you followed to install CSSMatch (even if you repeat this tutorial).
