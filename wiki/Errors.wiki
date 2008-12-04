@@ -1,0 +1,29 @@
+#summary Meaning of some error messages
+
+== Error message in relation with the referee menu ==
+
+  *  *_You're not an admin !_*
+*Meaning :* the adminlist.txt file which takes place on your server does not contains your steamID, or the line where is your steamID is not correct.
+
+*Fix :* Follow [Referee these instructions].
+  .
+
+== Colored error messages in relation with SourceTV ==
+
+  *  *_CSSMatch : SourceTV record cannot start due to tv_enable set on 0_*
+  "I've got this error message, yet SourceTV is connected."
+
+*Meaning :* the variable "tv_enable" is "0" at the moment when CSSMatch attempts to start the record. 
+
+*Fix :* verify that your configuration file don't set tv_enable to 0. Nevertheless, if you are in a hurry, add this line in your configuration file :
+{{{
+tv_enable 1
+}}}
+
+  .
+  *  *_CSSMatch : SourceTV record cannot start because it's not connected on server_*
+  "I've got this error message, yet tv_enable is 1 in my configuration."
+
+*Meaning :* This message is actually shown only if tv_enable is "1". SourceTV is not connected to the server at the moment when CSSMatch attempts to start the record.
+
+*Fix :* Change the level in order to connect SourceTV.
