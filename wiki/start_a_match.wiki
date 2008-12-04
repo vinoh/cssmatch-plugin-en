@@ -1,0 +1,11 @@
+#summary How to start a match ?
+
+This question is often asked. Here is the steps :
+
+ # [Installation Install CSSMatch] ;
+ # [Arbitrage Add you as a referee] ;
+ # Open the referee menu as indicated on the tutorial (step 2).
+
+Don't forget to take a look at the title of the others tutorials : http://code.google.com/p/cssmatch-plugin-en/w/list 
+
+GL & HL
