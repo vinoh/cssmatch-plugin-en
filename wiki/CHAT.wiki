@@ -1,0 +1,78 @@
+#summary Chat commands
+
+= Introduction =
+
+Those chat commands must be used in the chat area. They exist to simplify your life or, more often, give you access to more features.
+
+= Presentation of the commands =
+
+----
+== cssmatch ==
+
+==== Description ====
+
+Since CSSMatch 1.2, this command allows the referees to access the referee menu.
+This command does not appear in the chat.
+
+==== Example ====
+
+`cssmatch`
+
+----
+== !teamt New terrorist team name ==
+
+==== Description ====
+
+This command allows the referees to customize terrorist team name. It's almost useful in case of CSSMatch has not correctly detected the team name.
+This command does not appear the chat.
+
+==== Example ====
+
+`!teamt ¤ Nirv@na ¤`
+
+----
+== !teamct New counter-terrorist team name ==
+
+==== Description ====
+
+This command allows the referees to customize the counter-terrorist team name.It's almost useful in case of CSSMatch has not correctly detected the team name. This command does not appear the chat.
+This command does not appear the chat.
+
+==== Example ====
+
+`!teamct ¤ Nirv@na ¤`
+
+----
+== !scores ==
+
+==== Description ====
+
+This command allows any player to know the score of the current match, or the score of the last match played since the server's launch.
+
+==== Examples ===
+
+{{{
+!scores
+}}}
+or
+{{{
+!score
+}}}
+
+----
+== !go ==
+
+==== Description ====
+This command allows any player to declare his team as ready to start the match during the warmup. It can be used only one time by team. When all the teams are declared as ready, the warmup ends and the match begins.
+
+==== Example ====
+
+{{{
+!go
+}}}
+or
+{{{
+ready
+}}}
+
+----
