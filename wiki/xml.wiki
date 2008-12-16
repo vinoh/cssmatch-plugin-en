@@ -1,0 +1,47 @@
+#summary How to read the reports ?
+
+== Introduction ==
+
+Each match, a report is generated in the *cfg/cssmatch/rapports* folder. The name of the file generated contains the date and the map of the match.
+
+
+ .
+== Read the reports with an Internet browser ==
+
+Three files are required :
+ * _cssmatch.xsl_
+ * _cssmatch.css_
+ * the report file
+These three files must be placed in the same folder. So you can read the report with any Internet browser.
+
+
+ .
+== Read the reports from your Internet site ==
+
+I order to make the report accessible from your website, you have to get these files :
+ * _cssmatch.xsl_
+ * _cssmatch.css_
+ * the report files
+These three files must be placed in the same folder in a folder on your website.
+
+*Example :*
+The home directory of my _www.my-team.fr_ site is *www*. I send two reports in the *www/rapports* folder. This folder contains these files :
+ * _cssmatch.xsl_
+ * _cssmatch.css_
+ * _2008-06-29_22h24_de_dust.xml_ (first report)
+ * _2008-07-02_10h10_de_dust_.xml (second report)
+To visualize the first report, I visit _www.ma-team.fr/rapports/2008-06-29_22h24_de_dust.xml_. To visualize the second one, I visit _www.ma-team.fr/rapports/2008-07-02_10h10_de_dust.xml_.
+
+
+ .
+== Modify the reports appearance ==
+
+To modify the appearance of the reports, you must modify the _cssmatch.css_ file. This file is a _[http://en.wikipedia.org/wiki/Cascading_Style_Sheets Cascading Style Sheet]_. 
+
+_*Note :* Share your style on [http://www.cssmatch/forums the forums] :-) !
+
+
+ .
+== Automatically transfer the report on your site ==
+
+Some systems are in development to automatically get the reports (and the sourceTV records) from your servers. [http://www.cssmatch.com/forums/viewforum.php?f=12 Stay aware] :)
