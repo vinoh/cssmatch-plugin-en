@@ -1,0 +1,2 @@
+* Lorsqu'aucun match n'est en cours, le plugin ne consomme plus rien (pas d'écoute d'évènements, mais recherche de timers)
+* config restautée en fin de match
