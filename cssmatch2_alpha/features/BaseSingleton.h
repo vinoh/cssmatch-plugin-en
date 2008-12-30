@@ -23,7 +23,7 @@
 #ifndef __BASE_SINGLETON_H__
 #define __BASE_SINGLETON_H__
 
-#include "../features/CannotBeCopied.h"
+#include "CannotBeCopied.h"
 
 namespace cssmatch
 {
