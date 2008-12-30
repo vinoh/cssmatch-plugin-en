@@ -27,7 +27,7 @@
 
 #include "../messages/RecipientFilter.h"
 
-#include "../singleton/BaseSingleton.h"
+#include "../features/BaseSingleton.h"
 #include "../convars/ConvarsAccessor.h"
 #include "../match/MatchManager.h"
 #include "../timer/BaseTimer.h"
