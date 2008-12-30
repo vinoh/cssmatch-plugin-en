@@ -84,7 +84,8 @@ namespace cssmatch
 	 *	- Each translation line must be in this format :  <br>
 	 *		keyword = translation <br>
 	 *	- Both keyword and translation can between quotation mark, to delimit where the data ends <br>
-	 *  Support the ANSI and UTF-8 encoding
+	 *  Support the ANSI and UTF-8 encoding <br>
+	 * \n are interpreted
 	 */
 	class TranslationFile : public ConfigurationFile
 	{

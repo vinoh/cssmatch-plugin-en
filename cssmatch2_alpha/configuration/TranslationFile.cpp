@@ -177,6 +177,14 @@ namespace cssmatch
 						if ((dataValue[0] == '"') && (dataValue[iLastCharDataValue] == '"'))
 							dataValue = dataValue.substr(1,iLastCharDataValue - 1);
 
+						// \n are replaced by the corresponding escape sequence
+						size_t iEndLine = dataValue.find("\\n");
+						while (iEndLine != std::string::npos)
+						{
+							dataValue.replace(iEndLine,2,"\n",0,1);
+							iEndLine = dataValue.find("\\n");
+						}
+
 						if ((dataName.size() > 0) && (dataValue.size() > 0))
 						{
 							translationFile->addTranslation(dataName,dataValue);

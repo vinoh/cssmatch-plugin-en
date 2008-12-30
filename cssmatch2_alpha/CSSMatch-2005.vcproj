@@ -438,23 +438,19 @@
 			Name="features"
 			>
 			<File
+				RelativePath=".\features\BaseSingleton.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\features\BaseSingleton.h"
+				>
+			</File>
+			<File
 				RelativePath=".\features\CannotBeCopied.cpp"
 				>
 			</File>
 			<File
 				RelativePath=".\features\CannotBeCopied.h"
-				>
-			</File>
-		</Filter>
-		<Filter
-			Name="singleton"
-			>
-			<File
-				RelativePath=".\singleton\BaseSingleton.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\singleton\BaseSingleton.h"
 				>
 			</File>
 		</Filter>
@@ -473,6 +469,14 @@
 		<Filter
 			Name="messages"
 			>
+			<File
+				RelativePath=".\messages\I18nManager.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\messages\I18nManager.h"
+				>
+			</File>
 			<File
 				RelativePath=".\messages\RecipientFilter.cpp"
 				>
