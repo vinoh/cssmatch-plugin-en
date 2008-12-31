@@ -422,11 +422,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\convars\I18nPluginConVar.cpp"
+				RelativePath=".\convars\I18nConVar.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\convars\I18nPluginConVar.h"
+				RelativePath=".\convars\I18nConVar.h"
 				>
 			</File>
 		</Filter>

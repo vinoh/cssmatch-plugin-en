@@ -42,6 +42,11 @@ namespace cssmatch
 		}
 	}
 
+	std::string I18nManager::getDefaultLanguage() const
+	{
+		return defaultLanguage->GetString();
+	}
+
 	TranslationFile * I18nManager::getTranslationFile(const std::string & language)
 	{
 		TranslationFile * translationSet = NULL;
