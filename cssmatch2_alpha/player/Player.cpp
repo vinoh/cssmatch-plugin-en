@@ -175,7 +175,7 @@ namespace cssmatch
 		return bCombatWeapon;
 	}
 
-	// Functor
+	// Functors
 
 	PlayerHavingPEntity::PlayerHavingPEntity(edict_t * pEnt) : pEntity(pEnt)
 	{
@@ -184,6 +184,15 @@ namespace cssmatch
 	bool PlayerHavingPEntity::operator ()(const Player & player)
 	{
 		return player.identity.pEntity == pEntity;
+	}
+
+	PlayerHavingIndex::PlayerHavingIndex(int ind) : index(ind)
+	{
+	}
+
+	bool PlayerHavingIndex::operator ()(const Player & player)
+	{
+		return player.identity.index == index;
 	}
 
 	PlayerHavingUserid::PlayerHavingUserid(int id) : userid(id)

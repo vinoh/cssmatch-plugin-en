@@ -49,7 +49,6 @@
 #include "baseentity.h"
 
 #include <string>
-#include <sstream>
 
 #define PLUGIN_NAME "CSSMatch"
 

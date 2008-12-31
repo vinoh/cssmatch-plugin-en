@@ -22,9 +22,10 @@
 
 #include "SimplePlugin.h"
 #include "../player/TeamMember.h"
-#include "../configuration/TranslationFile.h"
+#include "../convars/I18nPluginConVar.h"
 
 #include <algorithm>
+#include <sstream>
 
 namespace cssmatch
 {
@@ -38,7 +39,7 @@ namespace cssmatch
 	{
 	}
 
-	SimplePlugin::SimplePlugin() : clientCommandIndex(0), match(NULL)
+	SimplePlugin::SimplePlugin() : clientCommandIndex(0), match(NULL), i18n(NULL)
 	{
 	}
 
@@ -49,6 +50,9 @@ namespace cssmatch
 
 		if (match != NULL)
 			delete match;
+
+		if (i18n != NULL)
+			delete i18n;
 	}
 
 	bool SimplePlugin::Load(CreateInterfaceFn interfaceFactory, CreateInterfaceFn gameServerFactory)
@@ -82,14 +86,16 @@ namespace cssmatch
 
 		MathLib_Init(2.2f,2.2f,0.0f,2.0f);
 
-		try
-		{
-			TranslationFile test("cstrike/cfg/cssmatch/languages/french.txt");
-		}
-		catch(const std::exception & e)
-		{
-			Msg("%s\n",e.what());
-		}
+		// Create the plugin's convars
+		ConVar * cssmatch_language = new ConVar("cssmatch_language",
+												"english",
+												FCVAR_NONE,PLUGIN_NAME " : Default language of CSSMatch (e.g. : \"english\" \
+																	   will use the file  cfg/cssmatch/languages/english.txt)");
+		addPluginConVar(cssmatch_language);
+		addPluginConVar(new I18nPluginConVar(this,"cssmatch_version",PLUGIN_VERSION_LIGHT,FCVAR_NONE,"cssmatch_version"));
+
+
+		i18n = new I18nManager(cssmatch_language);
 
 		return success;
 	}
@@ -112,6 +118,21 @@ namespace cssmatch
 	std::list<TeamMember> * SimplePlugin::getPlayerList()
 	{
 		return &playerlist;
+	}
+
+	void SimplePlugin::addPluginConVar(ConVar * variable)
+	{
+		pluginConVars.push_back(variable);
+	}
+
+	const std::list<ConVar *> * SimplePlugin::getPluginConVars() const
+	{
+		return &pluginConVars;
+	}
+
+	I18nManager * SimplePlugin::get18nManager()
+	{
+		return i18n;
 	}
 
 	void SimplePlugin::addTimer(BaseTimer * timer)

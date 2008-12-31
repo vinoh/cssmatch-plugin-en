@@ -421,6 +421,14 @@
 				RelativePath=".\convars\ConvarsAccessor.h"
 				>
 			</File>
+			<File
+				RelativePath=".\convars\I18nPluginConVar.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\convars\I18nPluginConVar.h"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="exceptions"
