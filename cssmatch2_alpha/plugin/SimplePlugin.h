@@ -31,6 +31,7 @@
 #include "../convars/ConvarsAccessor.h"
 #include "../match/MatchManager.h"
 #include "../timer/BaseTimer.h"
+#include "../messages/I18nManager.h"
 
 #include <list>
 
@@ -74,6 +75,12 @@ namespace cssmatch
 		/** Timer list */
 		std::list<BaseTimer *> timers;
 
+		/** Plugin ConVars list */
+		std::list<ConVar *> pluginConVars;
+
+		/** Internationalization tool */
+		I18nManager * i18n;
+
 		SimplePlugin();
 		virtual ~SimplePlugin();
 
@@ -109,6 +116,15 @@ namespace cssmatch
 
 		/** Get the match manager */
 		MatchManager * getMatchManager();
+
+		/** Add a plugin console variable */
+		void addPluginConVar(ConVar * variable);
+
+		/** Get the plugin convars list */
+		const std::list<ConVar *> * getPluginConVars() const;
+
+		/** Get the internationalization tool */
+		I18nManager * get18nManager();
 
 		/** Add a timer */
 		void addTimer(BaseTimer * timer);

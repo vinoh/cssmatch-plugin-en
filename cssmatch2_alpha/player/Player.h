@@ -59,6 +59,7 @@ namespace cssmatch
 	private:
 		// Functors (friends to accelerates the lookups)
 		friend class PlayerHavingPEntity;
+		friend class PlayerHavingIndex;
 		friend class PlayerHavingUserid;
 		friend class PlayerHavingTeam;
 		friend struct PlayerIsHltv;
@@ -132,6 +133,16 @@ namespace cssmatch
 		edict_t * pEntity;
 	public:
 		PlayerHavingPEntity(edict_t * pEntity);
+		bool operator ()(const Player & player);
+	};
+
+	/** Functor to quickly find a Player instance by his index */
+	class PlayerHavingIndex
+	{
+	private:
+		int index;
+	public:
+		PlayerHavingIndex(int index);
 		bool operator ()(const Player & player);
 	};
 

@@ -27,7 +27,11 @@
 #include "UserMessagesManager.h"
 #include "../configuration/TranslationFile.h"
 
+#include "convar.h"
+
 #include <map>
+
+#define TRANSLATIONS_FOLDER "cstrike/cfg/cssmatch/languages/"
 
 namespace cssmatch
 {
@@ -38,18 +42,26 @@ namespace cssmatch
 	class I18nManager : public CannotBeCopied
 	{
 	private:
+		/** What is the default language to use ? */
+		ConVar * defaultLanguage;
+
 		/** {language name => translation set} */
 		std::map<std::string,TranslationFile *> languages;
 	public:
 		/** Empty map for messages which have no option to parse */
 		static std::map<std::string, std::string> WITHOUT_PARAMETERS;
 
+		/**
+		 * @param defaultLanguage The default language to use if no translation is found
+		 */
+		I18nManager(ConVar * defaultLanguage);
 		~I18nManager();
 
 		/** Retrieve the TranslationFile instance corresponding to a language, then store/cache it if necessary 
 		 * @param language The language which has to be used
+		 * @return The corresponding translation file 
 		 */
-		void getTranslationFile(const std::string & language);
+		TranslationFile * getTranslationFile(const std::string & language);
 
 		/** Retrieve the translation of a message
 		 * @param language The language of the translation

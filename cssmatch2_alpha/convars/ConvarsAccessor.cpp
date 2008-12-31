@@ -48,7 +48,7 @@ namespace cssmatch
 		variable->SetNext(0);
 
 		// Link to engine's list instead
-		getConVarAccessor()->RegisterConCommandBase(variable);
+		cvars->RegisterConCommandBase(variable);
 
 		return true;
 	}

@@ -60,6 +60,7 @@ namespace cssmatch
 		virtual ICvar * getConVarAccessor() = 0;
 
 		// IConCommandBaseAccessor method
+		/** Automatically involed by the engine ! */
 		virtual bool RegisterConCommandBase(ConCommandBase * variable) = 0;
 	};
 }
