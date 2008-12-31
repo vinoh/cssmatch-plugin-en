@@ -57,6 +57,9 @@ namespace cssmatch
 		I18nManager(ConVar * defaultLanguage);
 		~I18nManager();
 
+		/** Get the current default language */
+		std::string getDefaultLanguage() const;
+
 		/** Retrieve the TranslationFile instance corresponding to a language, then store/cache it if necessary 
 		 * @param language The language which has to be used
 		 * @return The corresponding translation file 

@@ -22,7 +22,7 @@
 
 #include "SimplePlugin.h"
 #include "../player/TeamMember.h"
-#include "../convars/I18nPluginConVar.h"
+#include "../convars/I18nConVar.h"
 
 #include <algorithm>
 #include <sstream>
@@ -91,11 +91,11 @@ namespace cssmatch
 												"english",
 												FCVAR_NONE,PLUGIN_NAME " : Default language of CSSMatch (e.g. : \"english\" \
 																	   will use the file  cfg/cssmatch/languages/english.txt)");
-		addPluginConVar(cssmatch_language);
-		addPluginConVar(new I18nPluginConVar(this,"cssmatch_version",PLUGIN_VERSION_LIGHT,FCVAR_NONE,"cssmatch_version"));
-
-
+		//	Initialize the translations tools
 		i18n = new I18nManager(cssmatch_language);
+
+		addPluginConVar(cssmatch_language);
+		addPluginConVar(new I18nConVar(i18n,"cssmatch_version",PLUGIN_VERSION_LIGHT,FCVAR_NONE,"cssmatch_version"));
 
 		return success;
 	}
