@@ -614,6 +614,18 @@
 				>
 			</File>
 		</Filter>
+		<Filter
+			Name="commands"
+			>
+			<File
+				RelativePath=".\commands\I18nConCommand.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\commands\I18nConCommand.h"
+				>
+			</File>
+		</Filter>
 		<File
 			RelativePath=".\changelog.txt"
 			>
