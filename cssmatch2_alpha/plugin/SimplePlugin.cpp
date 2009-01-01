@@ -23,9 +23,15 @@
 #include "SimplePlugin.h"
 #include "../player/TeamMember.h"
 #include "../convars/I18nConVar.h"
+#include "../commands/I18nConCommand.h"
 
 #include <algorithm>
 #include <sstream>
+
+void cssm_start()
+{
+	Msg("allright !\n");
+}
 
 namespace cssmatch
 {
@@ -96,6 +102,8 @@ namespace cssmatch
 
 		addPluginConVar(cssmatch_language);
 		addPluginConVar(new I18nConVar(i18n,"cssmatch_version",PLUGIN_VERSION_LIGHT,FCVAR_NONE,"cssmatch_version"));
+
+		new I18nConCommand(i18n,"cssm_start",cssm_start,"cssm_start");
 
 		return success;
 	}

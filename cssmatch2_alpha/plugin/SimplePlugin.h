@@ -75,8 +75,11 @@ namespace cssmatch
 		/** Timer list */
 		std::list<BaseTimer *> timers;
 
-		/** Plugin ConVars list */
+		/** Plugin console variable list */
 		std::list<ConVar *> pluginConVars;
+
+		/** Plugin console commands list */
+		std::list<ConCommand *> pluginConCommands;
 
 		/** Internationalization tool */
 		I18nManager * i18n;

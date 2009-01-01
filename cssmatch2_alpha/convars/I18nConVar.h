@@ -35,7 +35,7 @@ namespace cssmatch
 	{
 	protected:
 		/** Internationalization tool */
-		I18nManager * i18nManager;
+		I18nManager * i18n;
 	public:
 		// Classic ConVar constructors plus the internalization tool
 		I18nConVar(I18nManager * i18nManager, char const * pName, char const * pDefaultValue, int flags = 0);
@@ -70,7 +70,7 @@ namespace cssmatch
 					FnChangeCallback callback);
 
 		// ConVar methods override
-		virtual char const * GetHelpText(void) const;
+		virtual char const * GetHelpText() const;
 	};
 }
 
