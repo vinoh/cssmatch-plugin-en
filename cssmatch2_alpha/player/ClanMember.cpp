@@ -20,19 +20,17 @@
  * Portions of this code are also Copyright © 1996-2005 Valve Corporation, All rights reserved
  */
 
-#include "BaseMatchState.h"
+#include "ClanMember.h"
 
 namespace cssmatch
 {
-	/** No match in progress */
-	class DisableMatchState : public BaseMatchState
+	ClanMember::ClanMember(IVEngineServer * engine, IPlayerInfoManager * playerinfomanager, int index, bool ref) :
+		Player(engine,playerinfomanager,index), referee(ref)
 	{
-	public:
-		DisableMatchState(MatchManager * match, IGameEventManager2 * eventManager);
+	}
 
-		// BaseMatchState methods
-		virtual void startState();
-		virtual void endState();
-		virtual void FireGameEvent(IGameEvent * event);
-	};
+	bool ClanMember::isReferee() const
+	{
+		return referee;
+	}
 }

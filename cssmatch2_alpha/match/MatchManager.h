@@ -24,10 +24,23 @@
 #define __MATCH_MANAGER_H__
 
 #include "DisableMatchState.h"
+#include "../player/MatchClan.h"
 
 namespace cssmatch
 {
 	class SimplePlugin;
+
+	/** A match lign-up */
+	struct MatchLignup
+	{
+		/** First clan */
+		MatchClan clan1;
+
+		/** Second clan */
+		MatchClan clan2;
+
+		MatchLignup(SimplePlugin * plugin);
+	};
 
 	class MatchManager
 	{
@@ -37,6 +50,9 @@ namespace cssmatch
 
 		/** Current match state(e.g. kniferound, warmup, etc.) */
 		BaseMatchState * state;
+
+		/** Match's lignup */
+		MatchLignup lignup;
 	public:
 		/** Prepare a match
 		 * @param plugin The plugin instance
@@ -44,6 +60,9 @@ namespace cssmatch
 		MatchManager(SimplePlugin * plugin);
 
 		~MatchManager();
+
+		/** Get the match lignup */
+		MatchLignup * getLignup();
 
 		/** Set a new match state <br>
 		 * Call the endState method of the previous state, and the startState of the new state

@@ -21,17 +21,12 @@
  */
 
 #include "SimplePlugin.h"
-#include "../player/TeamMember.h"
 #include "../convars/I18nConVar.h"
 #include "../commands/I18nConCommand.h"
+#include "../match/WarmupMatchState.h"
 
 #include <algorithm>
 #include <sstream>
-
-void cssm_start()
-{
-	Msg("allright !\n");
-}
 
 namespace cssmatch
 {
@@ -53,6 +48,8 @@ namespace cssmatch
 	{
 		if (interfaces.convars != NULL)
 			delete interfaces.convars;
+
+		std::for_each(playerlist.begin(),playerlist.end(),PlayerToRemove());
 
 		if (match != NULL)
 			delete match;
@@ -95,15 +92,13 @@ namespace cssmatch
 		// Create the plugin's convars
 		ConVar * cssmatch_language = new ConVar("cssmatch_language",
 												"english",
-												FCVAR_NONE,PLUGIN_NAME " : Default language of CSSMatch (e.g. : \"english\" \
+												FCVAR_PLUGIN,PLUGIN_NAME " : Default language of CSSMatch (e.g. : \"english\" \
 																	   will use the file  cfg/cssmatch/languages/english.txt)");
 		//	Initialize the translations tools
 		i18n = new I18nManager(cssmatch_language);
 
 		addPluginConVar(cssmatch_language);
 		addPluginConVar(new I18nConVar(i18n,"cssmatch_version",PLUGIN_VERSION_LIGHT,FCVAR_NONE,"cssmatch_version"));
-
-		new I18nConCommand(i18n,"cssm_start",cssm_start,"cssm_start");
 
 		return success;
 	}
@@ -123,7 +118,7 @@ namespace cssmatch
 		clientCommandIndex = index;
 	}
 
-	std::list<TeamMember> * SimplePlugin::getPlayerList()
+	std::list<ClanMember *> * SimplePlugin::getPlayerlist()
 	{
 		return &playerlist;
 	}
@@ -197,23 +192,33 @@ namespace cssmatch
 
 	void SimplePlugin::ClientDisconnect(edict_t * pEntity)
 	{
-		playerlist.remove_if(PlayerHavingPEntity(pEntity));
+		std::list<ClanMember *>::iterator endPlayer = playerlist.end();
+		std::list<ClanMember *>::iterator itPlayer = std::find_if(playerlist.begin(),endPlayer,PlayerHavingPEntity(pEntity));
+		if (itPlayer != endPlayer)
+		{
+			ClanMember * toRemove = *itPlayer;
+			playerlist.remove(toRemove);
+			PlayerToRemove()(toRemove);
+		}
 	}
 
 	void SimplePlugin::ClientPutInServer(edict_t * pEntity, char const * playername)
 	{
 		int index = interfaces.engine->IndexOfEdict(pEntity);
-		if (isValidPlayerIndex(index,interfaces.gpGlobals->maxClients))
-		{
-			try
-			{
-				playerlist.push_back(TeamMember(interfaces.engine,interfaces.playerinfomanager,index));
-			}
-			catch(const PlayerException & e)
-			{
-				printException(e,__FILE__,__LINE__);
-			}
-		}
+        if (isValidPlayerIndex(index,interfaces.gpGlobals->maxClients))
+        {
+                try
+                {
+                        playerlist.push_back(new ClanMember(interfaces.engine,interfaces.playerinfomanager,index));
+                }
+                catch(const PlayerException & e)
+                {
+                        printException(e,__FILE__,__LINE__);
+                }
+        }
+
+		match->setMatchState(new WarmupMatchState(match,interfaces.gameeventmanager2));
+
 	}
 
 	void SimplePlugin::ClientSettingsChanged(edict_t * pEdict)
@@ -261,8 +266,8 @@ namespace cssmatch
 
 	bool SimplePlugin::hltvConnected() const
 	{
-		std::list<TeamMember>::const_iterator firstPlayer = playerlist.begin();
-		std::list<TeamMember>::const_iterator lastPlayer = playerlist.end();
+		std::list<ClanMember *>::const_iterator firstPlayer = playerlist.begin();
+		std::list<ClanMember *>::const_iterator lastPlayer = playerlist.end();
 
 		return std::find_if(firstPlayer,lastPlayer,PlayerIsHltv()) != lastPlayer;
 	}
@@ -272,9 +277,9 @@ namespace cssmatch
 		int playerCount = 0;
 
 		if (team == INVALID_TEAM)
-			playerCount = (int)playerlist.size();
+				playerCount = (int)playerlist.size();
 		else
-			playerCount = std::count_if(playerlist.begin(),playerlist.end(),PlayerHavingTeam(team));
+				playerCount = std::count_if(playerlist.begin(),playerlist.end(),PlayerHavingTeam(team));
 		return playerCount;
 	}
 }

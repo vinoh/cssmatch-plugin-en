@@ -522,6 +522,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\match\KnifeRoundMatchState.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\match\KnifeRoundMatchState.h"
+				>
+			</File>
+			<File
 				RelativePath=".\match\MatchManager.cpp"
 				>
 			</File>
@@ -529,10 +537,42 @@
 				RelativePath=".\match\MatchManager.h"
 				>
 			</File>
+			<File
+				RelativePath=".\match\SetMatchState.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\match\SetMatchState.h"
+				>
+			</File>
+			<File
+				RelativePath=".\match\WarmupMatchState.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\match\WarmupMatchState.h"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="player"
 			>
+			<File
+				RelativePath=".\player\ClanMember.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\player\ClanMember.h"
+				>
+			</File>
+			<File
+				RelativePath=".\player\MatchClan.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\player\MatchClan.h"
+				>
+			</File>
 			<File
 				RelativePath=".\player\Player.cpp"
 				>
@@ -563,14 +603,6 @@
 			</File>
 			<File
 				RelativePath=".\player\StatsSnapshot.h"
-				>
-			</File>
-			<File
-				RelativePath=".\player\TeamMember.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\player\TeamMember.h"
 				>
 			</File>
 		</Filter>

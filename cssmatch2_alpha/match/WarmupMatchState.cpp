@@ -20,19 +20,35 @@
  * Portions of this code are also Copyright © 1996-2005 Valve Corporation, All rights reserved
  */
 
-#include "BaseMatchState.h"
+#include "WarmupMatchState.h"
+#include "MatchManager.h"
 
 namespace cssmatch
 {
-	/** No match in progress */
-	class DisableMatchState : public BaseMatchState
+	WarmupMatchState::WarmupMatchState(MatchManager * match, IGameEventManager2 * eventManager) 
+		: BaseMatchState(match,eventManager)
 	{
-	public:
-		DisableMatchState(MatchManager * match, IGameEventManager2 * eventManager);
+	}
 
-		// BaseMatchState methods
-		virtual void startState();
-		virtual void endState();
-		virtual void FireGameEvent(IGameEvent * event);
-	};
+	void WarmupMatchState::startState()
+	{
+		std::list<ClanMember *> playerlist = match->getLignup()->clan1.getMembers();
+		std::list<ClanMember *>::iterator itPlayer = playerlist.begin();
+		while(itPlayer != playerlist.end())
+		{
+			Msg("nom = %s\n",(*itPlayer)->getPlayerInfo()->GetName());
+			itPlayer++;
+		}
+
+		match->getLignup()->clan1.detectClanName();
+		Msg("%s\n",match->getLignup()->clan1.getName());
+	}
+
+	void WarmupMatchState::endState()
+	{
+	}
+
+	void WarmupMatchState::FireGameEvent(IGameEvent * event)
+	{
+	}
 }

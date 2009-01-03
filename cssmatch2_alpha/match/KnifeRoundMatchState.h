@@ -24,11 +24,11 @@
 
 namespace cssmatch
 {
-	/** No match in progress */
-	class DisableMatchState : public BaseMatchState
+	/** Knife round in progress */
+	class KnifeRoundMatchState : public BaseMatchState
 	{
 	public:
-		DisableMatchState(MatchManager * match, IGameEventManager2 * eventManager);
+		KnifeRoundMatchState(MatchManager * match, IGameEventManager2 * eventManager);
 
 		// BaseMatchState methods
 		virtual void startState();

@@ -32,12 +32,13 @@
 #include "../match/MatchManager.h"
 #include "../timer/BaseTimer.h"
 #include "../messages/I18nManager.h"
+#include "../player/ClanMember.h"
 
 #include <list>
 
 namespace cssmatch
 {
-	class TeamMember;
+	class ClanMember;
 
 	/** Group of the instances of the Valve's interfaces  */
 	struct ValveInterfaces
@@ -66,8 +67,8 @@ namespace cssmatch
 		/** Last client index who used a client command */
 		int clientCommandIndex;
 
-		/** Player List */
-		std::list<TeamMember> playerlist;
+		/** Global playerlist */
+		std::list<ClanMember *> playerlist;
 
 		/** Match manager */
 		MatchManager * match;
@@ -114,8 +115,8 @@ namespace cssmatch
 
 		void SetCommandClient(int index);
 
-		/** Get the connected player list */
-		std::list<TeamMember> * getPlayerList();
+		/** Get the global playerlist */
+		std::list<ClanMember *> * getPlayerlist();
 
 		/** Get the match manager */
 		MatchManager * getMatchManager();
