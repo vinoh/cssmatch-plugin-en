@@ -32,16 +32,6 @@ namespace cssmatch
 
 	void WarmupMatchState::startState()
 	{
-		std::list<ClanMember *> playerlist = match->getLignup()->clan1.getMembers();
-		std::list<ClanMember *>::iterator itPlayer = playerlist.begin();
-		while(itPlayer != playerlist.end())
-		{
-			Msg("nom = %s\n",(*itPlayer)->getPlayerInfo()->GetName());
-			itPlayer++;
-		}
-
-		match->getLignup()->clan1.detectClanName();
-		Msg("%s\n",match->getLignup()->clan1.getName());
 	}
 
 	void WarmupMatchState::endState()
