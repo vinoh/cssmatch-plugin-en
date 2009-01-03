@@ -217,7 +217,7 @@ namespace cssmatch
                 }
         }
 
-		match->setMatchState(new WarmupMatchState(match,interfaces.gameeventmanager2));
+		//match->setMatchState(new WarmupMatchState(match,interfaces.gameeventmanager2)); // test
 
 	}
 
