@@ -23,7 +23,6 @@
 #include "SimplePlugin.h"
 #include "../convars/I18nConVar.h"
 #include "../commands/I18nConCommand.h"
-#include "../match/WarmupMatchState.h"
 
 #include <algorithm>
 #include <sstream>
@@ -216,9 +215,6 @@ namespace cssmatch
                         printException(e,__FILE__,__LINE__);
                 }
         }
-
-		//match->setMatchState(new WarmupMatchState(match,interfaces.gameeventmanager2)); // test
-
 	}
 
 	void SimplePlugin::ClientSettingsChanged(edict_t * pEdict)

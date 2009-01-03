@@ -86,13 +86,13 @@ namespace cssmatch
 
 	void MatchClan::detectClanName() // non testé/bugué
 	{
-/*		// 1. Get two members
+		// 1. Get two members
 		// 2. Get their names
 		// 3. Search and accumulate consecutive/common characters until we find a clan name which contains at least 3 characters
 
-		std::list<ClanMember *> * members = &getMembers();
-		std::list<ClanMember *>::const_iterator itMembers = members->begin();
-		std::list<ClanMember *>::const_iterator lastMembers = members->end();
+		std::list<ClanMember *> members = getMembers();
+		std::list<ClanMember *>::const_iterator itMembers = members.begin();
+		std::list<ClanMember *>::const_iterator lastMembers = members.end();
 
 		// 1.
 		if (itMembers != lastMembers)
@@ -121,8 +121,8 @@ namespace cssmatch
 					std::string newName; // new clan name
 					std::string::const_iterator itMemberName1 = memberName1.begin();
 					std::string::const_iterator endMemberName1 = memberName1.end();
-					std::string::const_iterator itMemberName2 = memberName1.begin();
-					std::string::const_iterator endMemberName2 = memberName1.end();
+					std::string::const_iterator itMemberName2 = memberName2.begin();
+					std::string::const_iterator endMemberName2 = memberName2.end();
 
 					// For each character of member1
 					//	Is a character is common with a character of member2 ?
@@ -135,7 +135,7 @@ namespace cssmatch
 						while((itMemberName1 != endMemberName1) && (itMemberName2 != endMemberName2))
 						//	  (itMemberName1 may changes here)
 						{
-							if (*itMemberName1 == *itMemberName2) // Found a common character
+							if ((*itMemberName1) == (*itMemberName2)) // Found a common character
 							{
 								newName += *itMemberName1;
 
@@ -147,8 +147,8 @@ namespace cssmatch
 								setName(newName);
 
 								// Halt !
-								itMemberName1 = endMemberName1;
-								itMemberName2 = endMemberName2;
+								itMemberName1 = endMemberName1-1;
+								itMemberName2 = endMemberName2-1;
 							}
 							else
 								newName = "";
@@ -182,6 +182,6 @@ namespace cssmatch
 		else // No member in this clan
 		{
 			setName("Nobody");
-		}*/
+		}
 	}
 }
