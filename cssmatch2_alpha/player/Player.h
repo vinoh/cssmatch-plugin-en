@@ -133,7 +133,7 @@ namespace cssmatch
 		edict_t * pEntity;
 	public:
 		PlayerHavingPEntity(edict_t * pEntity);
-		bool operator ()(const Player & player);
+		bool operator ()(const Player * player);
 	};
 
 	/** Functor to quickly find a Player instance by his index */
@@ -143,7 +143,7 @@ namespace cssmatch
 		int index;
 	public:
 		PlayerHavingIndex(int index);
-		bool operator ()(const Player & player);
+		bool operator ()(const Player * player);
 	};
 
 	/** Functor to quickly find a Player instance by his userid */
@@ -153,7 +153,7 @@ namespace cssmatch
 		int userid;
 	public:
 		PlayerHavingUserid(int userid);
-		bool operator ()(const Player & player);
+		bool operator ()(const Player * player);
 	};
 
 	/** Functor to quickly find a Player instance by his team */
@@ -163,13 +163,13 @@ namespace cssmatch
 		TeamCode team;
 	public:
 		PlayerHavingTeam(TeamCode team);
-		bool operator ()(const Player & player);
+		bool operator ()(const Player * player);
 	};
 
 	/** Functor to quickly find SourceTV */
 	struct PlayerIsHltv
 	{
-		bool operator ()(const Player & player);
+		bool operator ()(const Player * player);
 	};
 
 	/** Functor to add a player in a recipient (index list) */
@@ -179,7 +179,13 @@ namespace cssmatch
 		RecipientFilter * recipientFilter;
 	public:
 		PlayerToRecipient(RecipientFilter * recipientFilter);
-		void operator ()(const Player & player);
+		void operator ()(const Player * player);
+	};
+
+	/** Functor to quickly remove a player */
+	struct PlayerToRemove
+	{
+		void operator ()(const Player * player);
 	};
 }
 

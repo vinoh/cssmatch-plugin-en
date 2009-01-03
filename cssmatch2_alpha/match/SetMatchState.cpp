@@ -20,19 +20,24 @@
  * Portions of this code are also Copyright © 1996-2005 Valve Corporation, All rights reserved
  */
 
-#include "BaseMatchState.h"
+#include "SetMatchState.h"
 
 namespace cssmatch
 {
-	/** No match in progress */
-	class DisableMatchState : public BaseMatchState
+	SetMatchState::SetMatchState(MatchManager * match, IGameEventManager2 * eventManager) 
+		: BaseMatchState(match,eventManager)
 	{
-	public:
-		DisableMatchState(MatchManager * match, IGameEventManager2 * eventManager);
+	}
 
-		// BaseMatchState methods
-		virtual void startState();
-		virtual void endState();
-		virtual void FireGameEvent(IGameEvent * event);
-	};
+	void SetMatchState::startState()
+	{
+	}
+
+	void SetMatchState::endState()
+	{
+	}
+
+	void SetMatchState::FireGameEvent(IGameEvent * event)
+	{
+	}
 }

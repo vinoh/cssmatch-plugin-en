@@ -20,17 +20,19 @@
  * Portions of this code are also Copyright © 1996-2005 Valve Corporation, All rights reserved
  */
 
-#include "TeamMember.h"
+#include "BaseMatchState.h"
 
 namespace cssmatch
 {
-	TeamMember::TeamMember(IVEngineServer * engine, IPlayerInfoManager * playerinfomanager, int index, bool ref) :
-		Player(engine,playerinfomanager,index), referee(ref)
+	/** Match Set in progress */
+	class SetMatchState : public BaseMatchState
 	{
-	}
+	public:
+		SetMatchState(MatchManager * match, IGameEventManager2 * eventManager);
 
-	bool TeamMember::isReferee() const
-	{
-		return referee;
-	}
+		// BaseMatchState methods
+		virtual void startState();
+		virtual void endState();
+		virtual void FireGameEvent(IGameEvent * event);
+	};
 }

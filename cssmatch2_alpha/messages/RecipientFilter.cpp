@@ -21,7 +21,7 @@
  */
 
 #include "../plugin/SimplePlugin.h"
-#include "../player/TeamMember.h"
+#include "../player/ClanMember.h"
 
 namespace cssmatch
 {

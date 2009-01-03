@@ -20,34 +20,19 @@
  * Portions of this code are also Copyright © 1996-2005 Valve Corporation, All rights reserved
  */
 
-#ifndef __TEAM_MEMBER_H__
-#define __TEAM_MEMBER_H__
-
-#include <list>
-
-#include "Player.h"
-#include "StatsRound.h"
-#include "StatsSet.h"
+#include "BaseMatchState.h"
 
 namespace cssmatch
 {
-	/** CSSMatch player */
-	class TeamMember : public Player
+	/** Warmup in progress */
+	class WarmupMatchState : public BaseMatchState
 	{
-	protected:
-		/** Round stats list of this player */
-		std::list<StatsRound> roundStats;
-
-		/** Set stats list of this player */
-		std::list<StatsSet> setStats;
-
-		/** Is this player referee ? */
-		bool referee;
 	public:
-		TeamMember(IVEngineServer * engine, IPlayerInfoManager * playerinfomanager, int index, bool referee = false);
+		WarmupMatchState(MatchManager * match, IGameEventManager2 * eventManager);
 
-		bool isReferee() const;
+		// BaseMatchState methods
+		virtual void startState();
+		virtual void endState();
+		virtual void FireGameEvent(IGameEvent * event);
 	};
 }
-
-#endif // __TEAM_MEMBER_H__

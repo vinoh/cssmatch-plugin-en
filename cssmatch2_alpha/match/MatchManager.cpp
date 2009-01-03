@@ -25,7 +25,11 @@
 
 namespace cssmatch
 {
-	MatchManager::MatchManager(SimplePlugin * pluginInstance) : plugin(pluginInstance)
+	MatchLignup::MatchLignup(SimplePlugin * plugin) : clan1(plugin,T_TEAM), clan2(plugin,CT_TEAM)
+	{
+	}
+
+	MatchManager::MatchManager(SimplePlugin * pluginInstance) : plugin(pluginInstance), lignup(pluginInstance)
 	{
 		ValveInterfaces * interfaces = plugin->getInterfaces();
 
@@ -36,6 +40,11 @@ namespace cssmatch
 	MatchManager::~MatchManager()
 	{
 		delete state;
+	}
+
+	MatchLignup * MatchManager::getLignup()
+	{
+		return &lignup;
 	}
 
 	void MatchManager::setMatchState(BaseMatchState * newState)

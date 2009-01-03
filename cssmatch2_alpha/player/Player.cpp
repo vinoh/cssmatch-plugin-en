@@ -181,41 +181,41 @@ namespace cssmatch
 	{
 	}
 
-	bool PlayerHavingPEntity::operator ()(const Player & player)
+	bool PlayerHavingPEntity::operator ()(const Player * player)
 	{
-		return player.identity.pEntity == pEntity;
+		return player->identity.pEntity == pEntity;
 	}
 
 	PlayerHavingIndex::PlayerHavingIndex(int ind) : index(ind)
 	{
 	}
 
-	bool PlayerHavingIndex::operator ()(const Player & player)
+	bool PlayerHavingIndex::operator ()(const Player * player)
 	{
-		return player.identity.index == index;
+		return player->identity.index == index;
 	}
 
 	PlayerHavingUserid::PlayerHavingUserid(int id) : userid(id)
 	{
 	}
 
-	bool PlayerHavingUserid::operator ()(const Player & player)
+	bool PlayerHavingUserid::operator ()(const Player * player)
 	{
-		return player.identity.userid == userid;
+		return player->identity.userid == userid;
 	}
 
 	PlayerHavingTeam::PlayerHavingTeam(TeamCode t) : team(t)
 	{
 	}
 
-	bool PlayerHavingTeam::operator ()(const Player & player)
+	bool PlayerHavingTeam::operator ()(const Player * player)
 	{
-		return player.getMyTeam() == team;
+		return player->getMyTeam() == team;
 	}
 
-	bool PlayerIsHltv::operator ()(const Player & player)
+	bool PlayerIsHltv::operator ()(const Player * player)
 	{
-		IPlayerInfo * pInfo = player.playerinfomanager->GetPlayerInfo(player.identity.pEntity);
+		IPlayerInfo * pInfo = player->playerinfomanager->GetPlayerInfo(player->identity.pEntity);
 
 		return (pInfo != NULL) && pInfo->IsConnected() && pInfo->IsHLTV();
 	}
@@ -224,8 +224,13 @@ namespace cssmatch
 	{
 	}
 
-	void PlayerToRecipient::operator ()(const Player & player)
+	void PlayerToRecipient::operator ()(const Player * player)
 	{
-		recipientFilter->addRecipient(player.identity.index);
+		recipientFilter->addRecipient(player->identity.index);
+	}
+
+	void PlayerToRemove::operator ()(const Player * player)
+	{
+		delete player;
 	}
 }
