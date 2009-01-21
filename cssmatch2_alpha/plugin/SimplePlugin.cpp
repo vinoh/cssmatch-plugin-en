@@ -122,6 +122,11 @@ namespace cssmatch
 		return &playerlist;
 	}
 
+	MatchManager * SimplePlugin::getMatchManager()
+	{
+		return match;
+	}
+
 	void SimplePlugin::addPluginConVar(ConVar * variable)
 	{
 		pluginConVars.push_back(variable);

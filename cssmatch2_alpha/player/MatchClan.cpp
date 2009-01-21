@@ -119,6 +119,7 @@ namespace cssmatch
 
 					// 3.
 					std::string newName; // new clan name
+					bool foundNewName = false; // true if a new clan name was found
 					std::string::const_iterator itMemberName1 = memberName1.begin();
 					std::string::const_iterator endMemberName1 = memberName1.end();
 					std::string::const_iterator itMemberName2 = memberName2.begin();
@@ -135,16 +136,17 @@ namespace cssmatch
 						while((itMemberName1 != endMemberName1) && (itMemberName2 != endMemberName2))
 						//	  (itMemberName1 may changes here)
 						{
-							if ((*itMemberName1) == (*itMemberName2)) // Found a common character
-							{
+							if ((*itMemberName1) == (*itMemberName2))
+							{ // Found a common character
 								newName += *itMemberName1;
 
 								itMemberName1++;
-								//itMemberName2++;
+								//itMemberName2++; // see below
 							}
-							else if (isValidClanName(newName)) // Found a coherent clan name
-							{
+							else if (isValidClanName(newName))
+							{ // Found a coherent clan name
 								setName(newName);
+								foundNewName = true;
 
 								// Halt !
 								itMemberName1 = endMemberName1-1;
@@ -157,6 +159,14 @@ namespace cssmatch
 						}
 
 						itMemberName1++;
+					}
+
+					// If no coherent name was found, we set a neutral name
+					if (! foundNewName)
+					{
+						std::ostringstream buffer;
+						buffer << "Clan " << team-1; // -1, so Terro's will be 1 and CT's 2 (see TeamCode enum)
+						setName(buffer.str());
 					}
 				}
 				else // Error :-(
