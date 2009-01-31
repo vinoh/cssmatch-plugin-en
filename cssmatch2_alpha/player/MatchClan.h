@@ -24,6 +24,7 @@
 #define __MATCH_CLAN_H__
 
 #include <string>
+#include <sstream>
 #include "ClanMember.h"
 
 namespace cssmatch

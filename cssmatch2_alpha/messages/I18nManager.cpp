@@ -84,6 +84,8 @@ namespace cssmatch
 					translationSet = itDefault->second;
 			}
 		}
+		else
+			translationSet = itLanguages->second;
 
 		return translationSet;
 	}

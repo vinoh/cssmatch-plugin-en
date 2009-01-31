@@ -414,6 +414,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\convars\ConVarCallbacks.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\convars\ConVarCallbacks.h"
+				>
+			</File>
+			<File
 				RelativePath=".\convars\ConvarsAccessor.cpp"
 				>
 			</File>
@@ -649,6 +657,14 @@
 		<Filter
 			Name="commands"
 			>
+			<File
+				RelativePath=".\commands\ConCommandCallbacks.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\commands\ConCommandCallbacks.h"
+				>
+			</File>
 			<File
 				RelativePath=".\commands\I18nConCommand.cpp"
 				>
