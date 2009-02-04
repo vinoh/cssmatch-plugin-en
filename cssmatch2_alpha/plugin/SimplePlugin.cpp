@@ -23,6 +23,7 @@
 #include "SimplePlugin.h"
 #include "../convars/I18nConVar.h"
 #include "../commands/I18nConCommand.h"
+#include "../commands/ConCommandCallbacks.h"
 #include "../convars/ConVarCallbacks.h"
 
 #include <algorithm>
@@ -57,7 +58,7 @@ namespace cssmatch
 		if (i18n != NULL)
 			delete i18n;
 
-		std::list<ConVar *>::iterator itConVar = pluginConVars.begin();
+		/*std::list<ConVar *>::iterator itConVar = pluginConVars.begin();
 		std::list<ConVar *>::iterator lastConVar = pluginConVars.end();
 		while (itConVar != lastConVar)
 		{
@@ -65,6 +66,15 @@ namespace cssmatch
 
 			itConVar++;
 		}
+
+		std::list<ConCommand *>::iterator itConCommand = pluginConCommands.begin();
+		std::list<ConCommand *>::iterator lastConCommand = pluginConCommands.end();
+		while (itConCommand != lastConCommand)
+		{
+			delete (*itConCommand);
+
+			itConCommand++;
+		}*/
 	}
 
 	bool SimplePlugin::Load(CreateInterfaceFn interfaceFactory, CreateInterfaceFn gameServerFactory)
@@ -139,6 +149,12 @@ namespace cssmatch
 		addPluginConVar(cvars->FindVar("sv_password"));
 		addPluginConVar(cvars->FindVar("tv_enable"));
 
+		
+		// Create the plugin's commands
+		addPluginConCommand(new I18nConCommand(i18n,"cssm_help",cssm_help,"cssm_help"));
+		addPluginConCommand(new I18nConCommand(i18n,"cssm_start",cssm_start,"cssm_start"));
+		addPluginConCommand(new I18nConCommand(i18n,"cssm_stop",cssm_stop,"cssm_stop"));
+
 		return success;
 	}
 
@@ -175,6 +191,27 @@ namespace cssmatch
 	const std::list<ConVar *> * SimplePlugin::getPluginConVars() const
 	{
 		return &pluginConVars;
+	}
+
+	ConVar * SimplePlugin::getConVar(const std::string & name) throw(BaseConvarsAccessorException)
+	{
+		std::list<ConVar *>::iterator invalidConVar = pluginConVars.end();
+		std::list<ConVar *>::iterator itConVar = std::find_if(pluginConVars.begin(),invalidConVar,ConvarHavingName(name));
+
+		if (itConVar == invalidConVar)
+			throw BaseConvarsAccessorException("CSSMatch attempts to access to an unknown variable name");
+
+		return *itConVar;
+	}
+
+	void SimplePlugin::addPluginConCommand(ConCommand * command)
+	{
+		pluginConCommands.push_back(command);
+	}
+
+	const std::list<ConCommand *> * SimplePlugin::getPluginConCommands() const
+	{
+		return &pluginConCommands;
 	}
 
 	I18nManager * SimplePlugin::get18nManager()

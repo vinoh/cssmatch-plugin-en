@@ -71,6 +71,18 @@ namespace cssmatch
 
 		// ConVar methods override
 		virtual char const * GetHelpText() const;
+
+		/** Functor to quickly find a ConVar instance by his name */
+		friend class ConvarHavingName;
+	};
+
+	class ConvarHavingName
+	{
+	private:
+		std::string name;
+	public:
+		ConvarHavingName(const std::string & conVarName);
+		bool operator()(const ConVar * var);
 	};
 }
 

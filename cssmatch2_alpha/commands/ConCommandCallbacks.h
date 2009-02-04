@@ -25,6 +25,9 @@
 
 namespace cssmatch
 {
+	/** Help for commands use */
+	void cssm_help();
+
 	/** Start a match */
 	void cssm_start();
 

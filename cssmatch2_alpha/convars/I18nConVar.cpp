@@ -82,4 +82,14 @@ namespace cssmatch
 		// Return the translation
 		return strdup(i18n->getTranslation(i18n->getDefaultLanguage(),ConVar::GetHelpText()).c_str());
 	}
+
+	ConvarHavingName::ConvarHavingName(const std::string & conVarName)
+	{
+		name = conVarName;
+	}
+
+	bool ConvarHavingName::operator()(const ConVar * var)
+	{
+		return name == var->GetName();
+	}
 }
