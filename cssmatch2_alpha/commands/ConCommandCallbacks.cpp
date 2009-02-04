@@ -25,6 +25,22 @@
 
 namespace cssmatch
 {
+	void cssm_help()
+	{
+		SimplePlugin * plugin = SimplePlugin::getInstance();
+
+		const std::list<ConCommand *> * pluginConCommands = plugin->getPluginConCommands();
+		std::list<ConCommand *>::const_iterator itConCommand = pluginConCommands->begin();
+		std::list<ConCommand *>::const_iterator lastConCommand = pluginConCommands->end();
+		while (itConCommand != lastConCommand)
+		{
+			ConCommand * command = *itConCommand;
+			print(std::string(command->GetName()) + " : " + command->GetHelpText());
+
+			itConCommand++;
+		}
+	}
+
 	void cssm_start()
 	{
 		SimplePlugin * plugin = SimplePlugin::getInstance();

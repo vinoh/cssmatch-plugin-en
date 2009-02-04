@@ -30,7 +30,7 @@ namespace cssmatch
 	/** As I18nConVar, this class allows the internationalization of the ConCommand's description <br>
 	 * FCVAR_PLUGIN flag is automatically added to the ConCommand's flags
 	 */
-	class I18nConCommand : ConCommand
+	class I18nConCommand : public ConCommand
 	{
 	protected:
 		/** Internationalization tool */

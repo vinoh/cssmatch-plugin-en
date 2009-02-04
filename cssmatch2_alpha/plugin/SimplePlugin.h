@@ -124,8 +124,21 @@ namespace cssmatch
 		/** Add a plugin console variable */
 		void addPluginConVar(ConVar * variable);
 
-		/** Get the plugin convars list */
+		/** Get the plugin convar list */
 		const std::list<ConVar *> * getPluginConVars() const;
+
+		/** Get ConVar value 
+		 * @param name The name of the ConVar
+		 * @return A pointer on the ConVar if found
+		 * @throws BaseConvarsAccessorException if the ConVar was not found
+		 */
+		ConVar * getConVar(const std::string & name) throw(BaseConvarsAccessorException);
+
+		/** Add a plugin console command */
+		void addPluginConCommand(ConCommand * command);
+
+		/** Get the plugin command list */
+		const std::list<ConCommand *> * getPluginConCommands() const;
 
 		/** Get the internationalization tool */
 		I18nManager * get18nManager();
