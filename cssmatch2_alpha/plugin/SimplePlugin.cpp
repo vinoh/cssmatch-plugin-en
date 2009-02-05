@@ -25,12 +25,30 @@
 #include "../commands/I18nConCommand.h"
 #include "../commands/ConCommandCallbacks.h"
 #include "../convars/ConVarCallbacks.h"
+#include "../entity/EntityProp.h"
 
 #include <algorithm>
 #include <sstream>
 
 namespace cssmatch
 {
+	/*CON_COMMAND(cssm_test, "CSSMatch : Internal")
+	{
+		SimplePlugin * plugin = SimplePlugin::getInstance();
+		int index = atoi(plugin->getInterfaces()->engine->Cmd_Argv(1));
+		Player player(plugin->getInterfaces()->engine,plugin->getInterfaces()->playerinfomanager,index);
+
+		EntityProp prop(plugin->getInterfaces()->engine->Cmd_Argv(2),plugin->getInterfaces()->engine->Cmd_Argv(3));
+		try
+		{
+			Msg("%s.%s : %i\n",plugin->getInterfaces()->engine->Cmd_Argv(2),plugin->getInterfaces()->engine->Cmd_Argv(3),prop.getProp<int>(player.getIdentity()->pEntity));
+		}
+		catch(const EntityPropException & e)
+		{
+			plugin->printException(e,__FILE__,__LINE__);
+		}
+	}*/
+
 	ValveInterfaces::ValveInterfaces() :
 		engine(NULL),
 		filesystem(NULL),
@@ -97,7 +115,8 @@ namespace cssmatch
 			getInterface<IVEngineServer>(interfaceFactory,interfaces.engine,INTERFACEVERSION_VENGINESERVER) &&
 			getInterface<IGameEventManager2>(interfaceFactory,interfaces.gameeventmanager2,INTERFACEVERSION_GAMEEVENTSMANAGER2) &&
 			getInterface<IFileSystem>(interfaceFactory,interfaces.filesystem,FILESYSTEM_INTERFACE_VERSION) &&
-			getInterface<IServerPluginHelpers>(interfaceFactory,interfaces.helpers,INTERFACEVERSION_ISERVERPLUGINHELPERS);
+			getInterface<IServerPluginHelpers>(interfaceFactory,interfaces.helpers,INTERFACEVERSION_ISERVERPLUGINHELPERS) &&
+			getInterface<IServerGameDLL>(gameServerFactory,interfaces.serverGameDll,/*INTERFACEVERSION_SERVERGAMEDLL*/"ServerGameDLL006");
 
 		if (success)
 		{

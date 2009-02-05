@@ -89,35 +89,20 @@ namespace cssmatch
 		 */
 		TeamCode getMyTeam() const;
 
-		/** Get a server entity instance corresponding to this player
-		 * @return The server entity instance corresponding to this player, or NULL if something was invalid
+		/** Get an IPlayerInfo instance corresponding to this entity
+		 * @return The IPlayerInfo instance corresponding to this entity, or NULL if something was invalid
 		 */
-		IServerEntity * getServerEntity() const;
+		IPlayerInfo * getPlayerInfo() const;
 
-		/** Get a base player entity instance corresponding to this player
-		 * @return The base player entity instance corresponding to this player, or NULL if something was invalid
-		 */
-		CBaseEntity * getBaseEntity() const;
-
-		/** Get a server unknown pointer corresponding to this player
-		 * @return The server unknown pointer corresponding to this player, or NULL if something was invalid
-		 */
-		IServerUnknown * getServerUnknow() const;
-
-		/** Get a base player instance corresponding to this player
-		 * @return The base player instance corresponding to this player, or NULL if something was invalid
+		/** Get a base player instance corresponding to this entity
+		 * @return The base player instance corresponding to this entity, or NULL if something was invalid
 		 */
 		CBasePlayer * getBasePlayer() const;
 
-		/** Get a base combat character instance corresponding to this player
-		 * @return The base combat character instance corresponding to this player, or NULL if something was invalid
+		/** Get a base combat character instance corresponding to this entity
+		 * @return The base combat character instance corresponding to this entity, or NULL if something was invalid
 		 */
 		CBaseCombatCharacter * getBaseCombatCharacter() const;
-
-		/** Get an IPlayerInfo instance corresponding to this player
-		 * @return The IPlayerInfo instance corresponding to this player, or NULL if something was invalid
-		 */
-		IPlayerInfo * getPlayerInfo() const;
 
 		/** Get the CBaseCombatWeapon instance corresponding to a player entity's weapon slot 
 		 * @param slot The slot code where is weapon can be found
