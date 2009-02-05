@@ -674,6 +674,18 @@
 				>
 			</File>
 		</Filter>
+		<Filter
+			Name="entity"
+			>
+			<File
+				RelativePath=".\entity\EntityProp.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\entity\EntityProp.h"
+				>
+			</File>
+		</Filter>
 		<File
 			RelativePath=".\changelog.txt"
 			>

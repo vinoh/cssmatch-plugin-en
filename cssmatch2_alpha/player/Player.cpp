@@ -71,53 +71,10 @@ namespace cssmatch
 		return team;
 	}
 
-	IServerEntity * Player::getServerEntity() const
-	{
-		IServerEntity * sEntity = identity.pEntity->GetIServerEntity();
-
-		if (! isValidServerEntity(sEntity))
-		{
-			print("The plugin was unable to find the server entity of a Player");
-			sEntity = NULL;
-		}
-
-		return sEntity;
-	}
-
-	CBaseEntity * Player::getBaseEntity() const
-	{
-		CBaseEntity * bEntity = NULL;
-		IServerEntity * sEntity = getServerEntity();
-
-		if (isValidServerEntity(sEntity))
-			bEntity = sEntity->GetBaseEntity();
-
-		if (! isValidBaseEntity(bEntity))
-		{
-			print("The plugin was unable to find the base entity of a Player");
-			bEntity = NULL;
-		}
-
-		return bEntity;
-	}
-
-	IServerUnknown * Player::getServerUnknow() const throw(PlayerException)
-	{
-		IServerUnknown * sUnknown = identity.pEntity->GetUnknown();
-
-		if (! isValidServerUnknown(sUnknown))
-		{
-			print("The plugin was unable to find the server unknown pointer of a Player");
-			sUnknown = NULL;
-		}
-
-		return sUnknown;
-	}
-
 	CBasePlayer * Player::getBasePlayer() const throw(PlayerException)
 	{
 		CBasePlayer * bPlayer = NULL;
-		IServerUnknown * sUnknown = getServerUnknow();
+		IServerUnknown * sUnknown = getServerUnknow(identity.pEntity);
 
 		if (isValidServerUnknown(sUnknown))
 			bPlayer = reinterpret_cast<CBasePlayer *>(sUnknown->GetBaseEntity());
@@ -134,7 +91,7 @@ namespace cssmatch
 	CBaseCombatCharacter * Player::getBaseCombatCharacter() const throw(PlayerException)
 	{
 		CBaseCombatCharacter * bCombatCharacter = NULL;
-		CBaseEntity * bEntity = getBaseEntity();
+		CBaseEntity * bEntity = getBaseEntity(identity.pEntity);
 
 		if (isValidBaseEntity(bEntity))
 			bCombatCharacter = bEntity->MyCombatCharacterPointer();

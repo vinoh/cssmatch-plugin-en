@@ -148,6 +148,24 @@ namespace cssmatch
 	 * @return <code>true</code> if the base combat character is valid, <code>false</code> otherwise
 	 */
 	bool isValidBaseCombatCharacter(CBaseCombatCharacter * bCombatCharacter);
+
+	/** Get a server entity instance corresponding to this entity
+	 * @param entity The entity
+	 * @return The server entity instance corresponding to this entity, or NULL if something was invalid
+	 */
+	IServerEntity * getServerEntity(edict_t * entity);
+
+	/** Get a base player entity instance corresponding to this entity
+	 * @param entity The entity
+	 * @return The base player entity instance corresponding to this entity, or NULL if something was invalid
+	 */
+	CBaseEntity * getBaseEntity(edict_t * entity);
+
+	/** Get a server unknown pointer corresponding to this entity
+	 * @param entity The entity
+	 * @return The server unknown pointer corresponding to this entity, or NULL if something was invalid
+	 */
+	IServerUnknown * getServerUnknow(edict_t * entity);
 }
 
 #endif // __COMMON_H__

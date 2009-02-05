@@ -76,4 +76,47 @@ namespace cssmatch
 	{
 		return bCombatCharacter != NULL;
 	}
+
+	IServerEntity * getServerEntity(edict_t * entity)
+	{
+		IServerEntity * sEntity = entity->GetIServerEntity();
+
+		if (! isValidServerEntity(sEntity))
+		{
+			print("The plugin was unable to find the server entity of an entity");
+			sEntity = NULL;
+		}
+
+		return sEntity;
+	}
+
+	CBaseEntity * getBaseEntity(edict_t * entity)
+	{
+		CBaseEntity * bEntity = NULL;
+		IServerEntity * sEntity = getServerEntity(entity);
+
+		if (isValidServerEntity(sEntity))
+			bEntity = sEntity->GetBaseEntity();
+
+		if (! isValidBaseEntity(bEntity))
+		{
+			print("The plugin was unable to find the base entity of an entity");
+			bEntity = NULL;
+		}
+
+		return bEntity;
+	}
+
+	IServerUnknown * getServerUnknow(edict_t * entity)
+	{
+		IServerUnknown * sUnknown = entity->GetUnknown();
+
+		if (! isValidServerUnknown(sUnknown))
+		{
+			print("The plugin was unable to find the server unknown pointer of an entity");
+			sUnknown = NULL;
+		}
+
+		return sUnknown;
+	}
 }

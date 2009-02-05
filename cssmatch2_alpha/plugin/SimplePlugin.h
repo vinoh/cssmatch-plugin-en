@@ -50,6 +50,7 @@ namespace cssmatch
 		IServerPluginHelpers * helpers; // special 3rd party plugin helpers from the engine
 		CGlobalVars * gpGlobals; // global vars
 		BaseConvarsAccessor * convars; // console vars
+		IServerGameDLL * serverGameDll; // Access to some DLL infos
 
 		ValveInterfaces();
 	};
