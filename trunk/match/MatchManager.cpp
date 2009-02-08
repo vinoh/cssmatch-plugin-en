@@ -79,7 +79,7 @@ namespace cssmatch
 		{
 			std::map<std::string,std::string> parameters;
 			parameters["$admin"] = umpire->getPlayerInfo()->GetName();
-			plugin->get18nManager()->i18nChatSay(recipients,"match_started_by",INVALID_ENTITY_INDEX,parameters);
+			plugin->get18nManager()->i18nChatSay(recipients,"match_started_by",umpire->getIdentity()->index,parameters);
 		}
 		else
 			plugin->get18nManager()->i18nChatSay(recipients,"match_started");

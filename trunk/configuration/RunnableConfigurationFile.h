@@ -23,8 +23,8 @@
 #ifndef __RUNNABLE_CONFIGURATION_FILE_H__
 #define __RUNNABLE_CONFIGURATION_FILE_H__
 
-/** Match configurations path (ignoring the game directory) */
-#define MATCH_CONFIGURATIONS_PATH "cfg/cssmatch/configurations/"
+/** Match configurations path (ignoring the game and cfg directories) */
+#define MATCH_CONFIGURATIONS_PATH "cssmatch/configurations/"
 
 #include "ConfigurationFile.h"
 

@@ -22,6 +22,7 @@
 
 #include "UserMessagesManager.h"
 #include <algorithm>
+#include <sstream>
 
 namespace cssmatch
 {
@@ -33,9 +34,12 @@ namespace cssmatch
 										const std::string & message,
 										int playerIndex)
 	{
+		std::ostringstream output;
+		output << "\004[" << PLUGIN_NAME << "]\001 " << message << "\n";
+
 		bf_write * pBitBuf = engine->UserMessageBegin(&recipients,MESSAGE_SAYTEXT);
 		pBitBuf->WriteByte(playerIndex);
-		pBitBuf->WriteString(message.c_str());
+		pBitBuf->WriteString(output.str().c_str());
 		pBitBuf->WriteByte(1);
 		engine->MessageEnd();
 	}
@@ -43,9 +47,12 @@ namespace cssmatch
 	void UserMessagesManager::chatWarning(	RecipientFilter & recipients,
 											const std::string & message)
 	{
+		std::ostringstream output;
+		output << "\003[" << PLUGIN_NAME << "]\001 " << message << "\n";
+
 		bf_write * pBitBuf = engine->UserMessageBegin(&recipients,MESSAGE_SAYTEXT);
 		pBitBuf->WriteByte(0x02);
-		pBitBuf->WriteString(message.c_str());
+		pBitBuf->WriteString(output.str().c_str());
 		pBitBuf->WriteByte(0x01);
 		pBitBuf->WriteByte(1);
 		engine->MessageEnd();

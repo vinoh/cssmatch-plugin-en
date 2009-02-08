@@ -337,7 +337,15 @@ namespace cssmatch
 		if (std::string("cssm_test") == interfaces.engine->Cmd_Argv(0))
 		{
 			std::list<ClanMember *>::iterator itUmpire = std::find_if(playerlist.begin(),playerlist.end(),PlayerHavingPEntity(pEntity));
-			match->start(RunnableConfigurationFile("cfg/cssmatch/configurations/default.cfg",interfaces.convars->getConVarAccessor(),interfaces.engine),*itUmpire);
+
+			try
+			{
+				match->start(RunnableConfigurationFile("cstrike/cfg/cssmatch/configurations/default.cfg",interfaces.convars->getConVarAccessor(),interfaces.engine),*itUmpire);
+			}
+			catch(const BaseException & e)
+			{
+				printException(e,__FILE__,__LINE__);
+			}
 		}
 
 		return PLUGIN_CONTINUE;
