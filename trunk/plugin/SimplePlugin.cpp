@@ -334,11 +334,11 @@ namespace cssmatch
 
 	PLUGIN_RESULT SimplePlugin::ClientCommand(edict_t * pEntity)
 	{
-		/*if (std::string("cssm_test") == interfaces.engine->Cmd_Argv(0))
+		if (std::string("cssm_test") == interfaces.engine->Cmd_Argv(0))
 		{
-			Countdown * c = Countdown::getInstance();
-			c->fire(10);
-		}*/
+			std::list<ClanMember *>::iterator itUmpire = std::find_if(playerlist.begin(),playerlist.end(),PlayerHavingPEntity(pEntity));
+			match->start(RunnableConfigurationFile("cfg/cssmatch/configurations/default.cfg",interfaces.convars->getConVarAccessor(),interfaces.engine),*itUmpire);
+		}
 
 		return PLUGIN_CONTINUE;
 	}

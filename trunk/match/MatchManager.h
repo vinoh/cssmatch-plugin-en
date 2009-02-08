@@ -25,6 +25,7 @@
 
 #include "DisableMatchState.h"
 #include "../player/MatchClan.h"
+#include "../configuration/RunnableConfigurationFile.h"
 
 namespace cssmatch
 {
@@ -80,13 +81,19 @@ namespace cssmatch
 		MatchLignup * getLignup();
 
 		/** Get some informations about the match */
-		MatchInfo * getInfo();
+		MatchInfo * getInfos();
 
 		/** Set a new match state <br>
 		 * Call the endState method of the previous state, and the startState of the new state
 		 * @param newState The new match state
 		 */
 		void setMatchState(BaseMatchState * newState);
+
+		/** Start a new math
+		 * @param config The configuration of the match
+		 * @param umpire The player who starts the match
+		 */
+		void start(RunnableConfigurationFile & config, ClanMember * umpire = NULL);
 	};
 }
 
