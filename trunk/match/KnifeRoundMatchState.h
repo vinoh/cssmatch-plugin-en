@@ -22,6 +22,9 @@
 
 #include "BaseMatchState.h"
 
+#ifndef __KNIFEROUND_MATCH_STATE_H__
+#define __KNIFEROUND_MATCH_STATE_H__
+
 namespace cssmatch
 {
 	/** Knife round in progress */
@@ -36,3 +39,5 @@ namespace cssmatch
 		virtual void FireGameEvent(IGameEvent * event);
 	};
 }
+
+#endif // __KNIFEROUND_MATCH_STATE_H__

@@ -22,6 +22,9 @@
 
 #include "BaseMatchState.h"
 
+#ifndef __DISABLE_MATCH_STATE_H__
+#define __DISABLE_MATCH_STATE_H__
+
 namespace cssmatch
 {
 	/** No match in progress */
@@ -36,3 +39,5 @@ namespace cssmatch
 		virtual void FireGameEvent(IGameEvent * event);
 	};
 }
+
+#endif // __DISABLE_MATCH_STATE_H__

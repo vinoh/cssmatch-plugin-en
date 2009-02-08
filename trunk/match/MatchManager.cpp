@@ -22,6 +22,7 @@
 
 #include "MatchManager.h"
 #include "../plugin/SimplePlugin.h"
+#include <algorithm>
 
 namespace cssmatch
 {
@@ -52,7 +53,7 @@ namespace cssmatch
 		return &lignup;
 	}
 
-	MatchInfo * MatchManager::getInfo()
+	MatchInfo * MatchManager::getInfos()
 	{
 		return &infos;
 	}
@@ -64,5 +65,23 @@ namespace cssmatch
 
 		state = newState;
 		state->startState();
+	}
+
+	void MatchManager::start(RunnableConfigurationFile & config, ClanMember * umpire)
+	{
+		config.execute();
+
+		std::list<ClanMember *> * playerlist = plugin->getPlayerlist();
+		RecipientFilter recipients;
+		std::for_each(playerlist->begin(),playerlist->end(),PlayerToRecipient(&recipients));
+
+		if (umpire != NULL)
+		{
+			std::map<std::string,std::string> parameters;
+			parameters["$admin"] = umpire->getPlayerInfo()->GetName();
+			plugin->get18nManager()->i18nChatSay(recipients,"match_started_by",INVALID_ENTITY_INDEX,parameters);
+		}
+		else
+			plugin->get18nManager()->i18nChatSay(recipients,"match_started");
 	}
 }

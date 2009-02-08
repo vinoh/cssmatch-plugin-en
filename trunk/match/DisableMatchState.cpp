@@ -21,6 +21,7 @@
  */
 
 #include "DisableMatchState.h"
+#include "../messages/Countdown.h"
 
 namespace cssmatch
 {
@@ -31,6 +32,7 @@ namespace cssmatch
 
 	void DisableMatchState::startState()
 	{
+		Countdown::getInstance()->stop();
 	}
 
 	void DisableMatchState::endState()

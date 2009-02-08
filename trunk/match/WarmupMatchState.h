@@ -22,6 +22,9 @@
 
 #include "BaseMatchState.h"
 
+#ifndef __WARMUP_MATCH_STATE_H__
+#define __WARMUP_MATCH_STATE_H__
+
 namespace cssmatch
 {
 	/** Warmup in progress */
@@ -36,3 +39,5 @@ namespace cssmatch
 		virtual void FireGameEvent(IGameEvent * event);
 	};
 }
+
+#endif // __WARMUP_MATCH_STATE_H__
