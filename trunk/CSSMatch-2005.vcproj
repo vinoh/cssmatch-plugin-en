@@ -486,6 +486,14 @@
 			Name="messages"
 			>
 			<File
+				RelativePath=".\messages\Countdown.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\messages\Countdown.h"
+				>
+			</File>
+			<File
 				RelativePath=".\messages\I18nManager.cpp"
 				>
 			</File>

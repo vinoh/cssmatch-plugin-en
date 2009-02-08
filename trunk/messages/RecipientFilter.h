@@ -1,5 +1,5 @@
 /* 
- * Copyright 2007, 2008 Nicolas Maingot
+ * Copyright 2008, 2009 Nicolas Maingot
  * 
  * This file is part of CSSMatch.
  * 
@@ -49,9 +49,6 @@ namespace cssmatch
 		 * @param slot Player's position in the list
 		 */
 		virtual int GetRecipientIndex(int slot) const;
-
-		/** Add all players to the recipient list */
-		void addAllPlayers();
 
 		/** Add a player to the recipient list
 		 * @param index Player's index

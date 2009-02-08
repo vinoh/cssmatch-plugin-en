@@ -1,5 +1,5 @@
 /* 
- * Copyright 2007, 2008 Nicolas Maingot
+ * Copyright 2008, 2009 Nicolas Maingot
  * 
  * This file is part of CSSMatch.
  * 
@@ -29,6 +29,10 @@ namespace cssmatch
 	{
 	}
 
+	MatchInfo::MatchInfo() : setNumber(0), roundNumber(0)
+	{
+	}
+
 	MatchManager::MatchManager(SimplePlugin * pluginInstance) : plugin(pluginInstance), lignup(pluginInstance)
 	{
 		ValveInterfaces * interfaces = plugin->getInterfaces();
@@ -36,6 +40,7 @@ namespace cssmatch
 		state = new DisableMatchState(this,interfaces->gameeventmanager2);
 		state->startState();
 	}
+
 
 	MatchManager::~MatchManager()
 	{
@@ -45,6 +50,11 @@ namespace cssmatch
 	MatchLignup * MatchManager::getLignup()
 	{
 		return &lignup;
+	}
+
+	MatchInfo * MatchManager::getInfo()
+	{
+		return &infos;
 	}
 
 	void MatchManager::setMatchState(BaseMatchState * newState)

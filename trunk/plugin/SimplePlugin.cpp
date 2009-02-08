@@ -1,5 +1,5 @@
 /* 
- * Copyright 2007, 2008 Nicolas Maingot
+ * Copyright 2008, 2009 Nicolas Maingot
  * 
  * This file is part of CSSMatch.
  * 
@@ -123,56 +123,56 @@ namespace cssmatch
 			interfaces.gpGlobals = interfaces.playerinfomanager->GetGlobalVars();
 
 			match = new MatchManager(this);
+
+			MathLib_Init(2.2f,2.2f,0.0f,2.0f);
+
+			
+			//	Initialize the translations tools
+			ConVar * cssmatch_language = new ConVar("cssmatch_language",
+													"english",
+													FCVAR_PLUGIN,PLUGIN_NAME " : Default language of CSSMatch (e.g. : \"english\" \
+																		   will use the file  cfg/cssmatch/languages/english.txt)");
+			i18n = new I18nManager(interfaces.engine,cssmatch_language);
+			addPluginConVar(cssmatch_language);
+
+			// Create the plugin's convars
+			addPluginConVar(new I18nConVar(i18n,"cssmatch_version",PLUGIN_VERSION_LIGHT,FCVAR_PLUGIN|FCVAR_NOTIFY|FCVAR_REPLICATED,"cssmatch_version",cssmatch_version));
+			addPluginConVar(new I18nConVar(i18n,"cssmatch_advanced","0",FCVAR_PLUGIN,"cssmatch_advanced",true,0.0f,true,1.0f));
+
+			addPluginConVar(new I18nConVar(i18n,"cssmatch_report","1",FCVAR_PLUGIN,"cssmatch_report",true,0.0f,true,1.0f));
+
+			addPluginConVar(new I18nConVar(i18n,"cssmatch_kniferound","1",FCVAR_PLUGIN,"cssmatch_kniferound",true,0.0f,true,1.0f));
+			addPluginConVar(new I18nConVar(i18n,"cssmatch_kniferound_money","0",FCVAR_PLUGIN,"cssmatch_kniferound_money",true,0.0f,true,16000.0f));
+			addPluginConVar(new I18nConVar(i18n,"cssmatch_kniferound_allows_c4","1",FCVAR_PLUGIN,"cssmatch_kniferound_allows_c4",true,0.0f,true,1.0f));
+			addPluginConVar(new I18nConVar(i18n,"cssmatch_end_kniferound","20",FCVAR_PLUGIN,"cssmatch_end_kniferound",true,5.0f,false,0.0f));
+
+			addPluginConVar(new I18nConVar(i18n,"cssmatch_rounds","12",FCVAR_PLUGIN,"cssmatch_rounds",true,0.0f,false,0.0f));
+			addPluginConVar(new I18nConVar(i18n,"cssmatch_sets","2",FCVAR_PLUGIN,"cssmatch_sets",true,0.0f,false,0.0f));
+			addPluginConVar(new I18nConVar(i18n,"cssmatch_end_set","10",FCVAR_PLUGIN,"cssmatch_end_set",true,5.0f,false,0.0f));
+
+			addPluginConVar(new I18nConVar(i18n,"cssmatch_sourcetv","1",FCVAR_PLUGIN,"cssmatch_sourcetv",true,0.0f,true,1.0f));
+			addPluginConVar(new I18nConVar(i18n,"cssmatch_sourcetv_path","cfg/cssmatch/sourcetv",FCVAR_PLUGIN,"cssmatch_sourcetv_path"));
+
+			addPluginConVar(new I18nConVar(i18n,"cssmatch_warmup_time","5",FCVAR_PLUGIN,"cssmatch_warmup_time",true,0.0f,false,0.0f));
+
+			addPluginConVar(new I18nConVar(i18n,"cssmatch_hostname","CSSMatch : %s VS %s",FCVAR_PLUGIN,"cssmatch_hostname"));
+			addPluginConVar(new I18nConVar(i18n,"cssmatch_password","inwar",FCVAR_PLUGIN,"cssmatch_password"));
+			addPluginConVar(new I18nConVar(i18n,"cssmatch_default_config","server.cfg",FCVAR_PLUGIN,"cssmatch_default_config"));
+
+			// Add existing ConVars
+			ICvar * cvars = interfaces.convars->getConVarAccessor();
+			addPluginConVar(cvars->FindVar("sv_cheats"));
+			addPluginConVar(cvars->FindVar("sv_alltalk"));
+			addPluginConVar(cvars->FindVar("hostname"));
+			addPluginConVar(cvars->FindVar("sv_password"));
+			addPluginConVar(cvars->FindVar("tv_enable"));
+
+			
+			// Create the plugin's commands
+			addPluginConCommand(new I18nConCommand(i18n,"cssm_help",cssm_help,"cssm_help"));
+			addPluginConCommand(new I18nConCommand(i18n,"cssm_start",cssm_start,"cssm_start"));
+			addPluginConCommand(new I18nConCommand(i18n,"cssm_stop",cssm_stop,"cssm_stop"));
 		}
-
-		MathLib_Init(2.2f,2.2f,0.0f,2.0f);
-
-		
-		//	Initialize the translations tools
-		ConVar * cssmatch_language = new ConVar("cssmatch_language",
-												"english",
-												FCVAR_PLUGIN,PLUGIN_NAME " : Default language of CSSMatch (e.g. : \"english\" \
-																	   will use the file  cfg/cssmatch/languages/english.txt)");
-		i18n = new I18nManager(cssmatch_language);
-		addPluginConVar(cssmatch_language);
-
-		// Create the plugin's convars
-		addPluginConVar(new I18nConVar(i18n,"cssmatch_version",PLUGIN_VERSION_LIGHT,FCVAR_PLUGIN|FCVAR_NOTIFY|FCVAR_REPLICATED,"cssmatch_version",cssmatch_version));
-		addPluginConVar(new I18nConVar(i18n,"cssmatch_advanced","0",FCVAR_PLUGIN,"cssmatch_advanced",true,0.0f,true,1.0f));
-
-		addPluginConVar(new I18nConVar(i18n,"cssmatch_report","1",FCVAR_PLUGIN,"cssmatch_report",true,0.0f,true,1.0f));
-
-		addPluginConVar(new I18nConVar(i18n,"cssmatch_kniferound","1",FCVAR_PLUGIN,"cssmatch_kniferound",true,0.0f,true,1.0f));
-		addPluginConVar(new I18nConVar(i18n,"cssmatch_kniferound_money","0",FCVAR_PLUGIN,"cssmatch_kniferound_money",true,0.0f,true,16000.0f));
-		addPluginConVar(new I18nConVar(i18n,"cssmatch_kniferound_allows_c4","1",FCVAR_PLUGIN,"cssmatch_kniferound_allows_c4",true,0.0f,true,1.0f));
-		addPluginConVar(new I18nConVar(i18n,"cssmatch_end_kniferound","20",FCVAR_PLUGIN,"cssmatch_end_kniferound",true,5.0f,false,0.0f));
-
-		addPluginConVar(new I18nConVar(i18n,"cssmatch_rounds","12",FCVAR_PLUGIN,"cssmatch_rounds",true,0.0f,false,0.0f));
-		addPluginConVar(new I18nConVar(i18n,"cssmatch_sets","2",FCVAR_PLUGIN,"cssmatch_sets",true,0.0f,false,0.0f));
-		addPluginConVar(new I18nConVar(i18n,"cssmatch_end_set","10",FCVAR_PLUGIN,"cssmatch_end_set",true,5.0f,false,0.0f));
-
-		addPluginConVar(new I18nConVar(i18n,"cssmatch_sourcetv","1",FCVAR_PLUGIN,"cssmatch_sourcetv",true,0.0f,true,1.0f));
-		addPluginConVar(new I18nConVar(i18n,"cssmatch_sourcetv_path","cfg/cssmatch/sourcetv",FCVAR_PLUGIN,"cssmatch_sourcetv_path"));
-
-		addPluginConVar(new I18nConVar(i18n,"cssmatch_warmup_time","5",FCVAR_PLUGIN,"cssmatch_warmup_time",true,0.0f,false,0.0f));
-
-		addPluginConVar(new I18nConVar(i18n,"cssmatch_hostname","CSSMatch : %s VS %s",FCVAR_PLUGIN,"cssmatch_hostname"));
-		addPluginConVar(new I18nConVar(i18n,"cssmatch_password","inwar",FCVAR_PLUGIN,"cssmatch_password"));
-		addPluginConVar(new I18nConVar(i18n,"cssmatch_default_config","server.cfg",FCVAR_PLUGIN,"cssmatch_default_config"));
-
-		// Add existing ConVars
-		ICvar * cvars = interfaces.convars->getConVarAccessor();
-		addPluginConVar(cvars->FindVar("sv_cheats"));
-		addPluginConVar(cvars->FindVar("sv_alltalk"));
-		addPluginConVar(cvars->FindVar("hostname"));
-		addPluginConVar(cvars->FindVar("sv_password"));
-		addPluginConVar(cvars->FindVar("tv_enable"));
-
-		
-		// Create the plugin's commands
-		addPluginConCommand(new I18nConCommand(i18n,"cssm_help",cssm_help,"cssm_help"));
-		addPluginConCommand(new I18nConCommand(i18n,"cssm_start",cssm_start,"cssm_start"));
-		addPluginConCommand(new I18nConCommand(i18n,"cssm_stop",cssm_stop,"cssm_stop"));
 
 		return success;
 	}
@@ -240,7 +240,7 @@ namespace cssmatch
 
 	void SimplePlugin::addTimer(BaseTimer * timer)
 	{
-		timers.push_back(timer);
+		timers.push_front(timer); // push front, to allow timer which invokes others timers that could be immediately executed
 	}
 
 	void SimplePlugin::setConvarsAccessor(BaseConvarsAccessor * convarsAccessor)
@@ -334,6 +334,12 @@ namespace cssmatch
 
 	PLUGIN_RESULT SimplePlugin::ClientCommand(edict_t * pEntity)
 	{
+		/*if (std::string("cssm_test") == interfaces.engine->Cmd_Argv(0))
+		{
+			Countdown * c = Countdown::getInstance();
+			c->fire(10);
+		}*/
+
 		return PLUGIN_CONTINUE;
 	}
 

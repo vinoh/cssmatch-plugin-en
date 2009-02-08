@@ -1,5 +1,5 @@
 /* 
- * Copyright 2007, 2008 Nicolas Maingot
+ * Copyright 2008, 2009 Nicolas Maingot
  * 
  * This file is part of CSSMatch.
  * 
@@ -26,7 +26,7 @@ namespace cssmatch
 {
 	std::map<std::string, std::string> I18nManager::WITHOUT_PARAMETERS;
 
-	I18nManager::I18nManager(ConVar * defaultLang) : defaultLanguage(defaultLang)
+	I18nManager::I18nManager(IVEngineServer * engine, ConVar * defaultLang) : UserMessagesManager(engine), defaultLanguage(defaultLang)
 	{
 	}
 
@@ -126,5 +126,134 @@ namespace cssmatch
 		}
 
 		return message;
+	}
+
+	void I18nManager::i18nChatSay(	RecipientFilter & recipients,
+									const std::string & keyword,
+									int playerIndex,
+									std::map<std::string, std::string> & parameters)
+	{
+		const std::vector<int> * recipientVector = recipients.getVector();
+		std::vector<int>::const_iterator itIndex = recipientVector->begin();
+		std::vector<int>::const_iterator badIndex = recipientVector->end();
+		while(itIndex != badIndex)
+		{
+			RecipientFilter thisRecipient;
+			thisRecipient.addRecipient(*itIndex);
+
+			std::string langage = engine->GetClientConVarValue(*itIndex,"cl_language");
+			std::string message = getTranslation(langage,keyword,parameters);
+
+			chatSay(thisRecipient,message,playerIndex);
+
+			itIndex++;
+		}
+	}
+
+	void I18nManager::i18nChatWarning(	RecipientFilter & recipients, 
+										const std::string & keyword,
+										std::map<std::string, std::string> & parameters)
+	{
+		const std::vector<int> * recipientVector = recipients.getVector();
+		std::vector<int>::const_iterator itIndex = recipientVector->begin();
+		std::vector<int>::const_iterator badIndex = recipientVector->end();
+		while(itIndex != badIndex)
+		{
+			RecipientFilter thisRecipient;
+			thisRecipient.addRecipient(*itIndex);
+
+			std::string langage = engine->GetClientConVarValue(*itIndex,"cl_language");
+			std::string message = getTranslation(langage,keyword,parameters);
+
+			chatWarning(thisRecipient,message);
+
+			itIndex++;
+		}
+	}
+
+	void I18nManager::i18nPopupSay(	RecipientFilter & recipients,
+									const std::string & keyword,
+									int lifeTime,
+									PopupSensitivityFlags flags,
+									std::map<std::string, std::string> & parameters)
+	{
+		const std::vector<int> * recipientVector = recipients.getVector();
+		std::vector<int>::const_iterator itIndex = recipientVector->begin();
+		std::vector<int>::const_iterator badIndex = recipientVector->end();
+		while(itIndex != badIndex)
+		{
+			RecipientFilter thisRecipient;
+			thisRecipient.addRecipient(*itIndex);
+
+			std::string langage = engine->GetClientConVarValue(*itIndex,"cl_language");
+			std::string message = getTranslation(langage,keyword,parameters);
+
+			popupSay(thisRecipient,message,lifeTime,flags);
+
+			itIndex++;
+		}
+	}
+
+	void I18nManager::i18nHintSay(	RecipientFilter & recipients,
+									const std::string & keyword,
+									std::map<std::string, std::string> & parameters)
+	{
+		const std::vector<int> * recipientVector = recipients.getVector();
+		std::vector<int>::const_iterator itIndex = recipientVector->begin();
+		std::vector<int>::const_iterator badIndex = recipientVector->end();
+		while(itIndex != badIndex)
+		{
+			RecipientFilter thisRecipient;
+			thisRecipient.addRecipient(*itIndex);
+
+			std::string langage = engine->GetClientConVarValue(*itIndex,"cl_language");
+			std::string message = getTranslation(langage,keyword,parameters);
+
+			hintSay(thisRecipient,message);
+
+			itIndex++;
+		}
+	}
+
+	void I18nManager::i18nCenterSay(RecipientFilter & recipients,
+									const std::string & keyword,
+									std::map<std::string, std::string> & parameters)
+	{
+		const std::vector<int> * recipientVector = recipients.getVector();
+		std::vector<int>::const_iterator itIndex = recipientVector->begin();
+		std::vector<int>::const_iterator badIndex = recipientVector->end();
+		while(itIndex != badIndex)
+		{
+			RecipientFilter thisRecipient;
+			thisRecipient.addRecipient(*itIndex);
+
+			std::string langage = engine->GetClientConVarValue(*itIndex,"cl_language");
+			std::string message = getTranslation(langage,keyword,parameters);
+
+			centerSay(thisRecipient,message);
+
+			itIndex++;
+		}
+	}
+
+	void I18nManager::i18nConsoleSay(	RecipientFilter & recipients,
+										const std::string & keyword,
+										std::map<std::string, std::string> & parameters)
+	{
+		const std::vector<int> * recipientVector = recipients.getVector();
+		std::vector<int>::const_iterator itIndex = recipientVector->begin();
+		std::vector<int>::const_iterator badIndex = recipientVector->end();
+		while(itIndex != badIndex)
+		{
+			RecipientFilter thisRecipient;
+			thisRecipient.addRecipient(*itIndex);
+
+			std::string langage = engine->GetClientConVarValue(*itIndex,"cl_language");
+			std::string message = getTranslation(langage,keyword,parameters);
+
+			consoleSay(thisRecipient,message);
+
+			itIndex++;
+		}
 	}
 }

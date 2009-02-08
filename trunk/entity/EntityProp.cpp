@@ -1,5 +1,5 @@
 /* 
- * Copyright 2007, 2008 Nicolas Maingot
+ * Copyright 2008, 2009 Nicolas Maingot
  * 
  * This file is part of CSSMatch.
  * 
@@ -40,11 +40,11 @@ namespace cssmatch
 				offset += sProp->GetOffset();
 				switch(sProp->GetType())
 				{
+				case DPT_Int:
+				case DPT_Float:
 				case DPT_Vector:
 				case DPT_String:
 				case DPT_Array:
-				case DPT_Int:
-				case DPT_Float:
 					i = nbrProps; // break
 					break;
 				case DPT_DataTable:
