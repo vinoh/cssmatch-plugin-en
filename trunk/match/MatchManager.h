@@ -1,5 +1,5 @@
 /* 
- * Copyright 2007, 2008 Nicolas Maingot
+ * Copyright 2008, 2009 Nicolas Maingot
  * 
  * This file is part of CSSMatch.
  * 
@@ -42,6 +42,18 @@ namespace cssmatch
 		MatchLignup(SimplePlugin * plugin);
 	};
 
+	/** Information related to the match */
+	struct MatchInfo
+	{
+		/** Set number */
+		int setNumber;
+
+		/** Round number */
+		int roundNumber;
+
+		MatchInfo();
+	};
+
 	class MatchManager
 	{
 	protected:
@@ -53,6 +65,9 @@ namespace cssmatch
 
 		/** Match's lignup */
 		MatchLignup lignup;
+
+		/** Match's info */
+		MatchInfo infos;
 	public:
 		/** Prepare a match
 		 * @param plugin The plugin instance
@@ -63,6 +78,9 @@ namespace cssmatch
 
 		/** Get the match lignup */
 		MatchLignup * getLignup();
+
+		/** Get some informations about the match */
+		MatchInfo * getInfo();
 
 		/** Set a new match state <br>
 		 * Call the endState method of the previous state, and the startState of the new state

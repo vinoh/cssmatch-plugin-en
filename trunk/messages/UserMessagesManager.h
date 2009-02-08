@@ -1,5 +1,5 @@
 /* 
- * Copyright 2007, 2008 Nicolas Maingot
+ * Copyright 2008, 2009 Nicolas Maingot
  * 
  * This file is part of CSSMatch.
  * 
@@ -114,7 +114,7 @@ namespace cssmatch
 
 	class UserMessagesManager
 	{
-	private:
+	protected:
 		/** Valve's IVEngineServer instance */
 		IVEngineServer * engine;
 
@@ -150,6 +150,8 @@ namespace cssmatch
 		/** Send a popup (windowed) message to the clients
 		 * @param recipients Recipient list
 		 * @param message The message to send
+		 * @param lifeTime Display time (in seconds)
+		 * @param flags Options which the play can select
 		 */
 		void popupSay(	RecipientFilter & recipients,
 						const std::string & message,

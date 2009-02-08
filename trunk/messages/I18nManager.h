@@ -1,5 +1,5 @@
 /* 
- * Copyright 2007, 2008 Nicolas Maingot
+ * Copyright 2008, 2009 Nicolas Maingot
  * 
  * This file is part of CSSMatch.
  * 
@@ -39,7 +39,7 @@ namespace cssmatch
 	 * Messages can have parameters, prefixed by $. E.g. : "The attacker is $attackername" <br>
 	 * These parameters have to be passed under the form of {parameter => value} map
 	 */
-	class I18nManager : public CannotBeCopied
+	class I18nManager : public CannotBeCopied, public UserMessagesManager
 	{
 	private:
 		/** What is the default language to use ? */
@@ -52,9 +52,10 @@ namespace cssmatch
 		static std::map<std::string, std::string> WITHOUT_PARAMETERS;
 
 		/**
+		 *@param engine The Valve's IVEngineServer instance
 		 * @param defaultLanguage The default language to use if no translation is found
 		 */
-		I18nManager(ConVar * defaultLanguage);
+		I18nManager(IVEngineServer * engine, ConVar * defaultLanguage);
 		~I18nManager();
 
 		/** Get the current default language */
@@ -74,6 +75,70 @@ namespace cssmatch
 		std::string getTranslation(	const std::string & language,
 									const std::string & keyword, 
 									std::map<std::string, std::string> & parameters = WITHOUT_PARAMETERS);
+
+
+		/** Send a chat message <br>
+		 * \001, \003 and \004 will color parts of the message
+		 * @param recipients Recipient list
+		 * @param keyword The identifier of the translation to display
+		 * @param playerIndex If specified, the message will appear in the colour associed to the player's team after the \003 tags
+		 * @param parameters If specified, the message's parameters and their value
+		 * @see UserMessagesManager::chatSay
+		 */
+		void i18nChatSay(	RecipientFilter & recipients,
+							const std::string & keyword,
+							int playerIndex = INVALID_ENTITY_INDEX,
+							std::map<std::string, std::string> & parameters = WITHOUT_PARAMETERS);
+
+
+		/** Send a colorful chat message
+		 * @param recipients Recipient list
+		 * @param keyword The identifier of the translation to display
+		 * @param parameters If specified, the message's parameters and their value
+		 */
+		void i18nChatWarning(	RecipientFilter & recipients, 
+								const std::string & keyword,
+								std::map<std::string, std::string> & parameters = WITHOUT_PARAMETERS);
+
+		/** Send a popup (windowed) message to the clients
+		 * @param recipients Recipient list
+		 * @param keyword The identifier of the translation to display
+		 * @param lifeTime Display time (in seconds)
+		 * @param flags Options which the play can select
+		 * @param parameters If specified, the message's parameters and their value
+		 */
+		void i18nPopupSay(	RecipientFilter & recipients,
+							const std::string & keyword,
+							int lifeTime,
+							PopupSensitivityFlags flags = OPTION_ALL,
+							std::map<std::string, std::string> & parameters = WITHOUT_PARAMETERS);
+
+		/** Send a centered popup (windowed) message
+		 * @param recipients Recipient list
+		 * @param keyword The identifier of the translation to display
+		 * @param parameters If specified, the message's parameters and their value
+		 */
+		void i18nHintSay(	RecipientFilter & recipients,
+							const std::string & keyword,
+							std::map<std::string, std::string> & parameters = WITHOUT_PARAMETERS);
+
+		/** Send a centered message
+		 * @param recipients Recipient list
+		 * @param keyword The identifier of the translation to display
+		 * @param parameters If specified, the message's parameters and their value
+		 */
+		void i18nCenterSay(	RecipientFilter & recipients,
+							const std::string & keyword,
+							std::map<std::string, std::string> & parameters = WITHOUT_PARAMETERS);
+
+		/** Send a console message
+		 * @param recipients Recipient list
+		 * @param keyword The identifier of the translation to display
+		 * @param parameters If specified, the message's parameters and their value
+		 */
+		void i18nConsoleSay(RecipientFilter & recipients,
+							const std::string & keyword,
+							std::map<std::string, std::string> & parameters = WITHOUT_PARAMETERS);
 	};
 }
 
