@@ -197,7 +197,7 @@ namespace cssmatch
 		return &playerlist;
 	}
 
-	MatchManager * SimplePlugin::getMatchManager()
+	MatchManager * SimplePlugin::getMatch()
 	{
 		return match;
 	}
@@ -334,20 +334,6 @@ namespace cssmatch
 
 	PLUGIN_RESULT SimplePlugin::ClientCommand(edict_t * pEntity)
 	{
-		if (std::string("cssm_test") == interfaces.engine->Cmd_Argv(0))
-		{
-			std::list<ClanMember *>::iterator itUmpire = std::find_if(playerlist.begin(),playerlist.end(),PlayerHavingPEntity(pEntity));
-
-			try
-			{
-				match->start(RunnableConfigurationFile("cstrike/cfg/cssmatch/configurations/default.cfg",interfaces.convars->getConVarAccessor(),interfaces.engine),*itUmpire);
-			}
-			catch(const BaseException & e)
-			{
-				printException(e,__FILE__,__LINE__);
-			}
-		}
-
 		return PLUGIN_CONTINUE;
 	}
 

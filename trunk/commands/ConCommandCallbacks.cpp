@@ -20,6 +20,7 @@
  * Portions of this code are also Copyright © 1996-2005 Valve Corporation, All rights reserved
  */
 
+#include "../match/DisableMatchState.h"
 #include "ConCommandCallbacks.h"
 #include "../plugin/SimplePlugin.h"
 
@@ -44,13 +45,29 @@ namespace cssmatch
 	void cssm_start()
 	{
 		SimplePlugin * plugin = SimplePlugin::getInstance();
-		MatchManager * match = plugin->getMatchManager();
+		ValveInterfaces * interfaces = plugin->getInterfaces();
+		MatchManager * match = plugin->getMatch();
+
+		bool kniferound = true;
+		std::string configurationFile = DEFAULT_CONFIGURATION_FILE;
+		switch(interfaces->engine->Cmd_Argc())
+		{
+		case 3:
+			kniferound = std::string(interfaces->engine->Cmd_Argv(2)) != "-cutround";
+		case 2:
+			configurationFile = interfaces->engine->Cmd_Argv(1);
+		case 1:
+			match->start(RunnableConfigurationFile(CFG_FOLDER_PATH MATCH_CONFIGURATIONS_PATH + configurationFile,interfaces->convars->getConVarAccessor(),interfaces->engine),kniferound);
+			break;
+		default:
+			print(std::string(interfaces->engine->Cmd_Argv(0)) + " [configuration file from cstrike/cfg/cssmatch/configurations] [-cutround]"); 
+		}
 	}
 
 	void cssm_stop()
 	{
 		SimplePlugin * plugin = SimplePlugin::getInstance();
-		MatchManager * match = plugin->getMatchManager();
+		MatchManager * match = plugin->getMatch();
 		ValveInterfaces * interfaces = plugin->getInterfaces();
 
 		match->setMatchState(new DisableMatchState(match,interfaces->gameeventmanager2));

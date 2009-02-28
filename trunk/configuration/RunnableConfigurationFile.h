@@ -25,6 +25,7 @@
 
 /** Match configurations path (ignoring the game and cfg directories) */
 #define MATCH_CONFIGURATIONS_PATH "cssmatch/configurations/"
+#define DEFAULT_CONFIGURATION_FILE "default.cfg"
 
 #include "ConfigurationFile.h"
 

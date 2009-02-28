@@ -49,6 +49,7 @@
 #include "baseentity.h"
 
 #include <string>
+#include <time.h>
 
 #define PLUGIN_NAME "CSSMatch"
 
@@ -69,6 +70,11 @@
 
 namespace cssmatch
 {
+	/** Get the current local time (using <time.h>)
+	 * @return A pointer to a struct tm
+	 */
+	tm * getLocalTime();
+
 	/** Team codes for the game */
 	typedef enum TeamCode
 	{

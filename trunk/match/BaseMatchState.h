@@ -44,7 +44,7 @@ namespace cssmatch
 		 * @param match The match which will be in this state
 		 * @param eventManager The valve's IGameEventManager2 instance
 		 */
-		BaseMatchState(MatchManager * m, IGameEventManager2 * eventManager);
+		BaseMatchState(MatchManager * match, IGameEventManager2 * eventManager);
 
 		/** Apply this match state */
 		virtual void startState() = 0;

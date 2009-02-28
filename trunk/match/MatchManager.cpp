@@ -21,7 +21,14 @@
  */
 
 #include "MatchManager.h"
+
+#include "DisableMatchState.h"
+#include "KnifeRoundMatchState.h"
+#include "WarmupMatchState.h"
+
 #include "../plugin/SimplePlugin.h"
+#include "../messages/Countdown.h"
+
 #include <algorithm>
 
 namespace cssmatch
@@ -30,7 +37,7 @@ namespace cssmatch
 	{
 	}
 
-	MatchInfo::MatchInfo() : setNumber(0), roundNumber(0)
+	MatchInfo::MatchInfo() : setNumber(1), roundNumber(1), startTime(getLocalTime())
 	{
 	}
 
@@ -46,6 +53,8 @@ namespace cssmatch
 	MatchManager::~MatchManager()
 	{
 		delete state;
+
+		Countdown::getInstance()->stop();
 	}
 
 	MatchLignup * MatchManager::getLignup()
@@ -67,10 +76,49 @@ namespace cssmatch
 		state->startState();
 	}
 
-	void MatchManager::start(RunnableConfigurationFile & config, ClanMember * umpire)
+	void MatchManager::start(RunnableConfigurationFile & config, bool kniferound, ClanMember * umpire)
 	{
+		ValveInterfaces * interfaces = plugin->getInterfaces();
+
+		// Execute the configuration file
 		config.execute();
 
+		// Print the plugin list to the server log
+		plugin->queueCommand("plugin_print\n");
+
+		// Save the current date
+		infos.startTime = getLocalTime();
+
+		// Try to find the clan names
+		lignup.clan1.detectClanName();
+		lignup.clan2.detectClanName();
+
+		// Set the new server password
+		try
+		{
+			std::string password = plugin->getConVar("cssmatch_password")->GetString();
+			plugin->getConVar("sv_password")->SetValue(password.c_str());
+
+			std::map<std::string, std::string> parameters;
+			parameters["$password"] = password;
+			//plugin->addTimer(new Timer(5.0f,Messages::timerSayPopup,"match_password_popup",parametres));
+		}
+		catch(const BaseConvarsAccessorException & e)
+		{
+			plugin->printException(e,__FILE__,__LINE__);
+		}
+
+		// Set the suitable match state
+		if (kniferound)
+		{
+			this->setMatchState(new KnifeRoundMatchState(this,interfaces->gameeventmanager2));
+		}
+		else
+		{
+			this->setMatchState(new WarmupMatchState(this,interfaces->gameeventmanager2));
+		}
+
+		// Announcement
 		std::list<ClanMember *> * playerlist = plugin->getPlayerlist();
 		RecipientFilter recipients;
 		std::for_each(playerlist->begin(),playerlist->end(),PlayerToRecipient(&recipients));
