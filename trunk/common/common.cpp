@@ -25,6 +25,12 @@
 
 namespace cssmatch
 {
+	tm * getLocalTime()
+	{
+		time_t date = time(NULL);
+		return gmtime(&date);
+	}
+
 	void print(const std::string & message)
 	{
 		std::ostringstream buffer;

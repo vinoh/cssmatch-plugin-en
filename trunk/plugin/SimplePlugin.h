@@ -120,7 +120,7 @@ namespace cssmatch
 		std::list<ClanMember *> * getPlayerlist();
 
 		/** Get the match manager */
-		MatchManager * getMatchManager();
+		MatchManager * getMatch();
 
 		/** Add a plugin console variable */
 		void addPluginConVar(ConVar * variable);

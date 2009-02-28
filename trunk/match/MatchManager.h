@@ -23,7 +23,7 @@
 #ifndef __MATCH_MANAGER_H__
 #define __MATCH_MANAGER_H__
 
-#include "DisableMatchState.h"
+#include "BaseMatchState.h"
 #include "../player/MatchClan.h"
 #include "../configuration/RunnableConfigurationFile.h"
 
@@ -52,6 +52,9 @@ namespace cssmatch
 		/** Round number */
 		int roundNumber;
 
+		/** Start date */
+		tm * startTime;
+
 		MatchInfo();
 	};
 
@@ -75,6 +78,7 @@ namespace cssmatch
 		 */
 		MatchManager(SimplePlugin * plugin);
 
+		/** Note : stop any current countdown */
 		~MatchManager();
 
 		/** Get the match lignup */
@@ -91,9 +95,10 @@ namespace cssmatch
 
 		/** Start a new math
 		 * @param config The configuration of the match
+		 * @param kniferound If a kniferound must be done
 		 * @param umpire The player who starts the match
 		 */
-		void start(RunnableConfigurationFile & config, ClanMember * umpire = NULL);
+		void start(RunnableConfigurationFile & config, bool kniferound, ClanMember * umpire = NULL);
 	};
 }
 

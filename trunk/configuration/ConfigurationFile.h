@@ -29,6 +29,9 @@
 #include <string>
 #include <list>
 
+/** cfg folder path */
+#define CFG_FOLDER_PATH "cstrike/cfg/"
+
 namespace cssmatch
 {
 	class ConfigurationFileException : public BaseException
