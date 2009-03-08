@@ -4,14 +4,14 @@
 
 CSSMatch is configured via your match configuration files. If you are interested, please read this tutorial :)
 
-  .
+<br>
 == How to configure a match ? ==
   # Visit the _cfg/cssmatch/configurations_ folder. This folder contains all the match configurations which can be executed when you start a match. The .cfg files which are in this folder are automatically listed in the menu.
   # Open the _default.cfg_ file. This file is a match configuration example. You can see the "variables" specific to the plugin all prefixed by `cssmatch_` and some examples of variables which adjust the configuration of your server during the match.
     * Feel free to modify the plugin's variables (all the variable are documented)
     * Feel free to add/modify/remove server's variables
 
-  .
+<br>
 === How to add a configuration file ? ===
 
 It could useful to be able to choice different configurations in the menu. So, as said above, the .cfg file contained in the _cfg/cssmatch/configurations_ folder are automatically listed in the referee menu when you start a match.
@@ -28,7 +28,7 @@ It could useful to be able to choice different configurations in the menu. So, a
   # Change the map or reboot your server
 
 
-  .
+<br>
 === "My file does not appear in the list when I start a match :" ===
   * Verify that your file is in the _cfg/cssmatch/configurations_ folder 
   * Verify that the file's extension is ".cfg", if needed you can "save as" it again adding ".cfg" at the end of the file's name
