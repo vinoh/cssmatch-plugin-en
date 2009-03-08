@@ -6,8 +6,8 @@
 *Meaning :* the adminlist.txt file which takes place on your server does not contains your steamID, or the line where is your steamID is not correct.
 
 *Fix :* Follow [Referee these instructions].
-  .
 
+<br>
 == Colored error messages in relation with SourceTV ==
 
   *  *_CSSMatch : SourceTV record cannot start due to tv_enable set on 0_*
@@ -20,7 +20,7 @@
 tv_enable 1
 }}}
 
-  .
+<br>
   *  *_CSSMatch : SourceTV record cannot start because it's not connected on server_*
   "I've got this error message, yet tv_enable is 1 in my configuration."
 
