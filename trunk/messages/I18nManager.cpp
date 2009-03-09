@@ -103,7 +103,7 @@ namespace cssmatch
 		{
 			message = (*translation)[keyword]; // copying it, because we will replace the parameters
 
-			// Relace the parameters
+			// Relace the parameters // FIXME : unnecessarily call as many times as recipients
 			std::map<std::string,std::string>::const_iterator itParameters = parameters.begin();
 			std::map<std::string,std::string>::const_iterator lastParameters = parameters.end();
 			while(itParameters != lastParameters)
@@ -255,5 +255,36 @@ namespace cssmatch
 
 			itIndex++;
 		}
+	}
+
+	TimerI18nChatSay::TimerI18nChatSay(	I18nManager * manager,
+										float date,
+										RecipientFilter & recip,
+										const std::string & key,
+										int pIndex,
+										std::map<std::string, std::string> & param)
+		: BaseTimer(date), i18n(manager), recipients(recip), keyword(key), playerIndex(pIndex), parameters(param)
+	{
+	}
+
+	void TimerI18nChatSay::execute()
+	{
+		i18n->i18nChatSay(recipients,keyword,playerIndex,parameters);
+	}
+
+	TimerI18nPopupSay::TimerI18nPopupSay(	I18nManager * manager,
+											float date,
+											RecipientFilter & recip,
+											const std::string & key,
+											int life,
+											PopupSensitivityFlags fl,
+											std::map<std::string, std::string> & param)
+		: BaseTimer(date), i18n(manager), recipients(recip), keyword(key), lifeTime(life), flags(fl), parameters(param)
+	{
+	}
+
+	void TimerI18nPopupSay::execute()
+	{
+		i18n->i18nPopupSay(recipients,keyword,lifeTime,flags,parameters);
 	}
 }

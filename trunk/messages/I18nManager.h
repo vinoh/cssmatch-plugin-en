@@ -26,6 +26,7 @@
 #include "../features/CannotBeCopied.h"
 #include "UserMessagesManager.h"
 #include "../configuration/TranslationFile.h"
+#include "../timer/BaseTimer.h"
 
 #include "convar.h"
 
@@ -139,6 +140,93 @@ namespace cssmatch
 		void i18nConsoleSay(RecipientFilter & recipients,
 							const std::string & keyword,
 							std::map<std::string, std::string> & parameters = WITHOUT_PARAMETERS);
+	};
+
+	/** Send a delayed message in the chat area 
+	 * @see BaseTimer
+	 */
+	class TimerI18nChatSay : public BaseTimer
+	{
+	private:
+		/** The message manager */
+		I18nManager * i18n;
+
+		/** @see I18nManager::I18nChatSay */
+		RecipientFilter recipients;
+
+		/** @see I18nManager::I18nChatSay */
+		std::string keyword;
+
+		/** @see I18nManager::I18nChatSay */
+		int playerIndex;
+
+		/** @see I18nManager::I18nChatSay */
+		std::map<std::string, std::string> parameters; // FIXME : that copies a std::map
+	public:
+		/**
+		 * @param i18n The message manager
+		 * @param executionDate When this timer will be executed
+		 * @param recipients Recipient list
+		 * @param keyword The identifier of the translation to display
+		 * @param playerIndex If specified, the message will appear in the colour associed to the player's team after the \003 tags
+		 * @param parameters If specified, the message's parameters and their value
+		 * @see I18nManager::I18nChatSay
+		 */
+		TimerI18nChatSay(	I18nManager * i18n,
+							float executionDate,
+							RecipientFilter & recipients,
+							const std::string & keyword,
+							int playerIndex = INVALID_ENTITY_INDEX,
+							std::map<std::string, std::string> & parameters = I18nManager::WITHOUT_PARAMETERS);
+
+		/** @see BaseTimer */
+		virtual void execute();
+	};
+
+	/** Send a delayed popup message
+	 * @see BaseTimer
+	 */
+	class TimerI18nPopupSay : public BaseTimer
+	{
+	private:
+		/** The message manager */
+		I18nManager * i18n;
+
+		/** Recipient list */
+		RecipientFilter recipients;
+
+		/** @see I18nManager::I18nChatSay */
+		std::string keyword;
+
+		/** @see I18nManager::I18nPopupSay */
+		int lifeTime;
+
+		/** @see I18nManager::I18nPopupSay */
+		PopupSensitivityFlags flags;
+
+		/** @see I18nManager::I18nChatSay */
+		std::map<std::string, std::string> parameters; // FIXME : that copies a std::map
+	public:
+		/**
+		 * @param i18n The message manager
+		 * @param executionDate When this timer will be executed
+		 * @param recipients Recipient list
+		 * @param keyword The identifier of the translation to display
+		 * @param lifeTime Display time (in seconds)
+		 * @param flags Options which the play can select
+		 * @param parameters If specified, the message's parameters and their value
+		 * @see I18nManager::I18nChatSay
+		 */
+		TimerI18nPopupSay(	I18nManager * i18n,
+							float executionDate,
+							RecipientFilter & recipients,
+							const std::string & keyword,
+							int lifeTime,
+							PopupSensitivityFlags flags = OPTION_ALL,
+							std::map<std::string, std::string> & parameters = I18nManager::WITHOUT_PARAMETERS);
+
+		/** @see BaseTimer */
+		virtual void execute();
 	};
 }
 
