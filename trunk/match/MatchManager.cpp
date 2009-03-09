@@ -80,6 +80,12 @@ namespace cssmatch
 	{
 		ValveInterfaces * interfaces = plugin->getInterfaces();
 
+		// Update match infos
+		infos.setNumber = 1;
+		infos.roundNumber = 1;
+
+		// TODO : supprimer timers en cours
+
 		// Execute the configuration file
 		config.execute();
 
@@ -99,9 +105,14 @@ namespace cssmatch
 			std::string password = plugin->getConVar("cssmatch_password")->GetString();
 			plugin->getConVar("sv_password")->SetValue(password.c_str());
 
+			std::list<ClanMember *> * playerlist = plugin->getPlayerlist();
+			RecipientFilter recipients;
+			std::for_each(playerlist->begin(),playerlist->end(),PlayerToRecipient(&recipients));
 			std::map<std::string, std::string> parameters;
 			parameters["$password"] = password;
-			//plugin->addTimer(new Timer(5.0f,Messages::timerSayPopup,"match_password_popup",parametres));
+			plugin->addTimer(
+				new TimerI18nPopupSay(
+					plugin->get18nManager(),interfaces->gpGlobals->curtime+5.0f,recipients,"match_password_popup",5,OPTION_ALL,parameters));
 		}
 		catch(const BaseConvarsAccessorException & e)
 		{
