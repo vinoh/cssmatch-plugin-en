@@ -37,7 +37,7 @@ namespace cssmatch
 		scoreCT = 0;
 	}
 
-	MatchClan::MatchClan(SimplePlugin * plug, TeamCode t) : plugin(plug), name("Nobody"), team(t)
+	MatchClan::MatchClan(TeamCode t) : name("Nobody"), team(t)
 	{
 	}
 
@@ -171,7 +171,7 @@ namespace cssmatch
 				}
 				else // Error :-(
 				{
-					print("An error occured detecting a clan name !");
+					print(__FILE__,__LINE__,"An error occured detecting a clan name !");
 					setName("Nobody");
 				}
 			}
@@ -184,7 +184,7 @@ namespace cssmatch
 				}
 				else // Error :-(
 				{
-					print("An error occured detecting a clan name !");
+					print(__FILE__,__LINE__,"An error occured detecting a clan name !");
 					setName("Nobody");
 				}
 			}

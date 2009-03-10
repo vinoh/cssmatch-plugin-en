@@ -147,6 +147,9 @@ namespace cssmatch
 		/** Add a timer */
 		void addTimer(BaseTimer * timer);
 
+		/** Remove all pending timers */
+		void removeTimers();
+
 		/** Set the console variable accessor <br>
 		 * The accessor will be automatically delete when the plugin is unloaded
 		 * @param convarsAccessor The console variable accessor to set

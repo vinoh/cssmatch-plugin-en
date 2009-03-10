@@ -77,7 +77,7 @@ namespace cssmatch
 					}
 					catch(const ConfigurationFileException & e)
 					{
-						print("ERROR ! Default translation file not found !");
+						print(__FILE__,__LINE__,"ERROR ! Default translation file not found !");
 					}
 				}
 				else

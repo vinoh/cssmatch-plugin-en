@@ -122,7 +122,7 @@ namespace cssmatch
 		{
 			interfaces.gpGlobals = interfaces.playerinfomanager->GetGlobalVars();
 
-			match = new MatchManager(this);
+			match = new MatchManager();
 
 			MathLib_Init(2.2f,2.2f,0.0f,2.0f);
 
@@ -241,6 +241,17 @@ namespace cssmatch
 	void SimplePlugin::addTimer(BaseTimer * timer)
 	{
 		timers.push_front(timer); // push front, to allow timer which invokes others timers that could be immediately executed
+	}
+
+	void SimplePlugin::removeTimers()
+	{
+		std::list<BaseTimer *>::iterator itTimer = timers.begin();
+		std::list<BaseTimer *>::iterator invalidTimer = timers.end();
+		while(itTimer != invalidTimer)
+		{
+			delete *itTimer;
+			itTimer++;
+		}
 	}
 
 	void SimplePlugin::setConvarsAccessor(BaseConvarsAccessor * convarsAccessor)

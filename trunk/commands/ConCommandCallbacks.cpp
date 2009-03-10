@@ -36,7 +36,7 @@ namespace cssmatch
 		while (itConCommand != lastConCommand)
 		{
 			ConCommand * command = *itConCommand;
-			print(std::string(command->GetName()) + " : " + command->GetHelpText());
+			plugin->log(std::string(command->GetName()) + " : " + command->GetHelpText());
 
 			itConCommand++;
 		}
@@ -60,7 +60,7 @@ namespace cssmatch
 			match->start(RunnableConfigurationFile(CFG_FOLDER_PATH MATCH_CONFIGURATIONS_PATH + configurationFile,interfaces->convars->getConVarAccessor(),interfaces->engine),kniferound);
 			break;
 		default:
-			print(std::string(interfaces->engine->Cmd_Argv(0)) + " [configuration file from cstrike/cfg/cssmatch/configurations] [-cutround]"); 
+			plugin->log(std::string(interfaces->engine->Cmd_Argv(0)) + " [configuration file from cstrike/cfg/cssmatch/configurations] [-cutround]"); 
 		}
 	}
 

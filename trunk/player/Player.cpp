@@ -66,7 +66,7 @@ namespace cssmatch
 			team = (TeamCode)pInfo->GetTeamIndex();
 
 		if (team == INVALID_TEAM)
-			print("The plugin was unable to find the team of a Player");
+			print(__FILE__,__LINE__,"The plugin was unable to find the team of a Player");
 
 		return team;
 	}
@@ -81,7 +81,7 @@ namespace cssmatch
 
 		if (! isValidBasePlayer(bPlayer))
 		{
-			print("The plugin was unable to find the base player pointer of a Player");
+			print(__FILE__,__LINE__,"The plugin was unable to find the base player pointer of a Player");
 			bPlayer = NULL;
 		}
 
@@ -98,7 +98,7 @@ namespace cssmatch
 
 		if (! isValidBaseCombatCharacter(bCombatCharacter))
 		{
-			print("The plugin was unable to find the base combat character of a Player");
+			print(__FILE__,__LINE__,"The plugin was unable to find the base combat character of a Player");
 			bCombatCharacter = NULL;
 		}
 
@@ -111,7 +111,7 @@ namespace cssmatch
 
 		if (! isValidPlayer(pInfo))
 		{
-			print("The plugin was unable to find the player's infos of a Player");
+			print(__FILE__,__LINE__,"The plugin was unable to find the player's infos of a Player");
 			pInfo = NULL;
 		}
 
@@ -131,6 +131,14 @@ namespace cssmatch
 
 		return bCombatWeapon;
 	}
+
+	void Player::removeWeapon(WeaponSlotCode slot)
+	{
+		CBaseCombatWeapon * weapon = getWeaponFromWeaponSlot(slot);
+		if (weapon != NULL)
+			weapon->Kill();
+	}
+
 
 	// Functors
 

@@ -63,10 +63,9 @@ namespace cssmatch
 		bool isValidClanName(const std::string & newName) const;
 	public:
 		/**
-		 * @param plugin The plugin which ables to give us the player list connected to the server
 		 * @param team Current team of the clan
 		 */
-		MatchClan(SimplePlugin * plugin, TeamCode team);
+		MatchClan(TeamCode team);
 
 		/** Get the clan name */
 		const std::string * getName() const;

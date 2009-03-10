@@ -31,10 +31,10 @@ namespace cssmatch
 		return gmtime(&date);
 	}
 
-	void print(const std::string & message)
+	void print(const std::string & fileName, int line, const std::string & message)
 	{
 		std::ostringstream buffer;
-		buffer << PLUGIN_NAME << " : " << message << "\n";
+		buffer << PLUGIN_NAME << " (" << fileName << " l." << line << ") : " << message << "\n";
 		Msg(buffer.str().c_str());
 	}
 
@@ -89,7 +89,7 @@ namespace cssmatch
 
 		if (! isValidServerEntity(sEntity))
 		{
-			print("The plugin was unable to find the server entity of an entity");
+			print(__FILE__,__LINE__,"The plugin was unable to find the server entity of an entity");
 			sEntity = NULL;
 		}
 
@@ -106,7 +106,7 @@ namespace cssmatch
 
 		if (! isValidBaseEntity(bEntity))
 		{
-			print("The plugin was unable to find the base entity of an entity");
+			print(__FILE__,__LINE__,"The plugin was unable to find the base entity of an entity");
 			bEntity = NULL;
 		}
 
@@ -119,7 +119,7 @@ namespace cssmatch
 
 		if (! isValidServerUnknown(sUnknown))
 		{
-			print("The plugin was unable to find the server unknown pointer of an entity");
+			print(__FILE__,__LINE__,"The plugin was unable to find the server unknown pointer of an entity");
 			sUnknown = NULL;
 		}
 
