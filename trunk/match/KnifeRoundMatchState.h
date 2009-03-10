@@ -37,6 +37,10 @@ namespace cssmatch
 		virtual void startState();
 		virtual void endState();
 		virtual void FireGameEvent(IGameEvent * event);
+
+		// Game event callbacks
+		void round_start(IGameEvent * event);
+		void item_pickup(IGameEvent * event);
 	};
 }
 

@@ -109,6 +109,11 @@ namespace cssmatch
 		 * @return The CBaseCombatWeapon instance found, or NULL if something was invalid
 		 */
 		CBaseCombatWeapon * getWeaponFromWeaponSlot(WeaponSlotCode slot) const;
+
+		/** Remove a weapon at the specified slot 
+		 * @param slot The slot code where is weapon can be found
+		 */
+		void removeWeapon(WeaponSlotCode slot);
 	};
 
 	/** Functor to quickly find a Player instance by his pEntity instance */

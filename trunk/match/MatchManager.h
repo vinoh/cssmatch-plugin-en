@@ -40,7 +40,7 @@ namespace cssmatch
 		/** Second clan */
 		MatchClan clan2;
 
-		MatchLignup(SimplePlugin * plugin);
+		MatchLignup();
 	};
 
 	/** Information related to the match */
@@ -61,9 +61,6 @@ namespace cssmatch
 	class MatchManager
 	{
 	protected:
-		/** The plugin instance */
-		SimplePlugin * plugin;
-
 		/** Current match state(e.g. kniferound, warmup, etc.) */
 		BaseMatchState * state;
 
@@ -73,10 +70,7 @@ namespace cssmatch
 		/** Match's info */
 		MatchInfo infos;
 	public:
-		/** Prepare a match
-		 * @param plugin The plugin instance
-		 */
-		MatchManager(SimplePlugin * plugin);
+		MatchManager();
 
 		/** Note : stop any current countdown */
 		~MatchManager();

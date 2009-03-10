@@ -25,6 +25,7 @@
 #include "DisableMatchState.h"
 #include "KnifeRoundMatchState.h"
 #include "WarmupMatchState.h"
+#include "SetMatchState.h"
 
 #include "../plugin/SimplePlugin.h"
 #include "../messages/Countdown.h"
@@ -33,7 +34,7 @@
 
 namespace cssmatch
 {
-	MatchLignup::MatchLignup(SimplePlugin * plugin) : clan1(plugin,T_TEAM), clan2(plugin,CT_TEAM)
+	MatchLignup::MatchLignup() : clan1(T_TEAM), clan2(CT_TEAM)
 	{
 	}
 
@@ -41,8 +42,9 @@ namespace cssmatch
 	{
 	}
 
-	MatchManager::MatchManager(SimplePlugin * pluginInstance) : plugin(pluginInstance), lignup(pluginInstance)
+	MatchManager::MatchManager()
 	{
+		SimplePlugin * plugin = SimplePlugin::getInstance();
 		ValveInterfaces * interfaces = plugin->getInterfaces();
 
 		state = new DisableMatchState(this,interfaces->gameeventmanager2);
@@ -78,13 +80,21 @@ namespace cssmatch
 
 	void MatchManager::start(RunnableConfigurationFile & config, bool kniferound, ClanMember * umpire)
 	{
+		SimplePlugin * plugin = SimplePlugin::getInstance();
 		ValveInterfaces * interfaces = plugin->getInterfaces();
+		I18nManager * i18n = plugin->get18nManager();
+
+		// Global recipient list
+		std::list<ClanMember *> * playerlist = plugin->getPlayerlist();
+		RecipientFilter recipients;
+		std::for_each(playerlist->begin(),playerlist->end(),PlayerToRecipient(&recipients));
 
 		// Update match infos
 		infos.setNumber = 1;
 		infos.roundNumber = 1;
 
-		// TODO : supprimer timers en cours
+		// Annulation de d'éventuel timers en court
+		plugin->removeTimers();
 
 		// Execute the configuration file
 		config.execute();
@@ -105,14 +115,11 @@ namespace cssmatch
 			std::string password = plugin->getConVar("cssmatch_password")->GetString();
 			plugin->getConVar("sv_password")->SetValue(password.c_str());
 
-			std::list<ClanMember *> * playerlist = plugin->getPlayerlist();
-			RecipientFilter recipients;
-			std::for_each(playerlist->begin(),playerlist->end(),PlayerToRecipient(&recipients));
 			std::map<std::string, std::string> parameters;
 			parameters["$password"] = password;
 			plugin->addTimer(
 				new TimerI18nPopupSay(
-					plugin->get18nManager(),interfaces->gpGlobals->curtime+5.0f,recipients,"match_password_popup",5,OPTION_ALL,parameters));
+					i18n,interfaces->gpGlobals->curtime+5.0f,recipients,"match_password_popup",5,OPTION_ALL,parameters));
 		}
 		catch(const BaseConvarsAccessorException & e)
 		{
@@ -120,27 +127,31 @@ namespace cssmatch
 		}
 
 		// Set the suitable match state
-		if (kniferound)
+		if (plugin->getConVar("cssmatch_kniferound")->GetBool() && kniferound)
 		{
 			this->setMatchState(new KnifeRoundMatchState(this,interfaces->gameeventmanager2));
 		}
-		else
+		else if (plugin->getConVar("cssmatch_warmup_time")->GetInt() > 0)
 		{
 			this->setMatchState(new WarmupMatchState(this,interfaces->gameeventmanager2));
 		}
+		else if (plugin->getConVar("cssmatch_sets")->GetInt() > 0)
+		{
+			this->setMatchState(new SetMatchState(this,interfaces->gameeventmanager2));
+		}
+		else // Error case
+		{
+			i18n->i18nChatWarning(recipients,"match_config_error");
+		}
 
 		// Announcement
-		std::list<ClanMember *> * playerlist = plugin->getPlayerlist();
-		RecipientFilter recipients;
-		std::for_each(playerlist->begin(),playerlist->end(),PlayerToRecipient(&recipients));
-
 		if (umpire != NULL)
 		{
 			std::map<std::string,std::string> parameters;
 			parameters["$admin"] = umpire->getPlayerInfo()->GetName();
-			plugin->get18nManager()->i18nChatSay(recipients,"match_started_by",umpire->getIdentity()->index,parameters);
+			i18n->i18nChatSay(recipients,"match_started_by",umpire->getIdentity()->index,parameters);
 		}
 		else
-			plugin->get18nManager()->i18nChatSay(recipients,"match_started");
+			i18n->i18nChatSay(recipients,"match_started");
 	}
 }

@@ -96,9 +96,11 @@ namespace cssmatch
 	};
 
 	/** Print a message to the console
+	 * @param fileName The source file which print the information
+	 * @param line The line where the print can be found
 	 * @param message The message to display
 	 */
-	void print(const std::string & message);
+	void print(const std::string & fileName, int line, const std::string & message);
 
 	/** Make sure that an entity is valid
 	 * @param entity The entity to check
