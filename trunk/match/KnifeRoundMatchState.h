@@ -41,6 +41,8 @@ namespace cssmatch
 		// Game event callbacks
 		void round_start(IGameEvent * event);
 		void item_pickup(IGameEvent * event);
+		void player_spawn(IGameEvent * event);
+		void round_end(IGameEvent * event);
 	};
 }
 

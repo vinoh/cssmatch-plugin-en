@@ -27,6 +27,7 @@
 #include "../common/common.h"
 #include "../exceptions/BaseException.h"
 #include "../messages/RecipientFilter.h"
+#include "../entity/EntityProp.h"
 
 namespace cssmatch
 {
@@ -71,6 +72,12 @@ namespace cssmatch
 		/** Player's identity */
 		PlayerIdentity identity;
 
+		/** Cash handler */
+		EntityProp cashHandler;
+
+		/** Life state handler */
+		EntityProp lifeStateHandler;
+
 	public:
 		/** Initialize the informations relating to the player 
 		 * @param engine The valve's IVEngineServer interface (required to query the player's informations)
@@ -114,6 +121,16 @@ namespace cssmatch
 		 * @param slot The slot code where is weapon can be found
 		 */
 		void removeWeapon(WeaponSlotCode slot);
+
+		/** Set the cash account of this player 
+		 * @param newCash New cash amount
+		 */
+		void setCash(unsigned int newCash);
+
+		/** Set the life state of this player 
+		 * @param newState New life state
+		 */
+		void setLifeState(unsigned int newState);
 	};
 
 	/** Functor to quickly find a Player instance by his pEntity instance */

@@ -25,7 +25,6 @@
 
 #include "../common/common.h"
 #include "../exceptions/BaseException.h"
-#include "../plugin/SimplePlugin.h"
 
 namespace cssmatch
 {
