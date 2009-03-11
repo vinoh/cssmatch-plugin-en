@@ -120,28 +120,28 @@ namespace cssmatch
 			plugin->addTimer(
 				new TimerI18nPopupSay(
 					i18n,interfaces->gpGlobals->curtime+5.0f,recipients,"match_password_popup",5,OPTION_ALL,parameters));
+
+			// Set the suitable match state
+			if (plugin->getConVar("cssmatch_kniferound")->GetBool() && kniferound)
+			{
+				this->setMatchState(new KnifeRoundMatchState(this,interfaces->gameeventmanager2));
+			}
+			else if (plugin->getConVar("cssmatch_warmup_time")->GetInt() > 0)
+			{
+				this->setMatchState(new WarmupMatchState(this,interfaces->gameeventmanager2));
+			}
+			else if (plugin->getConVar("cssmatch_sets")->GetInt() > 0)
+			{
+				this->setMatchState(new SetMatchState(this,interfaces->gameeventmanager2));
+			}
+			else // Error case
+			{
+				i18n->i18nChatWarning(recipients,"match_config_error");
+			}
 		}
 		catch(const BaseConvarsAccessorException & e)
 		{
 			plugin->printException(e,__FILE__,__LINE__);
-		}
-
-		// Set the suitable match state
-		if (plugin->getConVar("cssmatch_kniferound")->GetBool() && kniferound)
-		{
-			this->setMatchState(new KnifeRoundMatchState(this,interfaces->gameeventmanager2));
-		}
-		else if (plugin->getConVar("cssmatch_warmup_time")->GetInt() > 0)
-		{
-			this->setMatchState(new WarmupMatchState(this,interfaces->gameeventmanager2));
-		}
-		else if (plugin->getConVar("cssmatch_sets")->GetInt() > 0)
-		{
-			this->setMatchState(new SetMatchState(this,interfaces->gameeventmanager2));
-		}
-		else // Error case
-		{
-			i18n->i18nChatWarning(recipients,"match_config_error");
 		}
 
 		// Announcement

@@ -33,7 +33,7 @@ namespace cssmatch
 	}
 
 	Player::Player(IVEngineServer * engine, IPlayerInfoManager * pInfoManager, int index) throw (PlayerException)
-		: playerinfomanager(pInfoManager)
+		: playerinfomanager(pInfoManager), cashHandler("CCSPlayer","m_iAccount"), lifeStateHandler("CBasePlayer","m_lifeState")
 	{
 		identity.index = index;
 
@@ -137,6 +137,16 @@ namespace cssmatch
 		CBaseCombatWeapon * weapon = getWeaponFromWeaponSlot(slot);
 		if (weapon != NULL)
 			weapon->Kill();
+	}
+
+	void Player::setCash(unsigned int newCash)
+	{
+		cashHandler.getProp<unsigned int>(identity.pEntity) = newCash;
+	}
+
+	void Player::setLifeState(unsigned int newState)
+	{
+		lifeStateHandler.getProp<unsigned int>(identity.pEntity) = newState;
 	}
 
 

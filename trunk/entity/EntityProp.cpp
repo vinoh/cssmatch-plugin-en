@@ -21,6 +21,7 @@
  */
 
 #include "EntityProp.h"
+#include "../plugin/SimplePlugin.h"
 
 namespace cssmatch
 {
