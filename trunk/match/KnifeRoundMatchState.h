@@ -43,6 +43,7 @@ namespace cssmatch
 		void item_pickup(IGameEvent * event);
 		void player_spawn(IGameEvent * event);
 		void round_end(IGameEvent * event);
+		void bomb_beginplant(IGameEvent * event);
 	};
 }
 

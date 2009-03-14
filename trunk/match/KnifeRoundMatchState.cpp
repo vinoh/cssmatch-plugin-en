@@ -50,6 +50,7 @@ namespace cssmatch
 		gameeventmanager2->AddListener(this,"round_end",true);
 		gameeventmanager2->AddListener(this,"item_pickup",true);
 		gameeventmanager2->AddListener(this,"player_spawn",true);
+		gameeventmanager2->AddListener(this,"bomb_beginplant",true);
 
 		i18n->i18nChatSay(recipients,"kniferound_restarts");
 
@@ -76,6 +77,8 @@ namespace cssmatch
 			player_spawn(event);
 		else if (eventName == "round_start")
 			round_start(event);
+		else if (eventName == "bomb_beginplant")
+			round_end(event);
 		else if (eventName == "round_end")
 			round_end(event);
 	}
@@ -123,7 +126,7 @@ namespace cssmatch
 				(*itPlayer)->removeWeapon(WEAPON_SLOT4);
 			}
 			else
-				print(__FILE__,__LINE__,"Unable to find the player wich pickup an item");
+				print(__FILE__,__LINE__,"Unable to find the player wich pickups an item");
 		}
 	}
 
@@ -181,6 +184,41 @@ namespace cssmatch
 			{
 				plugin->printException(e,__FILE__,__LINE__);
 			}
+		}
+	}
+
+	void KnifeRoundMatchState::bomb_beginplant(IGameEvent * event)
+	{
+		SimplePlugin * plugin = SimplePlugin::getInstance();
+		ValveInterfaces * interfaces = plugin->getInterfaces();
+		I18nManager * i18n = plugin->get18nManager();
+
+		try
+		{
+			if (plugin->getConVar("cssmatch_kniferound_allows_c4")->GetBool())
+			{
+				std::list<ClanMember *> * playerlist = plugin->getPlayerlist();
+				std::list<ClanMember *>::iterator invalidPlayer = playerlist->end();
+
+				std::list<ClanMember *>::iterator itPlayer = 
+					std::find_if(playerlist->begin(),invalidPlayer,PlayerHavingUserid(event->GetInt("userid")));
+				if (itPlayer != invalidPlayer)
+				{
+					PlayerIdentity * identity = (*itPlayer)->getIdentity();
+
+					interfaces->helpers->ClientCommand(identity->pEntity,"use weapon_knife");
+
+					RecipientFilter recipients;
+					recipients.addRecipient(identity->index);
+					i18n->i18nChatSay(recipients,"kniferound_c4");
+				}
+				else
+					print(__FILE__,__LINE__,"Unable to find the player wich plants the bomb");
+			}
+		}
+		catch(const BaseConvarsAccessorException & e)
+		{
+			plugin->printException(e,__FILE__,__LINE__);
 		}
 	}
 }
