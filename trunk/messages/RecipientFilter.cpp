@@ -20,8 +20,8 @@
  * Portions of this code are also Copyright © 1996-2005 Valve Corporation, All rights reserved
  */
 
-#include "../plugin/SimplePlugin.h"
-#include "../player/ClanMember.h"
+#include "../common/common.h"
+#include "RecipientFilter.h"
 
 namespace cssmatch
 {

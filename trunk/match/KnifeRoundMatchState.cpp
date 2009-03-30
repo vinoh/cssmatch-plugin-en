@@ -55,7 +55,7 @@ namespace cssmatch
 		i18n->i18nChatSay(recipients,"kniferound_restarts");
 
 		// Round number will indicates if some restarts have to be executed
-		match->getInfos()->roundNumber = 0;
+		match->getInfos()->roundNumber = 1;
 
 		// First restart
 		plugin->queueCommand("mp_restartgame 2\n");
@@ -121,6 +121,7 @@ namespace cssmatch
 				std::find_if(playerlist->begin(),invalidPlayer,PlayerHavingUserid(event->GetInt("userid")));
 			if (itPlayer != invalidPlayer)
 			{
+				// TODO : use weapon_knife
 				(*itPlayer)->removeWeapon(WEAPON_SLOT1);
 				(*itPlayer)->removeWeapon(WEAPON_SLOT2);
 				(*itPlayer)->removeWeapon(WEAPON_SLOT4);

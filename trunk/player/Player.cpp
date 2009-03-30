@@ -71,7 +71,7 @@ namespace cssmatch
 		return team;
 	}
 
-	CBasePlayer * Player::getBasePlayer() const throw(PlayerException)
+	CBasePlayer * Player::getBasePlayer() const
 	{
 		CBasePlayer * bPlayer = NULL;
 		IServerUnknown * sUnknown = getServerUnknow(identity.pEntity);
@@ -88,7 +88,7 @@ namespace cssmatch
 		return bPlayer;
 	}
 
-	CBaseCombatCharacter * Player::getBaseCombatCharacter() const throw(PlayerException)
+	CBaseCombatCharacter * Player::getBaseCombatCharacter() const
 	{
 		CBaseCombatCharacter * bCombatCharacter = NULL;
 		CBaseEntity * bEntity = getBaseEntity(identity.pEntity);
@@ -105,7 +105,7 @@ namespace cssmatch
 		return bCombatCharacter;
 	}
 
-	IPlayerInfo * Player::getPlayerInfo() const throw(PlayerException)
+	IPlayerInfo * Player::getPlayerInfo() const
 	{
 		IPlayerInfo * pInfo = playerinfomanager->GetPlayerInfo(identity.pEntity);
 

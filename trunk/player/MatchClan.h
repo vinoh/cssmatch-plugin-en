@@ -47,9 +47,6 @@ namespace cssmatch
 	class MatchClan
 	{
 	protected:
-		/** Plugin instance which knows who all the players connected */
-		SimplePlugin * plugin;
-
 		/** Team where play the clan */
 		TeamCode team;
 

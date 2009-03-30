@@ -63,6 +63,8 @@ namespace cssmatch
 
 	std::list<ClanMember *> MatchClan::getMembers()
 	{
+		SimplePlugin * plugin = SimplePlugin::getInstance();
+
 		// We have to construct a list of members who take part to this clan
 		std::list<ClanMember *> clanPlayerList;
 
@@ -71,8 +73,8 @@ namespace cssmatch
 		std::list<ClanMember *>::iterator endMembers = playerlist->end();
 		while(itMembers != endMembers)
 		{
-			if ((*itMembers)->getMyTeam() == team)
-				clanPlayerList.push_back((*itMembers));
+			/*if ((*itMembers)->getMyTeam() == team)
+				clanPlayerList.push_back((*itMembers));*/
 			itMembers++;
 		}
 
