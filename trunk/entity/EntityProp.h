@@ -24,6 +24,14 @@
 #define __ENTITY_PROP_H__
 
 #include "../common/common.h"
+
+#include <string>
+#include <fstream>
+
+class SendTable;
+struct edict_t;
+class CBaseEntity;
+
 #include "../exceptions/BaseException.h"
 
 namespace cssmatch

@@ -22,74 +22,65 @@
 
 #include "I18nConVar.h"
 
-namespace cssmatch
+#include "../messages/I18nManager.h"
+
+using namespace cssmatch;
+
+I18nConVar::I18nConVar(I18nManager * i18nManager, char const * pName, char const * pDefaultValue, int flags)
+	: ConVar(pName,pDefaultValue,flags), i18n(i18nManager)
 {
-	I18nConVar::I18nConVar(I18nManager * i18nManager, char const * pName, char const * pDefaultValue, int flags)
-		: ConVar(pName,pDefaultValue,flags), i18n(i18nManager)
-	{
-		AddFlags(FCVAR_PLUGIN);
-	}
+	AddFlags(FCVAR_PLUGIN);
+}
 
-	I18nConVar::I18nConVar(I18nManager * i18nManager, char const * pName, char const * pDefaultValue, int flags, char const * pHelpString)
-		: ConVar(pName,pDefaultValue,flags,pHelpString), i18n(i18nManager)
-	{
-		AddFlags(FCVAR_PLUGIN);
-	}
+I18nConVar::I18nConVar(I18nManager * i18nManager, char const * pName, char const * pDefaultValue, int flags, char const * pHelpString)
+	: ConVar(pName,pDefaultValue,flags,pHelpString), i18n(i18nManager)
+{
+	AddFlags(FCVAR_PLUGIN);
+}
 
-	I18nConVar::I18nConVar(	I18nManager * i18nManager, 
-							char const * pName,
-							char const * pDefaultValue,
-							int flags,
-							char const * pHelpString,
-							bool bMin,
-							float fMin,
-							bool bMax,
-							float fMax)
-		: ConVar(pName,pDefaultValue,flags,pHelpString,bMin,fMin,bMax,fMax), i18n(i18nManager)
-	{
-		AddFlags(FCVAR_PLUGIN);
-	}
+I18nConVar::I18nConVar(	I18nManager * i18nManager, 
+						char const * pName,
+						char const * pDefaultValue,
+						int flags,
+						char const * pHelpString,
+						bool bMin,
+						float fMin,
+						bool bMax,
+						float fMax)
+	: ConVar(pName,pDefaultValue,flags,pHelpString,bMin,fMin,bMax,fMax), i18n(i18nManager)
+{
+	AddFlags(FCVAR_PLUGIN);
+}
 
-	I18nConVar::I18nConVar(	I18nManager * i18nManager,
-							char const * pName,
-							char const * pDefaultValue,
-							int flags,
-							char const * pHelpString,
-							FnChangeCallback callback)
-		: ConVar(pName,pDefaultValue,flags,pHelpString,callback), i18n(i18nManager)
-	{
-		AddFlags(FCVAR_PLUGIN);
-	}
+I18nConVar::I18nConVar(	I18nManager * i18nManager,
+						char const * pName,
+						char const * pDefaultValue,
+						int flags,
+						char const * pHelpString,
+						FnChangeCallback callback)
+	: ConVar(pName,pDefaultValue,flags,pHelpString,callback), i18n(i18nManager)
+{
+	AddFlags(FCVAR_PLUGIN);
+}
 
-	I18nConVar::I18nConVar(	I18nManager * i18nManager, 
-							char const * pName,
-							char const *pDefaultValue,
-							int flags,
-							char const * pHelpString,
-							bool bMin,
-							float fMin,
-							bool bMax,
-							float fMax,
-							FnChangeCallback callback)
-		: ConVar(pName,pDefaultValue,flags,pHelpString,bMin,fMin,bMax,fMax,callback), i18n(i18nManager)
-	{
-		AddFlags(FCVAR_PLUGIN);
-	}
+I18nConVar::I18nConVar(	I18nManager * i18nManager, 
+						char const * pName,
+						char const *pDefaultValue,
+						int flags,
+						char const * pHelpString,
+						bool bMin,
+						float fMin,
+						bool bMax,
+						float fMax,
+						FnChangeCallback callback)
+	: ConVar(pName,pDefaultValue,flags,pHelpString,bMin,fMin,bMax,fMax,callback), i18n(i18nManager)
+{
+	AddFlags(FCVAR_PLUGIN);
+}
 
-	// FIXME : detecte the client language who use "rcon the_con_var"
-	char const * I18nConVar::GetHelpText() const
-	{
-		// Return the translation
-		return strdup(i18n->getTranslation(i18n->getDefaultLanguage(),ConVar::GetHelpText()).c_str());
-	}
-
-	ConvarHavingName::ConvarHavingName(const std::string & conVarName)
-	{
-		name = conVarName;
-	}
-
-	bool ConvarHavingName::operator()(const ConVar * var)
-	{
-		return name == var->GetName();
-	}
+// FIXME : detect the client language who uses "rcon the_con_var"
+char const * I18nConVar::GetHelpText() const
+{
+	// Return the translation
+	return strdup(i18n->getTranslation(i18n->getDefaultLanguage(),ConVar::GetHelpText()).c_str());
 }

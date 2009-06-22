@@ -23,10 +23,9 @@
 #include "BaseMatchState.h"
 
 
-namespace cssmatch
+using namespace cssmatch;
+
+BaseMatchState::BaseMatchState(MatchManager * m, IGameEventManager2 * eventManager)
+	: match(m), gameeventmanager2(eventManager)
 {
-	BaseMatchState::BaseMatchState(MatchManager * m, IGameEventManager2 * eventManager)
-		: match(m), gameeventmanager2(eventManager)
-	{
-	}
 }

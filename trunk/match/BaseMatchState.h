@@ -23,7 +23,8 @@
 #ifndef __BASE_MATCH_STATE_H__
 #define __BASE_MATCH_STATE_H__
 
-#include "../common/common.h"
+#include "igameevents.h" // IGameEventListener2, IGameEvent
+
 #include <map>
 
 namespace cssmatch

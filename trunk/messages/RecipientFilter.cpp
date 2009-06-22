@@ -20,46 +20,46 @@
  * Portions of this code are also Copyright © 1996-2005 Valve Corporation, All rights reserved
  */
 
-#include "../common/common.h"
 #include "RecipientFilter.h"
 
-namespace cssmatch
+#include "../common/common.h"
+
+using namespace cssmatch;
+
+bool RecipientFilter::IsInitMessage() const
 {
-	bool RecipientFilter::IsInitMessage() const
+	return false;
+}
+
+bool RecipientFilter::IsReliable() const
+{
+	return false;
+}
+
+int RecipientFilter::GetRecipientCount() const
+{
+	return recipients.size();
+}
+
+void RecipientFilter::addRecipient(int index)
+{
+	recipients.push_back(index);
+}
+
+int RecipientFilter::GetRecipientIndex(int slot) const
+{
+	int index = INVALID_ENTITY_INDEX; 
+
+	try
 	{
-		return false;
+		index = recipients.at(slot);
 	}
+	catch(const std::out_of_range & e){ }
 
-	bool RecipientFilter::IsReliable() const
-	{
-		return false;
-	}
+	return index;
+}
 
-	int RecipientFilter::GetRecipientCount() const
-	{
-		return recipients.size();
-	}
-
-	void RecipientFilter::addRecipient(int index)
-	{
-		recipients.push_back(index);
-	}
-
-	int RecipientFilter::GetRecipientIndex(int slot) const
-	{
-		int index = INVALID_ENTITY_INDEX; 
-
-		try
-		{
-			index = recipients.at(slot);
-		}
-		catch(const std::out_of_range & e){ }
-
-		return index;
-	}
-
-	const std::vector<int> * RecipientFilter::getVector() const
-	{
-		return &recipients;
-	}
+const std::vector<int> * RecipientFilter::getVector() const
+{
+	return &recipients;
 }

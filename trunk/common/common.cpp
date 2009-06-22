@@ -21,108 +21,124 @@
  */
 
 #include "common.h"
+
+#include "interface.h"
+
+/**
+ * @see http://developer.valvesoftware.com/wiki/KeyValues_class#Important_Notes
+ */
+#include "filesystem.h"
+#include "engine/iserverplugin.h"
+#include "dlls/iplayerinfo.h"
+#include "eiface.h"
+#include "igameevents.h"
+#include "convar.h"
+#include "icvar.h"
+#include "bitbuf.h"
+#include "baseentity.h"
+
 #include <sstream>
+#include <time.h>
 
-namespace cssmatch
+using namespace cssmatch;
+
+tm * cssmatch::getLocalTime()
 {
-	tm * getLocalTime()
+	time_t date = time(NULL);
+	return gmtime(&date);
+}
+
+void cssmatch::print(const std::string & fileName, int line, const std::string & message)
+{
+	std::ostringstream buffer;
+	buffer << PLUGIN_NAME << " (" << fileName << " l." << line << ") : " << message << "\n";
+	Msg(buffer.str().c_str());
+}
+
+bool cssmatch::isValidEntity(edict_t * entity)
+{
+	return (entity != NULL) && (! entity->IsFree());
+}
+
+bool cssmatch::isValidPlayer(IPlayerInfo * pInfo)
+{
+	return (pInfo != NULL) && pInfo->IsConnected() && pInfo->IsPlayer() && (! pInfo->IsHLTV());
+}
+
+bool cssmatch::isValidPlayerIndex(int index, int maxClients)
+{
+	return (index > INVALID_ENTITY_INDEX) && index <= maxClients;
+}
+
+bool cssmatch::isValidPlayerUserid(int userid)
+{
+	return userid > INVALID_PLAYER_USERID;
+}
+
+bool cssmatch::isValidServerEntity(IServerEntity * sEntity)
+{
+	return sEntity != NULL;
+}
+
+bool cssmatch::isValidBaseEntity(CBaseEntity * bEntity)
+{
+	return bEntity != NULL;
+}
+
+bool cssmatch::isValidServerUnknown(IServerUnknown * sUnknown)
+{
+	return sUnknown != NULL;
+}
+
+bool cssmatch::isValidBasePlayer(CBasePlayer * bPlayer)
+{
+	return bPlayer != NULL;
+}
+
+bool cssmatch::isValidBaseCombatCharacter(CBaseCombatCharacter * bCombatCharacter)
+{
+	return bCombatCharacter != NULL;
+}
+
+IServerEntity * cssmatch::getServerEntity(edict_t * entity)
+{
+	IServerEntity * sEntity = entity->GetIServerEntity();
+
+	if (! isValidServerEntity(sEntity))
 	{
-		time_t date = time(NULL);
-		return gmtime(&date);
+		print(__FILE__,__LINE__,"The plugin was unable to find the server entity of an entity");
+		sEntity = NULL;
 	}
 
-	void print(const std::string & fileName, int line, const std::string & message)
+	return sEntity;
+}
+
+CBaseEntity * cssmatch::getBaseEntity(edict_t * entity)
+{
+	CBaseEntity * bEntity = NULL;
+	IServerEntity * sEntity = getServerEntity(entity);
+
+	if (isValidServerEntity(sEntity))
+		bEntity = sEntity->GetBaseEntity();
+
+	if (! isValidBaseEntity(bEntity))
 	{
-		std::ostringstream buffer;
-		buffer << PLUGIN_NAME << " (" << fileName << " l." << line << ") : " << message << "\n";
-		Msg(buffer.str().c_str());
+		print(__FILE__,__LINE__,"The plugin was unable to find the base entity of an entity");
+		bEntity = NULL;
 	}
 
-	bool isValidEntity(edict_t * entity)
+	return bEntity;
+}
+
+IServerUnknown * cssmatch::getServerUnknow(edict_t * entity)
+{
+	IServerUnknown * sUnknown = entity->GetUnknown();
+
+	if (! isValidServerUnknown(sUnknown))
 	{
-		return (entity != NULL) && (! entity->IsFree());
+		print(__FILE__,__LINE__,"The plugin was unable to find the server unknown pointer of an entity");
+		sUnknown = NULL;
 	}
 
-	bool isValidPlayer(IPlayerInfo * pInfo)
-	{
-		return (pInfo != NULL) && pInfo->IsConnected() && pInfo->IsPlayer() && (! pInfo->IsHLTV());
-	}
-
-	bool isValidPlayerIndex(int index, int maxClients)
-	{
-		return (index > INVALID_ENTITY_INDEX) && index <= maxClients;
-	}
-
-	bool isValidPlayerUserid(int userid)
-	{
-		return userid > INVALID_PLAYER_USERID;
-	}
-
-	bool isValidServerEntity(IServerEntity * sEntity)
-	{
-		return sEntity != NULL;
-	}
-
-	bool isValidBaseEntity(CBaseEntity * bEntity)
-	{
-		return bEntity != NULL;
-	}
-
-	bool isValidServerUnknown(IServerUnknown * sUnknown)
-	{
-		return sUnknown != NULL;
-	}
-
-	bool isValidBasePlayer(CBasePlayer * bPlayer)
-	{
-		return bPlayer != NULL;
-	}
-
-	bool isValidBaseCombatCharacter(CBaseCombatCharacter * bCombatCharacter)
-	{
-		return bCombatCharacter != NULL;
-	}
-
-	IServerEntity * getServerEntity(edict_t * entity)
-	{
-		IServerEntity * sEntity = entity->GetIServerEntity();
-
-		if (! isValidServerEntity(sEntity))
-		{
-			print(__FILE__,__LINE__,"The plugin was unable to find the server entity of an entity");
-			sEntity = NULL;
-		}
-
-		return sEntity;
-	}
-
-	CBaseEntity * getBaseEntity(edict_t * entity)
-	{
-		CBaseEntity * bEntity = NULL;
-		IServerEntity * sEntity = getServerEntity(entity);
-
-		if (isValidServerEntity(sEntity))
-			bEntity = sEntity->GetBaseEntity();
-
-		if (! isValidBaseEntity(bEntity))
-		{
-			print(__FILE__,__LINE__,"The plugin was unable to find the base entity of an entity");
-			bEntity = NULL;
-		}
-
-		return bEntity;
-	}
-
-	IServerUnknown * getServerUnknow(edict_t * entity)
-	{
-		IServerUnknown * sUnknown = entity->GetUnknown();
-
-		if (! isValidServerUnknown(sUnknown))
-		{
-			print(__FILE__,__LINE__,"The plugin was unable to find the server unknown pointer of an entity");
-			sUnknown = NULL;
-		}
-
-		return sUnknown;
-	}
+	return sUnknown;
 }

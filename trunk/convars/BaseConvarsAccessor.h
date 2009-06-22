@@ -23,10 +23,12 @@
 #ifndef __BASE_CONVARS_ACCESSOR_H__
 #define __BASE_CONVARS_ACCESSOR_H__
 
-#include "icvar.h"
-
 #include "../common/common.h"
-#include "../exceptions/BaseException.h"
+#include "../exceptions/BaseException.h" // BaseException
+
+#include "icvar.h" // IConCommandBaseAccessor, CreateInterfaceFn
+class ICvar;
+class ConCommandBase;
 
 namespace cssmatch
 {

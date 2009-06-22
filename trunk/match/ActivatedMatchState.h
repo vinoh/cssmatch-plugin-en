@@ -20,26 +20,33 @@
  * Portions of this code are also Copyright © 1996-2005 Valve Corporation, All rights reserved
  */
 
-#include "DisableMatchState.h"
-#include "../messages/Countdown.h"
+#ifndef __ACTIVATED_MATCH_STATE_H__
+#define __ACTIVATED_MATCH_STATE_H__
+
+#include "BaseMatchState.h" // BaseMatchState
+
+class IGameEventManager2;
+class IGameEvent;
 
 namespace cssmatch
 {
-	DisableMatchState::DisableMatchState(MatchManager * match, IGameEventManager2 * eventManager) 
-		: BaseMatchState(match,eventManager)
-	{
-	}
+	class MatchManager;
 
-	void DisableMatchState::startState()
+	/** Base class for "match in progress" state */
+	class ActivatedMatchState : public BaseMatchState
 	{
-		Countdown::getInstance()->stop();
-	}
+	public:
+		ActivatedMatchState(MatchManager * match, IGameEventManager2 * eventManager);
 
-	void DisableMatchState::endState()
-	{
-	}
+		// BaseMatchState methods
+		//	Please override these methods in the derivated classes
+		virtual void startState();
+		virtual void endState();
+		virtual void FireGameEvent(IGameEvent * event);
 
-	void DisableMatchState::FireGameEvent(IGameEvent * event)
-	{
-	}
+		// Game event callbacks
+		void player_say(IGameEvent * event);
+	};
 }
+
+#endif // __ACTIVATED_MATCH_STATE_H__

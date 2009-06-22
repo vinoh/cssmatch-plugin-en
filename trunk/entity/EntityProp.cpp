@@ -21,7 +21,13 @@
  */
 
 #include "EntityProp.h"
+
+#include "edict.h" // BaseEntity, edict_t
+#include "dt_send.h" // SendTable
+
 #include "../plugin/SimplePlugin.h"
+
+#include <sstream>
 
 namespace cssmatch
 {

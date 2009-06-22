@@ -21,24 +21,28 @@
  */
 
 #include "WarmupMatchState.h"
+
 #include "MatchManager.h"
 
-namespace cssmatch
+#include "igameevents.h"
+
+using namespace cssmatch;
+
+WarmupMatchState::WarmupMatchState(MatchManager * match, IGameEventManager2 * eventManager) 
+	: ActivatedMatchState(match,eventManager)
 {
-	WarmupMatchState::WarmupMatchState(MatchManager * match, IGameEventManager2 * eventManager) 
-		: BaseMatchState(match,eventManager)
-	{
-	}
+}
 
-	void WarmupMatchState::startState()
-	{
-	}
+void WarmupMatchState::startState()
+{
+}
 
-	void WarmupMatchState::endState()
-	{
-	}
+void WarmupMatchState::endState()
+{
+	// Remove all registered events
+	gameeventmanager2->RemoveListener(this);
+}
 
-	void WarmupMatchState::FireGameEvent(IGameEvent * event)
-	{
-	}
+void WarmupMatchState::FireGameEvent(IGameEvent * event)
+{
 }

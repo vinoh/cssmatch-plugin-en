@@ -23,9 +23,8 @@
 #ifndef __CONFIGURATION_FILE_H__
 #define __CONFIGURATION_FILE_H__
 
-#include "../common/common.h"
+#include "../exceptions/BaseException.h" // BaseException
 
-#include "../exceptions/BaseException.h"
 #include <string>
 #include <list>
 
@@ -68,7 +67,7 @@ namespace cssmatch
 		 * @param filePath The path of the file
 		 * @throw ConfigurationFileException if the file was not found
 		 */
-		ConfigurationFile(const std::string filePath) throw (ConfigurationFileException);
+		ConfigurationFile(const std::string & filePath) throw (ConfigurationFileException);
 
 		/** Get the file's name */
 		std::string getFileName() const;

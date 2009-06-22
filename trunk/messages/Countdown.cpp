@@ -21,81 +21,85 @@
  */
 
 #include "Countdown.h"
+
 #include "../plugin/SimplePlugin.h"
+#include "../player/Player.h"
+#include "../player/ClanMember.h"
+#include "../messages/I18nManager.h"
+
 #include <sstream>
 #include <algorithm>
 
-namespace cssmatch
+using namespace cssmatch;
+
+Countdown::CountdownTick::CountdownTick(float dateExecution, int nextCount) : BaseTimer(dateExecution), left(nextCount)
 {
-	Countdown::CountdownTick::CountdownTick(float dateExecution, int nextCount) : BaseTimer(dateExecution), left(nextCount)
-	{
-	}
+}
 
-	void Countdown::CountdownTick::execute()
+void Countdown::CountdownTick::execute()
+{
+	// Convert the time left to minutes and seconds values
+	int seconds = left;
+	int minutes = (int)(seconds/60);
+	seconds -= minutes*60;
+	
+	// Construct the message
+	std::ostringstream message;
+	if (seconds >= 10)
 	{
-		// Convert the time left to minutes and seconds values
-		int seconds = left;
-		int minutes = (int)(seconds/60);
-		seconds -= minutes*60;
-		
-		// Construct the message
-		std::ostringstream message;
-		if (seconds >= 10)
-		{
-			if (minutes >= 10)
-				message << minutes << " : " << seconds;
-			else
-				message << "0" <<minutes << " : " << seconds;
-		}
+		if (minutes >= 10)
+			message << minutes << " : " << seconds;
 		else
-		{
-			if (minutes >= 10)
-				message << minutes << " : " << "0" << seconds;
-			else
-				message << "0" << minutes << " : " << "0" << seconds;
-		}
-
-		SimplePlugin * plugin = SimplePlugin::getInstance();
-		ValveInterfaces * interfaces = plugin->getInterfaces();
-
-		std::list<ClanMember *> * playerlist = plugin->getPlayerlist();
-
-		RecipientFilter recipients;
-		std::for_each(playerlist->begin(),playerlist->end(),PlayerToRecipient(&recipients));
-
-		plugin->get18nManager()->hintSay(recipients,message.str());
-
-		if (Countdown::getInstance()->decTimeLeft() >= 0)
-		{
-			plugin->addTimer(new CountdownTick(interfaces->gpGlobals->curtime+1.0f,left-1));
-		}
+			message << "0" <<minutes << " : " << seconds;
 	}
-
-	int Countdown::decTimeLeft()
+	else
 	{
-		return --left;
+		if (minutes >= 10)
+			message << minutes << " : " << "0" << seconds;
+		else
+			message << "0" << minutes << " : " << "0" << seconds;
 	}
 
-	Countdown::Countdown() : left(0)
+	SimplePlugin * plugin = SimplePlugin::getInstance();
+	ValveInterfaces * interfaces = plugin->getInterfaces();
+
+	std::list<ClanMember *> * playerlist = plugin->getPlayerlist();
+
+	RecipientFilter recipients;
+	std::for_each(playerlist->begin(),playerlist->end(),PlayerToRecipient(&recipients));
+
+	plugin->get18nManager()->hintSay(recipients,message.str());
+
+	if (Countdown::getInstance()->decTimeLeft() >= 0)
 	{
+		plugin->addTimer(new CountdownTick(interfaces->gpGlobals->curtime+1.0f,left-1));
 	}
+}
 
-	Countdown::~Countdown()
-	{
-	}
+int Countdown::decTimeLeft()
+{
+	return --left;
+}
 
-	void Countdown::fire(int seconds)
-	{
-		left = seconds;
+Countdown::Countdown() : left(0)
+{
+}
 
-		SimplePlugin * plugin = SimplePlugin::getInstance();
-		ValveInterfaces * interfaces = plugin->getInterfaces();
+Countdown::~Countdown()
+{
+}
 
-		plugin->addTimer(new CountdownTick(interfaces->gpGlobals->curtime+1.0f,left));
-	}
+void Countdown::fire(int seconds)
+{
+	left = seconds;
 
-	void Countdown::stop()
-	{
-		left = 0;
-	}
+	SimplePlugin * plugin = SimplePlugin::getInstance();
+	ValveInterfaces * interfaces = plugin->getInterfaces();
+
+	plugin->addTimer(new CountdownTick(interfaces->gpGlobals->curtime+1.0f,left));
+}
+
+void Countdown::stop()
+{
+	left = 0;
 }

@@ -23,9 +23,8 @@
 
 #include "CannotBeCopied.h"
 
-namespace cssmatch
-{
-	CannotBeCopied::CannotBeCopied(){}
+using namespace cssmatch;
 
-	CannotBeCopied::~CannotBeCopied(){}
-}
+CannotBeCopied::CannotBeCopied(){}
+
+CannotBeCopied::~CannotBeCopied(){}

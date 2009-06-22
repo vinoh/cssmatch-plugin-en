@@ -29,27 +29,23 @@
 // Local variable not used (typically in the catch blocks)
 #pragma warning(disable :4101)
 
-#include "interface.h"
-
-/**
- * @see http://developer.valvesoftware.com/wiki/KeyValues_class#Important_Notes
- */
-#include "filesystem.h"
-
-#include "engine/iserverplugin.h"
-#include "dlls/iplayerinfo.h"
-#include "eiface.h"
-#include "igameevents.h"
-#include "convar.h"
-#include "icvar.h"
-#include "bitbuf.h"
-
 #define GAME_DLL 1 // required by cbase.h
-#include "cbase.h"
-#include "baseentity.h"
+#include "cbase.h" // TEAM_INVALID, TEAM_UNASSIGNED, TEAM_SPECTATOR
+
+#include "edict.h" // requited by iplayerinfo.h
+#include "dlls/iplayerinfo.h"
+
+struct edict_t;
+class IPlayerInfo;
+class IServerEntity;
+class CBaseEntity;
+class IServerUnknown;
+class CBasePlayer;
+class CBaseCombatCharacter;
 
 #include <string>
-#include <time.h>
+
+struct tm;
 
 #define PLUGIN_NAME "CSSMatch"
 
@@ -74,26 +70,6 @@ namespace cssmatch
 	 * @return A pointer to a struct tm
 	 */
 	tm * getLocalTime();
-
-	/** Team codes for the game */
-	typedef enum TeamCode
-	{
-		INVALID_TEAM = TEAM_INVALID,
-		UN_TEAM = TEAM_UNASSIGNED,
-		SPEC_TEAM = TEAM_SPECTATOR,
-		T_TEAM,
-		CT_TEAM
-	};
-
-	/** Weapon's slot codes */
-	typedef enum WeaponSlotCode
-	{
-		WEAPON_SLOT1 = 0,
-		WEAPON_SLOT2,
-		WEAPON_SLOT3,
-		WEAPON_SLOT4,
-		WEAPON_SLOT5
-	};
 
 	/** Print a message to the console
 	 * @param fileName The source file which print the information

@@ -22,73 +22,75 @@
 
 #include "TranslationFile.h"
 
+using namespace cssmatch;
+
+void TranslationFile::parse() throw(TranslationException)
+{
+	std::list<std::string> lines = getLines();
+
+	std::list<std::string>::iterator itLines = lines.begin();
+	std::list<std::string>::iterator lastLines = lines.end();
+
+	while(itLines != lastLines)
+	{
+		parserState->parse(*itLines);
+
+		itLines++;
+	}
+
+	if (header.empty())
+		throw TranslationException("The file " + filePath + " does not have a header");
+}
+
+TranslationFile::TranslationFile(const std::string filePath) throw(ConfigurationFileException,TranslationException) : ConfigurationFile(filePath)
+{
+	parserState = new HeaderTranslationParserState(this);
+
+	parse();
+}
+
+TranslationFile::~TranslationFile()
+{
+	delete parserState;
+}
+
+std::string TranslationFile::getHeader() const
+{
+	return header;
+}
+
+void TranslationFile::setHeader(const std::string & header)
+{
+	this->header = header;
+}
+
+void TranslationFile::setParserState(BaseTranslationParserState * state)
+{
+	delete parserState; // ends the old parser state
+
+	parserState = state;
+}
+
+void TranslationFile::addTranslation(const std::string & keyword, const std::string & translation)
+{
+	translations[keyword] = translation;
+}
+
+bool TranslationFile::keywordExists(const std::string & keyword) const
+{
+	return translations.find(keyword) != translations.end();
+}
+
+std::string TranslationFile::operator [](const std::string & keyword) throw (TranslationException)
+{
+	if (keywordExists(keyword))
+		return translations[keyword];
+	else
+		throw TranslationException(keyword + " does not correspond to a known translation of the file " + filePath);
+}
+
 namespace cssmatch
 {
-	void TranslationFile::parse() throw(TranslationException)
-	{
-		std::list<std::string> lines = getLines();
-
-		std::list<std::string>::iterator itLines = lines.begin();
-		std::list<std::string>::iterator lastLines = lines.end();
-
-		while(itLines != lastLines)
-		{
-			parserState->parse(*itLines);
-
-			itLines++;
-		}
-
-		if (header.empty())
-			throw TranslationException("The file " + filePath + " does not have a header");
-	}
-
-	TranslationFile::TranslationFile(const std::string filePath) throw(ConfigurationFileException,TranslationException) : ConfigurationFile(filePath)
-	{
-		parserState = new HeaderTranslationParserState(this);
-
-		parse();
-	}
-
-	TranslationFile::~TranslationFile()
-	{
-		delete parserState;
-	}
-
-	std::string TranslationFile::getHeader() const
-	{
-		return header;
-	}
-
-	void TranslationFile::setHeader(const std::string & header)
-	{
-		this->header = header;
-	}
-
-	void TranslationFile::setParserState(BaseTranslationParserState * state)
-	{
-		delete parserState; // ends the old parser state
-
-		parserState = state;
-	}
-
-	void TranslationFile::addTranslation(const std::string & keyword, const std::string & translation)
-	{
-		translations[keyword] = translation;
-	}
-
-	bool TranslationFile::keywordExists(const std::string keyword) const
-	{
-		return translations.find(keyword) != translations.end();
-	}
-
-	std::string TranslationFile::operator [](const std::string keyword) throw (TranslationException)
-	{
-		if (keywordExists(keyword))
-			return translations[keyword];
-		else
-			throw TranslationException(keyword + " does not correspond to a known translation of the file " + filePath);
-	}
-
 	namespace
 	{
 		BaseTranslationParserState::BaseTranslationParserState(TranslationFile * transFile) : translationFile(transFile)

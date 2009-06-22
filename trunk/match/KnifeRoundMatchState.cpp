@@ -21,17 +21,23 @@
  */
 
 #include "KnifeRoundMatchState.h"
-#include "../plugin/SimplePlugin.h"
 
+#include "../plugin/SimplePlugin.h"
+#include "../player/Player.h"
+#include "../player/ClanMember.h"
+#include "../messages/I18nManager.h"
 #include "WarmupMatchState.h"
 #include "SetMatchState.h"
+#include "MatchManager.h"
+
+#include "igameevents.h"
 
 #include <algorithm>
 
 namespace cssmatch
 {
 	KnifeRoundMatchState::KnifeRoundMatchState(MatchManager * match, IGameEventManager2 * eventManager) 
-		: BaseMatchState(match,eventManager)
+		: ActivatedMatchState(match,eventManager)
 	{
 	}
 

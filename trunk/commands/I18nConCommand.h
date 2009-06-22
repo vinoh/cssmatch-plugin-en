@@ -23,10 +23,12 @@
 #ifndef __I18N_CON_COMMAND_H__
 #define __I18N_CON_COMMAND_H__
 
-#include "../messages/I18nManager.h"
+#include "convar.h" // ConCommand, FnCommandCallback, FnCommandCompletionCallback
 
 namespace cssmatch
 {
+	class I18nManager;
+
 	/** As I18nConVar, this class allows the internationalization of the ConCommand's description <br>
 	 * FCVAR_PLUGIN flag is automatically added to the ConCommand's flags
 	 */

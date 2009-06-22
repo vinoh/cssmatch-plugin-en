@@ -25,7 +25,6 @@
 
 #include "../features/BaseSingleton.h"
 #include "../timer/BaseTimer.h"
-#include "../plugin/SimplePlugin.h"
 
 namespace cssmatch
 {

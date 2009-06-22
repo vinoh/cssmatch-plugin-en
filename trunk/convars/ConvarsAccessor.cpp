@@ -22,34 +22,33 @@
 
 #include "ConvarsAccessor.h"
 
-namespace cssmatch
+using namespace cssmatch;
+
+void ConvarsAccessor::initializeInterface(CreateInterfaceFn cvarFactory) throw (BaseConvarsAccessorException)
 {
-	void ConvarsAccessor::initializeInterface(CreateInterfaceFn cvarFactory) throw (BaseConvarsAccessorException)
-	{
-		cvars = (ICvar *)cvarFactory(VENGINE_CVAR_INTERFACE_VERSION, NULL);
+	cvars = (ICvar *)cvarFactory(VENGINE_CVAR_INTERFACE_VERSION, NULL);
 
-		if (cvars != NULL)
-			ConCommandBaseMgr::OneTimeInit(this);
-		else
-			throw BaseConvarsAccessorException("Unable to initialize the console variable interface !");
-	}
+	if (cvars != NULL)
+		ConCommandBaseMgr::OneTimeInit(this);
+	else
+		throw BaseConvarsAccessorException("Unable to initialize the console variable interface !");
+}
 
-	ICvar * ConvarsAccessor::getConVarAccessor()
-	{
-		return cvars;
-	}
+ICvar * ConvarsAccessor::getConVarAccessor()
+{
+	return cvars;
+}
 
-	bool ConvarsAccessor::RegisterConCommandBase(ConCommandBase * variable)
-	{
-		// Add the specific plugin's flag
-		variable->AddFlags(FCVAR_PLUGIN);
+bool ConvarsAccessor::RegisterConCommandBase(ConCommandBase * variable)
+{
+	// Add the specific plugin's flag
+	variable->AddFlags(FCVAR_PLUGIN);
 
-		// Unlink from plugin only list
-		variable->SetNext(0);
+	// Unlink from plugin only list
+	variable->SetNext(0);
 
-		// Link to engine's list instead
-		cvars->RegisterConCommandBase(variable);
+	// Link to engine's list instead
+	cvars->RegisterConCommandBase(variable);
 
-		return true;
-	}
+	return true;
 }

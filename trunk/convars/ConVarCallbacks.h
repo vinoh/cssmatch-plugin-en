@@ -20,10 +20,10 @@
  * Portions of this code are also Copyright © 1996-2005 Valve Corporation, All rights reserved
  */
 
-#include "../common/common.h"
-
 #ifndef __CON_VAR_CALLBACKS_H__
 #define __CON_VAR_CALLBACKS_H__
+
+class ConVar;
 
 namespace cssmatch
 {

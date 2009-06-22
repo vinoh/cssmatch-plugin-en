@@ -20,15 +20,29 @@
  * Portions of this code are also Copyright © 1996-2005 Valve Corporation, All rights reserved
  */
 
-#include "StatsRound.h"
+#include "BaseMatchState.h"
 
-using namespace cssmatch;
+#ifndef __DISABLE_MATCH_STATE_H__
+#define __DISABLE_MATCH_STATE_H__
 
-StatsRound::StatsRound(int rNumber, const PlayerStats & stats) : StatsSnapshot(stats), roundNumber(rNumber)
+class IGameEventManager2;
+class IGameEvent;
+
+namespace cssmatch
 {
+	class MatchManager;
+
+	/** Base class for "no match in progress" state */
+	class DisableMatchState : public BaseMatchState
+	{
+	public:
+		DisableMatchState(MatchManager * match, IGameEventManager2 * eventManager);
+
+		// BaseMatchState methods
+		virtual void startState();
+		virtual void endState();
+		virtual void FireGameEvent(IGameEvent * event);
+	};
 }
 
-int StatsRound::getRoundNumber() const
-{
-	return roundNumber;
-}
+#endif // __DISABLE_MATCH_STATE_H__
