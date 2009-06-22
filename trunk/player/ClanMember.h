@@ -23,11 +23,14 @@
 #ifndef __TEAM_MEMBER_H__
 #define __TEAM_MEMBER_H__
 
-#include <list>
-
 #include "Player.h"
 #include "StatsRound.h"
 #include "StatsSet.h"
+
+class IVEngineServer;
+class IPlayerInfoManager;
+
+#include <list>
 
 namespace cssmatch
 {

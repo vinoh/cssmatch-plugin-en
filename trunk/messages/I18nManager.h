@@ -25,17 +25,22 @@
 
 #include "../features/CannotBeCopied.h"
 #include "UserMessagesManager.h"
-#include "../configuration/TranslationFile.h"
-#include "../timer/BaseTimer.h"
 
-#include "convar.h"
+#include "../timer/BaseTimer.h"
+#include "RecipientFilter.h"
+
+class ConVar;
+class IVEngineServer;
 
 #include <map>
+#include <string>
 
 #define TRANSLATIONS_FOLDER "cstrike/cfg/cssmatch/languages/"
 
 namespace cssmatch
 {
+	class TranslationFile;
+
 	/** Support for internationalized messages <br>
 	 * Messages can have parameters, prefixed by $. E.g. : "The attacker is $attackername" <br>
 	 * These parameters have to be passed under the form of {parameter => value} map

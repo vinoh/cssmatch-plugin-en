@@ -23,13 +23,12 @@
 #ifndef __MATCH_MANAGER_H__
 #define __MATCH_MANAGER_H__
 
-#include "BaseMatchState.h"
-#include "../player/MatchClan.h"
-#include "../configuration/RunnableConfigurationFile.h"
+#include "../player/MatchClan.h" // MatchClan, ClanMember
 
 namespace cssmatch
 {
-	class SimplePlugin;
+	class BaseMatchState;
+	class RunnableConfigurationFile;
 
 	/** A match lign-up */
 	struct MatchLignup

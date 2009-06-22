@@ -24,7 +24,10 @@
 #define __USER_MESSAGES_MANAGER_H__
 
 #include "../common/common.h"
-#include "RecipientFilter.h"
+
+class IVEngineServer;
+
+#include <string>
 
 /** Max popup size <br>
  * Beyond this value, the popup can't be send in one message to the client, <br>
@@ -34,6 +37,8 @@
 
 namespace cssmatch
 {
+	class RecipientFilter;
+
 	enum UserMessageType
 	{
 		MESSAGE_GEIGER = 0,

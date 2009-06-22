@@ -23,8 +23,6 @@
 #ifndef __BASE_TIMER_H__
 #define __BASE_TIMER_H__
 
-#include "../common/common.h"
-
 namespace cssmatch
 {
 	/** Permit to delay the execution of C++ functions <br>

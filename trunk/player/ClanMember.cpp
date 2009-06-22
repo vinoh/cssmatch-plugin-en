@@ -22,15 +22,17 @@
 
 #include "ClanMember.h"
 
-namespace cssmatch
-{
-	ClanMember::ClanMember(IVEngineServer * engine, IPlayerInfoManager * playerinfomanager, int index, bool ref) :
-		Player(engine,playerinfomanager,index), referee(ref)
-	{
-	}
+#include "dlls/iplayerinfo.h"
+#include "eiface.h"
 
-	bool ClanMember::isReferee() const
-	{
-		return referee;
-	}
+using namespace cssmatch;
+
+ClanMember::ClanMember(IVEngineServer * engine, IPlayerInfoManager * playerinfomanager, int index, bool ref) :
+	Player(engine,playerinfomanager,index), referee(ref)
+{
+}
+
+bool ClanMember::isReferee() const
+{
+	return referee;
 }

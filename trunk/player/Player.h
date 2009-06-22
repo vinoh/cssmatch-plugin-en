@@ -23,18 +23,48 @@
 #ifndef __PLAYER_H__
 #define __PLAYER_H__
 
-#include <string>
-#include "../common/common.h"
 #include "../exceptions/BaseException.h"
-#include "../messages/RecipientFilter.h"
+
 #include "../entity/EntityProp.h"
+#include "../messages/RecipientFilter.h"
+
+#include "../common/common.h"
+
+class IVEngineServer;
+class CBasePlayer;
+class CBaseCombatCharacter;
+class CBaseCombatWeapon;
+
+#include <string>
 
 namespace cssmatch
 {
+	class RecipientFilter;
+
 	class PlayerException : public BaseException
 	{
 	public:
 		PlayerException(const std::string & message) : BaseException(message){};
+	};
+
+	/** Team codes for the game */
+	typedef enum TeamCode
+	{
+		INVALID_TEAM = TEAM_INVALID,
+		UN_TEAM = TEAM_UNASSIGNED,
+		SPEC_TEAM = TEAM_SPECTATOR,
+		T_TEAM,
+		CT_TEAM
+	};
+
+	/** Weapon's slot codes */
+	typedef enum WeaponSlotCode
+	{
+		WEAPON_SLOT1 = 0,
+		WEAPON_SLOT2,
+		WEAPON_SLOT3,
+		WEAPON_SLOT4,
+		WEAPON_SLOT5
 	};
 
 	struct PlayerIdentity
@@ -139,8 +169,11 @@ namespace cssmatch
 	private:
 		edict_t * pEntity;
 	public:
-		PlayerHavingPEntity(edict_t * pEntity);
-		bool operator ()(const Player * player);
+		PlayerHavingPEntity(edict_t * pEnt) : pEntity(pEnt){} 
+		bool operator ()(const Player * player)
+		{
+			return player->identity.pEntity == pEntity;
+		}
 	};
 
 	/** Functor to quickly find a Player instance by his index */
@@ -149,8 +182,11 @@ namespace cssmatch
 	private:
 		int index;
 	public:
-		PlayerHavingIndex(int index);
-		bool operator ()(const Player * player);
+		PlayerHavingIndex(int ind): index(ind){}
+		bool operator ()(const Player * player)
+		{
+			return player->identity.index == index;
+		}
 	};
 
 	/** Functor to quickly find a Player instance by his userid */
@@ -159,8 +195,11 @@ namespace cssmatch
 	private:
 		int userid;
 	public:
-		PlayerHavingUserid(int userid);
-		bool operator ()(const Player * player);
+		PlayerHavingUserid(int id) : userid(id){}
+		bool operator ()(const Player * player)
+		{
+			return player->identity.userid == userid;
+		}
 	};
 
 	/** Functor to quickly find a Player instance by his team */
@@ -169,14 +208,22 @@ namespace cssmatch
 	private:
 		TeamCode team;
 	public:
-		PlayerHavingTeam(TeamCode team);
-		bool operator ()(const Player * player);
+		PlayerHavingTeam(TeamCode t) : team(t){}
+		bool operator ()(const Player * player)
+		{
+			return player->getMyTeam() == team;
+		}
 	};
 
 	/** Functor to quickly find SourceTV */
 	struct PlayerIsHltv
 	{
-		bool operator ()(const Player * player);
+		bool operator ()(const Player * player)
+		{
+			IPlayerInfo * pInfo = player->playerinfomanager->GetPlayerInfo(player->identity.pEntity);
+
+			return (pInfo != NULL) && pInfo->IsConnected() && pInfo->IsHLTV();
+		}
 	};
 
 	/** Functor to add a player in a recipient (index list) */
@@ -185,14 +232,20 @@ namespace cssmatch
 	private:
 		RecipientFilter * recipientFilter;
 	public:
-		PlayerToRecipient(RecipientFilter * recipientFilter);
-		void operator ()(const Player * player);
+		PlayerToRecipient(RecipientFilter * filter) : recipientFilter(filter){}
+		void operator ()(const Player * player)
+		{
+			recipientFilter->addRecipient(player->identity.index);
+		}
 	};
 
 	/** Functor to quickly remove a player */
 	struct PlayerToRemove
 	{
-		void operator ()(const Player * player);
+		void operator ()(const Player * player)
+		{
+			delete player;
+		}
 	};
 }
 

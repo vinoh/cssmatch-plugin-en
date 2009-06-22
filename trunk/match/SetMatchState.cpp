@@ -22,22 +22,25 @@
 
 #include "SetMatchState.h"
 
-namespace cssmatch
+#include "igameevents.h"
+
+using namespace cssmatch;
+
+SetMatchState::SetMatchState(MatchManager * match, IGameEventManager2 * eventManager) 
+	: ActivatedMatchState(match,eventManager)
 {
-	SetMatchState::SetMatchState(MatchManager * match, IGameEventManager2 * eventManager) 
-		: BaseMatchState(match,eventManager)
-	{
-	}
+}
 
-	void SetMatchState::startState()
-	{
-	}
+void SetMatchState::startState()
+{
+}
 
-	void SetMatchState::endState()
-	{
-	}
+void SetMatchState::endState()
+{
+	// Remove all registered events
+	gameeventmanager2->RemoveListener(this);
+}
 
-	void SetMatchState::FireGameEvent(IGameEvent * event)
-	{
-	}
+void SetMatchState::FireGameEvent(IGameEvent * event)
+{
 }

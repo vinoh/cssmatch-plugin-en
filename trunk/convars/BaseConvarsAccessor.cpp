@@ -22,9 +22,9 @@
 
 #include "ConvarsAccessor.h"
 
-namespace cssmatch
+using namespace cssmatch;
+
+BaseConvarsAccessor::BaseConvarsAccessor() : cvars(NULL) 
 {
-	BaseConvarsAccessor::BaseConvarsAccessor() : cvars(NULL) 
-	{
-	}
 }
+

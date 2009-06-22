@@ -24,10 +24,13 @@
 #define __I18N_CONVAR_H__
 
 #include "convar.h"
-#include "../messages/I18nManager.h"
+
+#include <string>
 
 namespace cssmatch
 {
+	class I18nManager;
+
 	/** Abstraction of the Valve's ConVar to allow dynamic translations for ConVar's description (glad that GetHelpText is virtual ;-) ) <br>
 	 * FCVAR_PLUGIN flag is automatically added to the ConVar's flags
 	 */
@@ -81,8 +84,11 @@ namespace cssmatch
 	private:
 		std::string name;
 	public:
-		ConvarHavingName(const std::string & conVarName);
-		bool operator()(const ConVar * var);
+		ConvarHavingName(const std::string & conVarName) : name(conVarName) {}
+		bool operator()(const ConVar * var)
+		{
+			return name == var->GetName();
+		}
 	};
 }
 

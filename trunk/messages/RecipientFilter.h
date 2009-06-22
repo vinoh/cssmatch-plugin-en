@@ -24,6 +24,7 @@
 #define __RECIPIENT_FILTER_H__
 
 #include "irecipientfilter.h"
+
 #include <vector>
 
 namespace cssmatch

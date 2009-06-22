@@ -22,269 +22,276 @@
 
 #include "I18nManager.h"
 
-namespace cssmatch
+#include "../configuration/TranslationFile.h"
+#include "../common/common.h"
+
+#include "convar.h"
+#include "eiface.h"
+
+#include <vector>
+
+using namespace cssmatch;
+
+std::map<std::string, std::string> I18nManager::WITHOUT_PARAMETERS;
+
+I18nManager::I18nManager(IVEngineServer * engine, ConVar * defaultLang) : UserMessagesManager(engine), defaultLanguage(defaultLang)
 {
-	std::map<std::string, std::string> I18nManager::WITHOUT_PARAMETERS;
+}
 
-	I18nManager::I18nManager(IVEngineServer * engine, ConVar * defaultLang) : UserMessagesManager(engine), defaultLanguage(defaultLang)
+I18nManager::~I18nManager()
+{
+	std::map<std::string,TranslationFile *>::iterator itLanguages = languages.begin();
+	std::map<std::string,TranslationFile *>::iterator lastLanguages = languages.end();
+	while(itLanguages != lastLanguages)
 	{
+		delete itLanguages->second;
+
+		itLanguages++;
 	}
+}
 
-	I18nManager::~I18nManager()
+std::string I18nManager::getDefaultLanguage() const
+{
+	return defaultLanguage->GetString();
+}
+
+TranslationFile * I18nManager::getTranslationFile(const std::string & language)
+{
+	TranslationFile * translationSet = NULL;
+
+	// Is the language never used (in the cache) ?
+	std::map<std::string,TranslationFile *>::iterator itLanguages = languages.find(language);
+	std::map<std::string,TranslationFile *>::iterator lastLanguages = languages.end();
+	if (itLanguages == lastLanguages)
 	{
-		std::map<std::string,TranslationFile *>::iterator itLanguages = languages.begin();
-		std::map<std::string,TranslationFile *>::iterator lastLanguages = languages.end();
-		while(itLanguages != lastLanguages)
+		try
 		{
-			delete itLanguages->second;
+			translationSet = new TranslationFile(TRANSLATIONS_FOLDER + language + ".txt");
 
-			itLanguages++;
+			// Put these translations in the cache
+			languages[language] = translationSet;
 		}
-	}
-
-	std::string I18nManager::getDefaultLanguage() const
-	{
-		return defaultLanguage->GetString();
-	}
-
-	TranslationFile * I18nManager::getTranslationFile(const std::string & language)
-	{
-		TranslationFile * translationSet = NULL;
-
-		// Is the language never used (in the cache) ?
-		std::map<std::string,TranslationFile *>::iterator itLanguages = languages.find(language);
-		std::map<std::string,TranslationFile *>::iterator lastLanguages = languages.end();
-		if (itLanguages == lastLanguages)
+		catch(const ConfigurationFileException & e)
 		{
-			try
+			// If the file was not found, we'll use the default language instead
+			std::string defaultLanguageName = defaultLanguage->GetString();
+			std::map<std::string,TranslationFile *>::iterator itDefault = languages.find(defaultLanguageName);
+			if (itDefault == lastLanguages)
 			{
-				translationSet = new TranslationFile(TRANSLATIONS_FOLDER + language + ".txt");
-
-				// Put these translations in the cache
-				languages[language] = translationSet;
-			}
-			catch(const ConfigurationFileException & e)
-			{
-				// If the file was not found, we'll use the default language instead
-				std::string defaultLanguageName = defaultLanguage->GetString();
-				std::map<std::string,TranslationFile *>::iterator itDefault = languages.find(defaultLanguageName);
-				if (itDefault == lastLanguages)
+				try
 				{
-					try
-					{
-						translationSet = new TranslationFile(TRANSLATIONS_FOLDER + defaultLanguageName + ".txt");
-						languages[defaultLanguageName] = translationSet;
-					}
-					catch(const ConfigurationFileException & e)
-					{
-						print(__FILE__,__LINE__,"ERROR ! Default translation file not found !");
-					}
+					translationSet = new TranslationFile(TRANSLATIONS_FOLDER + defaultLanguageName + ".txt");
+					languages[defaultLanguageName] = translationSet;
 				}
-				else
-					translationSet = itDefault->second;
-			}
-		}
-		else
-			translationSet = itLanguages->second;
-
-		return translationSet;
-	}
-
-	std::string I18nManager::getTranslation(const std::string & lang,
-											const std::string & keyword, 
-											std::map<std::string, std::string> & parameters)
-	{
-		std::string message;
-
-		// No, we have to get the corresponding translations
-		TranslationFile * translation = getTranslationFile(lang);
-		
-		if (translation != NULL)
-		{
-			message = (*translation)[keyword]; // copying it, because we will replace the parameters
-
-			// Relace the parameters // FIXME : unnecessarily call as many times as recipients
-			std::map<std::string,std::string>::const_iterator itParameters = parameters.begin();
-			std::map<std::string,std::string>::const_iterator lastParameters = parameters.end();
-			while(itParameters != lastParameters)
-			{
-				const std::string * parameter = &itParameters->first;
-				size_t parameterSize = parameter->size();
-				const std::string * value = &itParameters->second;
-				size_t valueSize = value->size();
-
-				// One option can be found multiple times
-				size_t iParam = message.find(*parameter);
-				while(iParam != std::string::npos)
+				catch(const ConfigurationFileException & e)
 				{
-					message.replace(iParam,parameterSize,*value,0,valueSize);
-					iParam = message.find(*parameter);
+					print(__FILE__,__LINE__,"ERROR ! Default translation file not found !");
 				}
-
-				itParameters++;
 			}
-		}
-
-		return message;
-	}
-
-	void I18nManager::i18nChatSay(	RecipientFilter & recipients,
-									const std::string & keyword,
-									int playerIndex,
-									std::map<std::string, std::string> & parameters)
-	{
-		const std::vector<int> * recipientVector = recipients.getVector();
-		std::vector<int>::const_iterator itIndex = recipientVector->begin();
-		std::vector<int>::const_iterator badIndex = recipientVector->end();
-		while(itIndex != badIndex)
-		{
-			RecipientFilter thisRecipient;
-			thisRecipient.addRecipient(*itIndex);
-
-			std::string langage = engine->GetClientConVarValue(*itIndex,"cl_language");
-			std::string message = getTranslation(langage,keyword,parameters);
-
-			chatSay(thisRecipient,message,playerIndex);
-
-			itIndex++;
+			else
+				translationSet = itDefault->second;
 		}
 	}
+	else
+		translationSet = itLanguages->second;
 
-	void I18nManager::i18nChatWarning(	RecipientFilter & recipients, 
-										const std::string & keyword,
+	return translationSet;
+}
+
+std::string I18nManager::getTranslation(const std::string & lang,
+										const std::string & keyword, 
 										std::map<std::string, std::string> & parameters)
+{
+	std::string message;
+
+	// No, we have to get the corresponding translations
+	TranslationFile * translation = getTranslationFile(lang);
+	
+	if (translation != NULL)
 	{
-		const std::vector<int> * recipientVector = recipients.getVector();
-		std::vector<int>::const_iterator itIndex = recipientVector->begin();
-		std::vector<int>::const_iterator badIndex = recipientVector->end();
-		while(itIndex != badIndex)
+		message = (*translation)[keyword]; // copying it, because we will replace the parameters
+
+		// Relace the parameters // FIXME : unnecessarily call as many times as recipients
+		std::map<std::string,std::string>::const_iterator itParameters = parameters.begin();
+		std::map<std::string,std::string>::const_iterator lastParameters = parameters.end();
+		while(itParameters != lastParameters)
 		{
-			RecipientFilter thisRecipient;
-			thisRecipient.addRecipient(*itIndex);
+			const std::string * parameter = &itParameters->first;
+			size_t parameterSize = parameter->size();
+			const std::string * value = &itParameters->second;
+			size_t valueSize = value->size();
 
-			std::string langage = engine->GetClientConVarValue(*itIndex,"cl_language");
-			std::string message = getTranslation(langage,keyword,parameters);
+			// One option can be found multiple times
+			size_t iParam = message.find(*parameter);
+			while(iParam != std::string::npos)
+			{
+				message.replace(iParam,parameterSize,*value,0,valueSize);
+				iParam = message.find(*parameter);
+			}
 
-			chatWarning(thisRecipient,message);
-
-			itIndex++;
+			itParameters++;
 		}
 	}
 
-	void I18nManager::i18nPopupSay(	RecipientFilter & recipients,
-									const std::string & keyword,
-									int lifeTime,
-									PopupSensitivityFlags flags,
-									std::map<std::string, std::string> & parameters)
+	return message;
+}
+
+void I18nManager::i18nChatSay(	RecipientFilter & recipients,
+								const std::string & keyword,
+								int playerIndex,
+								std::map<std::string, std::string> & parameters)
+{
+	const std::vector<int> * recipientVector = recipients.getVector();
+	std::vector<int>::const_iterator itIndex = recipientVector->begin();
+	std::vector<int>::const_iterator badIndex = recipientVector->end();
+	while(itIndex != badIndex)
 	{
-		const std::vector<int> * recipientVector = recipients.getVector();
-		std::vector<int>::const_iterator itIndex = recipientVector->begin();
-		std::vector<int>::const_iterator badIndex = recipientVector->end();
-		while(itIndex != badIndex)
-		{
-			RecipientFilter thisRecipient;
-			thisRecipient.addRecipient(*itIndex);
+		RecipientFilter thisRecipient;
+		thisRecipient.addRecipient(*itIndex);
 
-			std::string langage = engine->GetClientConVarValue(*itIndex,"cl_language");
-			std::string message = getTranslation(langage,keyword,parameters);
+		std::string langage = engine->GetClientConVarValue(*itIndex,"cl_language");
+		std::string message = getTranslation(langage,keyword,parameters);
 
-			popupSay(thisRecipient,message,lifeTime,flags);
+		chatSay(thisRecipient,message,playerIndex);
 
-			itIndex++;
-		}
+		itIndex++;
 	}
+}
 
-	void I18nManager::i18nHintSay(	RecipientFilter & recipients,
-									const std::string & keyword,
-									std::map<std::string, std::string> & parameters)
-	{
-		const std::vector<int> * recipientVector = recipients.getVector();
-		std::vector<int>::const_iterator itIndex = recipientVector->begin();
-		std::vector<int>::const_iterator badIndex = recipientVector->end();
-		while(itIndex != badIndex)
-		{
-			RecipientFilter thisRecipient;
-			thisRecipient.addRecipient(*itIndex);
-
-			std::string langage = engine->GetClientConVarValue(*itIndex,"cl_language");
-			std::string message = getTranslation(langage,keyword,parameters);
-
-			hintSay(thisRecipient,message);
-
-			itIndex++;
-		}
-	}
-
-	void I18nManager::i18nCenterSay(RecipientFilter & recipients,
+void I18nManager::i18nChatWarning(	RecipientFilter & recipients, 
 									const std::string & keyword,
 									std::map<std::string, std::string> & parameters)
+{
+	const std::vector<int> * recipientVector = recipients.getVector();
+	std::vector<int>::const_iterator itIndex = recipientVector->begin();
+	std::vector<int>::const_iterator badIndex = recipientVector->end();
+	while(itIndex != badIndex)
 	{
-		const std::vector<int> * recipientVector = recipients.getVector();
-		std::vector<int>::const_iterator itIndex = recipientVector->begin();
-		std::vector<int>::const_iterator badIndex = recipientVector->end();
-		while(itIndex != badIndex)
-		{
-			RecipientFilter thisRecipient;
-			thisRecipient.addRecipient(*itIndex);
+		RecipientFilter thisRecipient;
+		thisRecipient.addRecipient(*itIndex);
 
-			std::string langage = engine->GetClientConVarValue(*itIndex,"cl_language");
-			std::string message = getTranslation(langage,keyword,parameters);
+		std::string langage = engine->GetClientConVarValue(*itIndex,"cl_language");
+		std::string message = getTranslation(langage,keyword,parameters);
 
-			centerSay(thisRecipient,message);
+		chatWarning(thisRecipient,message);
 
-			itIndex++;
-		}
+		itIndex++;
 	}
+}
 
-	void I18nManager::i18nConsoleSay(	RecipientFilter & recipients,
-										const std::string & keyword,
-										std::map<std::string, std::string> & parameters)
+void I18nManager::i18nPopupSay(	RecipientFilter & recipients,
+								const std::string & keyword,
+								int lifeTime,
+								PopupSensitivityFlags flags,
+								std::map<std::string, std::string> & parameters)
+{
+	const std::vector<int> * recipientVector = recipients.getVector();
+	std::vector<int>::const_iterator itIndex = recipientVector->begin();
+	std::vector<int>::const_iterator badIndex = recipientVector->end();
+	while(itIndex != badIndex)
 	{
-		const std::vector<int> * recipientVector = recipients.getVector();
-		std::vector<int>::const_iterator itIndex = recipientVector->begin();
-		std::vector<int>::const_iterator badIndex = recipientVector->end();
-		while(itIndex != badIndex)
-		{
-			RecipientFilter thisRecipient;
-			thisRecipient.addRecipient(*itIndex);
+		RecipientFilter thisRecipient;
+		thisRecipient.addRecipient(*itIndex);
 
-			std::string langage = engine->GetClientConVarValue(*itIndex,"cl_language");
-			std::string message = getTranslation(langage,keyword,parameters);
+		std::string langage = engine->GetClientConVarValue(*itIndex,"cl_language");
+		std::string message = getTranslation(langage,keyword,parameters);
 
-			consoleSay(thisRecipient,message);
+		popupSay(thisRecipient,message,lifeTime,flags);
 
-			itIndex++;
-		}
+		itIndex++;
 	}
+}
 
-	TimerI18nChatSay::TimerI18nChatSay(	I18nManager * manager,
+void I18nManager::i18nHintSay(	RecipientFilter & recipients,
+								const std::string & keyword,
+								std::map<std::string, std::string> & parameters)
+{
+	const std::vector<int> * recipientVector = recipients.getVector();
+	std::vector<int>::const_iterator itIndex = recipientVector->begin();
+	std::vector<int>::const_iterator badIndex = recipientVector->end();
+	while(itIndex != badIndex)
+	{
+		RecipientFilter thisRecipient;
+		thisRecipient.addRecipient(*itIndex);
+
+		std::string langage = engine->GetClientConVarValue(*itIndex,"cl_language");
+		std::string message = getTranslation(langage,keyword,parameters);
+
+		hintSay(thisRecipient,message);
+
+		itIndex++;
+	}
+}
+
+void I18nManager::i18nCenterSay(RecipientFilter & recipients,
+								const std::string & keyword,
+								std::map<std::string, std::string> & parameters)
+{
+	const std::vector<int> * recipientVector = recipients.getVector();
+	std::vector<int>::const_iterator itIndex = recipientVector->begin();
+	std::vector<int>::const_iterator badIndex = recipientVector->end();
+	while(itIndex != badIndex)
+	{
+		RecipientFilter thisRecipient;
+		thisRecipient.addRecipient(*itIndex);
+
+		std::string langage = engine->GetClientConVarValue(*itIndex,"cl_language");
+		std::string message = getTranslation(langage,keyword,parameters);
+
+		centerSay(thisRecipient,message);
+
+		itIndex++;
+	}
+}
+
+void I18nManager::i18nConsoleSay(	RecipientFilter & recipients,
+									const std::string & keyword,
+									std::map<std::string, std::string> & parameters)
+{
+	const std::vector<int> * recipientVector = recipients.getVector();
+	std::vector<int>::const_iterator itIndex = recipientVector->begin();
+	std::vector<int>::const_iterator badIndex = recipientVector->end();
+	while(itIndex != badIndex)
+	{
+		RecipientFilter thisRecipient;
+		thisRecipient.addRecipient(*itIndex);
+
+		std::string langage = engine->GetClientConVarValue(*itIndex,"cl_language");
+		std::string message = getTranslation(langage,keyword,parameters);
+
+		consoleSay(thisRecipient,message);
+
+		itIndex++;
+	}
+}
+
+TimerI18nChatSay::TimerI18nChatSay(	I18nManager * manager,
+									float date,
+									RecipientFilter & recip,
+									const std::string & key,
+									int pIndex,
+									std::map<std::string, std::string> & param)
+	: BaseTimer(date), i18n(manager), recipients(recip), keyword(key), playerIndex(pIndex), parameters(param)
+{
+}
+
+void TimerI18nChatSay::execute()
+{
+	i18n->i18nChatSay(recipients,keyword,playerIndex,parameters);
+}
+
+TimerI18nPopupSay::TimerI18nPopupSay(	I18nManager * manager,
 										float date,
 										RecipientFilter & recip,
 										const std::string & key,
-										int pIndex,
+										int life,
+										PopupSensitivityFlags fl,
 										std::map<std::string, std::string> & param)
-		: BaseTimer(date), i18n(manager), recipients(recip), keyword(key), playerIndex(pIndex), parameters(param)
-	{
-	}
+	: BaseTimer(date), i18n(manager), recipients(recip), keyword(key), lifeTime(life), flags(fl), parameters(param)
+{
+}
 
-	void TimerI18nChatSay::execute()
-	{
-		i18n->i18nChatSay(recipients,keyword,playerIndex,parameters);
-	}
-
-	TimerI18nPopupSay::TimerI18nPopupSay(	I18nManager * manager,
-											float date,
-											RecipientFilter & recip,
-											const std::string & key,
-											int life,
-											PopupSensitivityFlags fl,
-											std::map<std::string, std::string> & param)
-		: BaseTimer(date), i18n(manager), recipients(recip), keyword(key), lifeTime(life), flags(fl), parameters(param)
-	{
-	}
-
-	void TimerI18nPopupSay::execute()
-	{
-		i18n->i18nPopupSay(recipients,keyword,lifeTime,flags,parameters);
-	}
+void TimerI18nPopupSay::execute()
+{
+	i18n->i18nPopupSay(recipients,keyword,lifeTime,flags,parameters);
 }

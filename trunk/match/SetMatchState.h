@@ -20,15 +20,20 @@
  * Portions of this code are also Copyright © 1996-2005 Valve Corporation, All rights reserved
  */
 
-#include "BaseMatchState.h"
+#include "ActivatedMatchState.h"
 
 #ifndef __SET_MATCH_STATE_H__
 #define __SET_MATCH_STATE_H__
 
+class IGameEventManager2;
+class IGameEvent;
+
 namespace cssmatch
 {
+	class MatchManager;
+
 	/** Match Set in progress */
-	class SetMatchState : public BaseMatchState
+	class SetMatchState : public ActivatedMatchState
 	{
 	public:
 		SetMatchState(MatchManager * match, IGameEventManager2 * eventManager);

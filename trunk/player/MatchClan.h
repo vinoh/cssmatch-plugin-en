@@ -23,13 +23,14 @@
 #ifndef __MATCH_CLAN_H__
 #define __MATCH_CLAN_H__
 
+#include "Player.h"
+
 #include <string>
-#include <sstream>
-#include "ClanMember.h"
+#include <list>
 
 namespace cssmatch
 {
-	class SimplePlugin;
+	class ClanMember;
 
 	/** Stats for a clan */
 	struct ClanStats

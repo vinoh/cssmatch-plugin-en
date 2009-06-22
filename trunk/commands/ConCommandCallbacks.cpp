@@ -20,56 +20,60 @@
  * Portions of this code are also Copyright © 1996-2005 Valve Corporation, All rights reserved
  */
 
-#include "../match/DisableMatchState.h"
 #include "ConCommandCallbacks.h"
+
+#include "../match/DisabledMatchState.h"
+#include "../match/MatchManager.h"
 #include "../plugin/SimplePlugin.h"
+#include "../configuration/RunnableConfigurationFile.h"
 
-namespace cssmatch
+using namespace cssmatch;
+
+void cssmatch::cssm_help()
 {
-	void cssm_help()
+	SimplePlugin * plugin = SimplePlugin::getInstance();
+
+	const std::list<ConCommand *> * pluginConCommands = plugin->getPluginConCommands();
+	std::list<ConCommand *>::const_iterator itConCommand = pluginConCommands->begin();
+	std::list<ConCommand *>::const_iterator lastConCommand = pluginConCommands->end();
+	while (itConCommand != lastConCommand)
 	{
-		SimplePlugin * plugin = SimplePlugin::getInstance();
+		ConCommand * command = *itConCommand;
+		plugin->log(std::string(command->GetName()) + " : " + command->GetHelpText());
 
-		const std::list<ConCommand *> * pluginConCommands = plugin->getPluginConCommands();
-		std::list<ConCommand *>::const_iterator itConCommand = pluginConCommands->begin();
-		std::list<ConCommand *>::const_iterator lastConCommand = pluginConCommands->end();
-		while (itConCommand != lastConCommand)
-		{
-			ConCommand * command = *itConCommand;
-			plugin->log(std::string(command->GetName()) + " : " + command->GetHelpText());
-
-			itConCommand++;
-		}
+		itConCommand++;
 	}
+}
 
-	void cssm_start()
+void cssmatch::cssm_start()
+{
+	SimplePlugin * plugin = SimplePlugin::getInstance();
+	ValveInterfaces * interfaces = plugin->getInterfaces();
+	MatchManager * match = plugin->getMatch();
+
+	bool kniferound = true;
+	std::string configurationFile = DEFAULT_CONFIGURATION_FILE;
+	switch(interfaces->engine->Cmd_Argc())
 	{
-		SimplePlugin * plugin = SimplePlugin::getInstance();
-		ValveInterfaces * interfaces = plugin->getInterfaces();
-		MatchManager * match = plugin->getMatch();
-
-		bool kniferound = true;
-		std::string configurationFile = DEFAULT_CONFIGURATION_FILE;
-		switch(interfaces->engine->Cmd_Argc())
-		{
-		case 3:
-			kniferound = std::string(interfaces->engine->Cmd_Argv(2)) != "-cutround";
-		case 2:
-			configurationFile = interfaces->engine->Cmd_Argv(1);
-		case 1:
-			match->start(RunnableConfigurationFile(CFG_FOLDER_PATH MATCH_CONFIGURATIONS_PATH + configurationFile,interfaces->convars->getConVarAccessor(),interfaces->engine),kniferound);
-			break;
-		default:
-			plugin->log(std::string(interfaces->engine->Cmd_Argv(0)) + " [configuration file from cstrike/cfg/cssmatch/configurations] [-cutround]"); 
-		}
+	case 3:
+		kniferound = std::string(interfaces->engine->Cmd_Argv(2)) != "-cutround";
+		// break;
+	case 2:
+		configurationFile = interfaces->engine->Cmd_Argv(1);
+		// break;
+	case 1:
+		match->start(RunnableConfigurationFile(CFG_FOLDER_PATH MATCH_CONFIGURATIONS_PATH + configurationFile,interfaces->convars->getConVarAccessor(),interfaces->engine),kniferound);
+		break;
+	default:
+		plugin->log(std::string(interfaces->engine->Cmd_Argv(0)) + " [configuration file from cstrike/cfg/cssmatch/configurations] [-cutround]"); 
 	}
+}
 
-	void cssm_stop()
-	{
-		SimplePlugin * plugin = SimplePlugin::getInstance();
-		MatchManager * match = plugin->getMatch();
-		ValveInterfaces * interfaces = plugin->getInterfaces();
+void cssmatch::cssm_stop()
+{
+	SimplePlugin * plugin = SimplePlugin::getInstance();
+	MatchManager * match = plugin->getMatch();
+	ValveInterfaces * interfaces = plugin->getInterfaces();
 
-		match->setMatchState(new DisableMatchState(match,interfaces->gameeventmanager2));
-	}
+	match->setMatchState(new DisableMatchState(match,interfaces->gameeventmanager2));
 }

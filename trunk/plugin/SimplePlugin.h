@@ -23,22 +23,34 @@
 #ifndef __SIMPLE_PLUGIN_H__
 #define __SIMPLE_PLUGIN_H__
 
-#include "../common/common.h"
-
 #include "../messages/RecipientFilter.h"
 
 #include "../features/BaseSingleton.h"
-#include "../convars/ConvarsAccessor.h"
-#include "../match/MatchManager.h"
-#include "../timer/BaseTimer.h"
-#include "../messages/I18nManager.h"
-#include "../player/ClanMember.h"
+#include "../convars/ConvarsAccessor.h" // BaseConvarsAccessorException
+#include "../player/Player.h"
+
+#include "engine/iserverplugin.h"
+
+class IVEngineServer;
+class IFileSystem;
+class IGameEventManager2;
+class IPlayerInfoManager;
+class IServerPluginHelpers;
+class CGlobalVars;
+class IServerGameDLL;
+class ConVar;
+struct edict_t;
+class ConCommand;
 
 #include <list>
 
 namespace cssmatch
 {
+	class BaseConvarsAccessor;
 	class ClanMember;
+	class I18nManager;
+	class BaseTimer;
+	class MatchManager;
 
 	/** Group of the instances of the Valve's interfaces  */
 	struct ValveInterfaces

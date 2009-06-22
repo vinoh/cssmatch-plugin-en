@@ -24,7 +24,9 @@
 #define __TRANSLATION_FILE_H__
 
 #include "ConfigurationFile.h"
-#include "../exceptions/BaseException.h"
+
+#include "../exceptions/BaseException.h" // BaseException
+
 #include <map>
 
 namespace cssmatch
@@ -132,14 +134,14 @@ namespace cssmatch
 		 * @param keyword The keyword corresponding to the translation
 		 * @return <code>true</code> if the translation was found, <code>false</code> otherwise
 		 */
-		bool keywordExists(const std::string keyword) const;
+		bool keywordExists(const std::string & keyword) const;
 
 		/** Get the translation corresponding to a keyword
 		 * @param keyword The keyword corresponding to the translation
 		 * @return The translation
 		 * @throws TranslationException if the translation does not exist
 		 */
-		std::string operator [](const std::string keyword) throw (TranslationException);
+		std::string operator [](const std::string & keyword) throw (TranslationException);
 	};
 }
 

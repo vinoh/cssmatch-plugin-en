@@ -22,14 +22,13 @@
 
 #include "StatsSet.h"
 
-namespace cssmatch
-{
-	StatsSet::StatsSet(int sNumber, const PlayerStats & stats) : StatsSnapshot(stats), setNumber(sNumber)
-	{
-	}
+using namespace cssmatch;
 
-	int StatsSet::getSetNumber() const
-	{
-		return setNumber;
-	}
+StatsSet::StatsSet(int sNumber, const PlayerStats & stats) : StatsSnapshot(stats), setNumber(sNumber)
+{
+}
+
+int StatsSet::getSetNumber() const
+{
+	return setNumber;
 }

@@ -25,6 +25,12 @@
 
 #include "BaseConvarsAccessor.h"
 
+#include "../common/common.h"
+
+#include "convar.h" // CreateInterfaceFn
+class ConCommandBase;
+class ICvar;
+
 namespace cssmatch
 {
 	/** A simple implementation of a console variables accessor */

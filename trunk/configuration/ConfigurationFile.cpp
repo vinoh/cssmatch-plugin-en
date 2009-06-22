@@ -25,107 +25,106 @@
 #include <fstream>
 #include <sstream>
 
-namespace cssmatch
+using namespace cssmatch;
+
+void ConfigurationFile::removeEndLine(std::string & line)
 {
-	void ConfigurationFile::removeEndLine(std::string & line)
+	size_t strSize = line.size();
+
+	size_t iEndLine = line.find("\r");
+	if (iEndLine != std::string::npos)
+		line = line.substr(0,iEndLine);
+}
+
+void ConfigurationFile::removeComments(std::string & line)
+{
+	size_t strSize = line.size();
+
+	size_t iComment = line.find("//");
+
+	if (iComment != std::string::npos)
+		line = line.substr(0,iComment);
+}
+
+void ConfigurationFile::strip(std::string & line)
+{
+	size_t strSize = line.size();
+	size_t iDataBegin = 0;
+	size_t iDataEnd = strSize;
+
+	// Strip front
+	std::string::const_iterator itChar = line.begin();
+	std::string::const_iterator lastChar = line.end();
+	bool allFound = false;
+	while((itChar != lastChar) && (! allFound))
 	{
-		size_t strSize = line.size();
-
-		size_t iEndLine = line.find("\r");
-		if (iEndLine != std::string::npos)
-			line = line.substr(0,iEndLine);
-	}
-
-	void ConfigurationFile::removeComments(std::string & line)
-	{
-		size_t strSize = line.size();
-
-		size_t iComment = line.find("//");
-
-		if (iComment != std::string::npos)
-			line = line.substr(0,iComment);
-	}
-
-	void ConfigurationFile::strip(std::string & line)
-	{
-		size_t strSize = line.size();
-		size_t iDataBegin = 0;
-		size_t iDataEnd = strSize;
-
-		// Strip front
-		std::string::const_iterator itChar = line.begin();
-		std::string::const_iterator lastChar = line.end();
-		bool allFound = false;
-		while((itChar != lastChar) && (! allFound))
+		if ((*itChar == ' ') || (*itChar == '\t'))
 		{
-			if ((*itChar == ' ') || (*itChar == '\t'))
-			{
-				iDataBegin++;
-				itChar++;
-			}
-			else
-				allFound = true;
+			iDataBegin++;
+			itChar++;
 		}
-
-		// Strip back
-		std::string::const_reverse_iterator itRChar = line.rbegin();
-		std::string::const_reverse_iterator lastRChar = line.rend();
-		allFound = false;
-		while((itRChar != lastRChar) && (! allFound))
-		{
-			if ((*itRChar == ' ') || (*itRChar == '\t'))
-			{
-				iDataEnd--;
-				itRChar++;
-			}
-			else
-				allFound = true;
-		}
-
-		line = line.substr(iDataBegin,iDataEnd-iDataBegin);
-	}
-
-	ConfigurationFile::ConfigurationFile(const std::string path) throw (ConfigurationFileException) : filePath(path)
-	{
-		std::ifstream file(filePath.c_str());
-		if (file.fail())
-			throw ConfigurationFileException("The file " + filePath + " cannot be found");
-	}
-
-	std::string ConfigurationFile::getFileName() const
-	{
-		std::string fileName;
-
-		size_t iPathSeparator = filePath.find_last_of("/");
-		if ((iPathSeparator != std::string::npos) && (iPathSeparator+1 < filePath.length()))
-			fileName = filePath.substr(iPathSeparator+1);
 		else
-			fileName = filePath;
-
-		return fileName;
+			allFound = true;
 	}
 
-	std::list<std::string> ConfigurationFile::getLines()
+	// Strip back
+	std::string::const_reverse_iterator itRChar = line.rbegin();
+	std::string::const_reverse_iterator lastRChar = line.rend();
+	allFound = false;
+	while((itRChar != lastRChar) && (! allFound))
 	{
-		std::list<std::string> lines;
-
-		std::ifstream file(filePath.c_str());
-
-		if (! file.fail())
+		if ((*itRChar == ' ') || (*itRChar == '\t'))
 		{
-			std::string line;
-
-			while(std::getline(file,line))
-			{
-				removeComments(line);
-				removeEndLine(line);
-				strip(line);
-
-				if (line.length() > 0)
-					lines.push_back(line);
-			}
+			iDataEnd--;
+			itRChar++;
 		}
-
-		return lines;
+		else
+			allFound = true;
 	}
+
+	line = line.substr(iDataBegin,iDataEnd-iDataBegin);
+}
+
+ConfigurationFile::ConfigurationFile(const std::string & path) throw (ConfigurationFileException) : filePath(path)
+{
+	std::ifstream file(filePath.c_str());
+	if (file.fail())
+		throw ConfigurationFileException("The file " + filePath + " cannot be found");
+}
+
+std::string ConfigurationFile::getFileName() const
+{
+	std::string fileName;
+
+	size_t iPathSeparator = filePath.find_last_of("/");
+	if ((iPathSeparator != std::string::npos) && (iPathSeparator+1 < filePath.length()))
+		fileName = filePath.substr(iPathSeparator+1);
+	else
+		fileName = filePath;
+
+	return fileName;
+}
+
+std::list<std::string> ConfigurationFile::getLines()
+{
+	std::list<std::string> lines;
+
+	std::ifstream file(filePath.c_str());
+
+	if (! file.fail())
+	{
+		std::string line;
+
+		while(std::getline(file,line))
+		{
+			removeComments(line);
+			removeEndLine(line);
+			strip(line);
+
+			if (line.length() > 0)
+				lines.push_back(line);
+		}
+	}
+
+	return lines;
 }

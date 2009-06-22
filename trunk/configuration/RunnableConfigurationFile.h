@@ -29,9 +29,12 @@
 
 #include "ConfigurationFile.h"
 
-#include "../common/common.h"
+class ICvar;
+class IVEngineServer;
+class ConVar;
 
 #include <map>
+#include <string>
 
 namespace cssmatch
 {
@@ -55,7 +58,7 @@ namespace cssmatch
 		/** Search data 
 		 * @param line The line to parse
 		 */
-		std::pair<std::string,std::string> searchData(std::string line);
+		std::pair<std::string,std::string> searchData(std::string & line);
 
 		/** Retrieve the server variables and their value  
 		 * @return {variable name => value} map
@@ -67,7 +70,7 @@ namespace cssmatch
 		 * @param cvars The valve's ICvar interface instance
 		 * @param engine The valve's IVEngineServer instance
 		 */
-		RunnableConfigurationFile(const std::string filePath, ICvar * cvars, IVEngineServer * engine) throw (ConfigurationFileException);
+		RunnableConfigurationFile(const std::string & filePath, ICvar * cvars, IVEngineServer * engine) throw (ConfigurationFileException);
 	
 		/** Immediatly execute the configuration file and the command that it contains */
 		void execute() const;

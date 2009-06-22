@@ -22,18 +22,17 @@
 
 #include "StatsSnapshot.h"
 
-namespace cssmatch
+using namespace cssmatch;
+
+PlayerStats::PlayerStats() : kills(0), deaths(0)
 {
-	PlayerStats::PlayerStats() : kills(0), deaths(0)
-	{
-	}
+}
 
-	StatsSnapshot::StatsSnapshot(const PlayerStats & s) : stats(s)
-	{
-	}
+StatsSnapshot::StatsSnapshot(const PlayerStats & s) : stats(s)
+{
+}
 
-	PlayerStats * StatsSnapshot::getPlayerStats()
-	{
-		return &stats;
-	}
+PlayerStats * StatsSnapshot::getPlayerStats()
+{
+	return &stats;
 }

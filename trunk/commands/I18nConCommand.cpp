@@ -22,23 +22,24 @@
 
 #include "I18nConCommand.h"
 
-namespace cssmatch
-{
-	I18nConCommand::I18nConCommand(	I18nManager * i18nManager,
-									char const * pName,
-									FnCommandCallback callback,
-									char const * pHelpString,
-									int flags,
-									FnCommandCompletionCallback completionFunc)
-		: ConCommand(pName,callback,pHelpString,flags,completionFunc), i18n(i18nManager)
-	{
-		AddFlags(FCVAR_PLUGIN);
-	}
+#include "../messages/I18nManager.h"
 
-	// FIXME : detecte the client language who use "rcon the_con_var"
-	char const * I18nConCommand::GetHelpText() const
-	{
-		// Return the translation
-		return strdup(i18n->getTranslation(i18n->getDefaultLanguage(),ConCommand::GetHelpText()).c_str());
-	}
+using namespace cssmatch;
+
+I18nConCommand::I18nConCommand(	I18nManager * i18nManager,
+								char const * pName,
+								FnCommandCallback callback,
+								char const * pHelpString,
+								int flags,
+								FnCommandCompletionCallback completionFunc)
+	: ConCommand(pName,callback,pHelpString,flags,completionFunc), i18n(i18nManager)
+{
+	AddFlags(FCVAR_PLUGIN);
+}
+
+// FIXME : detecte the client language who use "rcon the_con_var"
+char const * I18nConCommand::GetHelpText() const
+{
+	// Return the translation
+	return strdup(i18n->getTranslation(i18n->getDefaultLanguage(),ConCommand::GetHelpText()).c_str());
 }

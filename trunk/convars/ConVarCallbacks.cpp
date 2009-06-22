@@ -22,17 +22,20 @@
 
 #include "ConVarCallbacks.h"
 
-namespace cssmatch
-{
-	void cssmatch_version(ConVar * var, char const * pOldString)
-	{
-		if (strcmp(var->GetString(),PLUGIN_VERSION_LIGHT) != 0)
-		{
-			var->SetValue(PLUGIN_VERSION_LIGHT);
-		}
-	}
+#include "../common/common.h"
 
-	void cssmatch_advanced(ConVar * var, char const * pOldString)
+#include "icvar.h"
+
+using namespace cssmatch;
+
+void cssmatch::cssmatch_version(ConVar * var, char const * pOldString)
+{
+	if (strcmp(var->GetString(),PLUGIN_VERSION_LIGHT) != 0)
 	{
+		var->SetValue(PLUGIN_VERSION_LIGHT);
 	}
+}
+
+void cssmatch::cssmatch_advanced(ConVar * var, char const * pOldString)
+{
 }
