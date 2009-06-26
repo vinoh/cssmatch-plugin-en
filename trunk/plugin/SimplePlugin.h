@@ -193,11 +193,6 @@ namespace cssmatch
 		 */
 		void log(const std::string & message) const;
 
-		/** Print debug informations relating to an exception
-		 * @param e The exception to debug
-		 */
-		void SimplePlugin::printException(const BaseException & e, const std::string & fileName, int line) const;
-
 		/** Appends a command to the server command queue
 		 * @param command The command to append
 		 */

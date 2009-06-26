@@ -29,23 +29,18 @@
 
 using namespace cssmatch;
 
-DisableMatchState::DisableMatchState(MatchManager * match, IGameEventManager2 * eventManager) 
-	: BaseMatchState(match,eventManager)
+DisabledMatchState::DisabledMatchState(MatchManager * match) 
+	: BaseMatchState(match)
 {
 }
 
-void DisableMatchState::startState()
+void DisabledMatchState::startState()
 {
 	// Stop any countdown in progress
 	Countdown::getInstance()->stop();
 }
 
-void DisableMatchState::endState()
+void DisabledMatchState::endState()
 {
-	// Remove all registered events
-	gameeventmanager2->RemoveListener(this);
 }
 
-void DisableMatchState::FireGameEvent(IGameEvent * event)
-{
-}

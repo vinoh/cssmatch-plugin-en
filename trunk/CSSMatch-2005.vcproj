@@ -232,6 +232,14 @@
 			Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
 			>
 			<File
+				RelativePath=".\plugin\EventListener.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\plugin\EventListener.h"
+				>
+			</File>
+			<File
 				RelativePath=".\plugin\SimplePlugin.cpp"
 				>
 			</File>

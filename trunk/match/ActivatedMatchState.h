@@ -24,6 +24,7 @@
 #define __ACTIVATED_MATCH_STATE_H__
 
 #include "BaseMatchState.h" // BaseMatchState
+#include "../plugin/EventListener.h"
 
 class IGameEventManager2;
 class IGameEvent;
@@ -35,17 +36,23 @@ namespace cssmatch
 	/** Base class for "match in progress" state */
 	class ActivatedMatchState : public BaseMatchState
 	{
+	protected:
+		EventListener<ActivatedMatchState> * listener;
 	public:
 		ActivatedMatchState(MatchManager * match, IGameEventManager2 * eventManager);
+		virtual ~ActivatedMatchState();
 
 		// BaseMatchState methods
 		//	Please override these methods in the derivated classes
 		virtual void startState();
 		virtual void endState();
-		virtual void FireGameEvent(IGameEvent * event);
+		//	Please call these methods in the derivated classes
+		//		They define a common behavior for all derivated states
 
 		// Game event callbacks
-		void player_say(IGameEvent * event);
+		void player_disconnect(IGameEvent * event);
+		void player_team(IGameEvent * event);
+		void player_changename(IGameEvent * event);
 	};
 }
 

@@ -109,27 +109,34 @@ std::string I18nManager::getTranslation(const std::string & lang,
 	
 	if (translation != NULL)
 	{
-		message = (*translation)[keyword]; // copying it, because we will replace the parameters
-
-		// Relace the parameters // FIXME : unnecessarily call as many times as recipients
-		std::map<std::string,std::string>::const_iterator itParameters = parameters.begin();
-		std::map<std::string,std::string>::const_iterator lastParameters = parameters.end();
-		while(itParameters != lastParameters)
+		try
 		{
-			const std::string * parameter = &itParameters->first;
-			size_t parameterSize = parameter->size();
-			const std::string * value = &itParameters->second;
-			size_t valueSize = value->size();
+			message = (*translation)[keyword]; // copying it, because we will replace the parameters
 
-			// One option can be found multiple times
-			size_t iParam = message.find(*parameter);
-			while(iParam != std::string::npos)
+			// Relace the parameters // FIXME : unnecessarily call as many times as recipients
+			std::map<std::string,std::string>::const_iterator itParameters = parameters.begin();
+			std::map<std::string,std::string>::const_iterator lastParameters = parameters.end();
+			while(itParameters != lastParameters)
 			{
-				message.replace(iParam,parameterSize,*value,0,valueSize);
-				iParam = message.find(*parameter);
-			}
+				const std::string * parameter = &itParameters->first;
+				size_t parameterSize = parameter->size();
+				const std::string * value = &itParameters->second;
+				size_t valueSize = value->size();
 
-			itParameters++;
+				// One option can be found multiple times
+				size_t iParam = message.find(*parameter);
+				while(iParam != std::string::npos)
+				{
+					message.replace(iParam,parameterSize,*value,0,valueSize);
+					iParam = message.find(*parameter);
+				}
+
+				itParameters++;
+			}
+		}
+		catch(const TranslationException & e)
+		{
+			printException(e,__FILE__,__LINE__);
 		}
 	}
 

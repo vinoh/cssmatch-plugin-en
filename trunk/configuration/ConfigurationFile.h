@@ -25,6 +25,8 @@
 
 #include "../exceptions/BaseException.h" // BaseException
 
+#include "../common/common.h"
+
 #include <string>
 #include <list>
 

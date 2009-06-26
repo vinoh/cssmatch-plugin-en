@@ -41,7 +41,6 @@ namespace cssmatch
 		// BaseMatchState methods
 		virtual void startState();
 		virtual void endState();
-		virtual void FireGameEvent(IGameEvent * event);
 	};
 }
 

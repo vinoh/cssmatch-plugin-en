@@ -35,14 +35,10 @@ WarmupMatchState::WarmupMatchState(MatchManager * match, IGameEventManager2 * ev
 
 void WarmupMatchState::startState()
 {
+	ActivatedMatchState::startState();
 }
 
 void WarmupMatchState::endState()
 {
-	// Remove all registered events
-	gameeventmanager2->RemoveListener(this);
-}
-
-void WarmupMatchState::FireGameEvent(IGameEvent * event)
-{
+	ActivatedMatchState::endState();
 }

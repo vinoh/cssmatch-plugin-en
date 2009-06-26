@@ -45,6 +45,8 @@ class CBaseCombatCharacter;
 
 #include <string>
 
+#include "../exceptions/BaseException.h"
+
 struct tm;
 
 #define PLUGIN_NAME "CSSMatch"
@@ -77,6 +79,13 @@ namespace cssmatch
 	 * @param message The message to display
 	 */
 	void print(const std::string & fileName, int line, const std::string & message);
+
+	/** Print debug informations relating to an exception
+	 * @param e The exception to debug
+	 * @param fileName The source file where the exception was threw (typically __FILE__)
+	 * @param line The line of the source file where the exception was threw (typically __LINE__)
+	 */
+	void printException(const BaseException & e, const std::string & fileName, int line);
 
 	/** Make sure that an entity is valid
 	 * @param entity The entity to check

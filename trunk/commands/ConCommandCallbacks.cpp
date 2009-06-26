@@ -75,5 +75,5 @@ void cssmatch::cssm_stop()
 	MatchManager * match = plugin->getMatch();
 	ValveInterfaces * interfaces = plugin->getInterfaces();
 
-	match->setMatchState(new DisableMatchState(match,interfaces->gameeventmanager2));
+	match->setMatchState(new DisabledMatchState(match));
 }

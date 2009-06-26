@@ -27,8 +27,8 @@
 
 using namespace cssmatch;
 
-ClanMember::ClanMember(IVEngineServer * engine, IPlayerInfoManager * playerinfomanager, int index, bool ref) :
-	Player(engine,playerinfomanager,index), referee(ref)
+ClanMember::ClanMember(IVEngineServer * engine, IPlayerInfoManager * playerinfomanager, IServerPluginHelpers * helpers,int index, bool ref) :
+	Player(engine,playerinfomanager,helpers,index), referee(ref)
 {
 }
 

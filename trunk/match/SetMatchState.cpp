@@ -33,14 +33,11 @@ SetMatchState::SetMatchState(MatchManager * match, IGameEventManager2 * eventMan
 
 void SetMatchState::startState()
 {
+	ActivatedMatchState::startState();
 }
 
 void SetMatchState::endState()
 {
-	// Remove all registered events
-	gameeventmanager2->RemoveListener(this);
+	ActivatedMatchState::endState();
 }
 
-void SetMatchState::FireGameEvent(IGameEvent * event)
-{
-}

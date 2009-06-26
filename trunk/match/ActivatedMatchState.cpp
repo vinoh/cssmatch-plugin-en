@@ -28,58 +28,114 @@
 #include "../player/ClanMember.h"
 
 #include "igameevents.h" // IGameEventManager2, IGameEvent
+#include "dlls/iplayerinfo.h"
 
 #include <string>
+#include <map>
 #include <algorithm>
 
 using namespace cssmatch;
 
 ActivatedMatchState::ActivatedMatchState(MatchManager * match, IGameEventManager2 * eventManager)
-	: BaseMatchState(match,eventManager)
+	: BaseMatchState(match), listener(NULL)
 {
+	listener = new EventListener<ActivatedMatchState>(this,eventManager);
+}
+
+ActivatedMatchState::~ActivatedMatchState()
+{
+	delete listener;
 }
 
 void ActivatedMatchState::startState()
 {
-	// Register needed events
-	gameeventmanager2->AddListener(this,"player_say",true);
-
+	listener->addCallback("player_disconnect",&ActivatedMatchState::player_disconnect);
+	listener->addCallback("player_team",&ActivatedMatchState::player_team);
+	listener->addCallback("player_changename",&ActivatedMatchState::player_changename);
 }
 
 void ActivatedMatchState::endState()
 {
-	gameeventmanager2->RemoveListener(this);
+	listener->removeCallback("player_disconnect");
+	listener->removeCallback("player_team");
+	listener->removeCallback("player_changename");
 }
 
-void ActivatedMatchState::FireGameEvent(IGameEvent * event)
-{
-	std::string eventName = event->GetName();
-
-	/*if (eventName == "player_say")
-		player_say(event);*/
-}
-
-void ActivatedMatchState::player_say(IGameEvent * event)
+void ActivatedMatchState::player_disconnect(IGameEvent * event)
 {
 	SimplePlugin * plugin = SimplePlugin::getInstance();
-	//ValveInterfaces * interfaces = plugin->getInterfaces();
 	I18nManager * i18n = plugin->get18nManager();
 
-	std::map<std::string, std::string> parameters;
-	RecipientFilter recipients;
 	std::list<ClanMember *> * playerlist = plugin->getPlayerlist();
-	std::for_each(playerlist->begin(),playerlist->end(),PlayerToRecipient(&recipients));
+	std::list<ClanMember *>::const_iterator itPlayer = playerlist->begin();
+	std::list<ClanMember *>::const_iterator invalidPlayer = playerlist->end();
 
-	std::string command = event->GetString("text");
+	RecipientFilter recipients;
+	std::for_each(itPlayer,invalidPlayer,PlayerToRecipient(&recipients));
+	std::map<std::string, std::string> parameters;
+	parameters["$username"] = event->GetString("name");
+	parameters["$reason"] = event->GetString("reason");
 
-	if (command == "!score" || command == "!scores")
+	i18n->i18nChatSay(recipients,"player_leave_game",0,parameters);
+}
+
+void ActivatedMatchState::player_team(IGameEvent * event)
+{
+	SimplePlugin * plugin = SimplePlugin::getInstance();
+	I18nManager * i18n = plugin->get18nManager();
+
+	// Search for any change in the team that require a new clan name detection
+
+	TeamCode newSide = (TeamCode)event->GetInt("team");
+	TeamCode oldSide = (TeamCode)event->GetInt("oldteam");
+
+	int playercount = 0;
+	TeamCode toReDetect = INVALID_TEAM;
+	switch(newSide)
 	{
-		
+	case T_TEAM:
+		toReDetect = T_TEAM;
+		playercount = plugin->getPlayerCount(T_TEAM) - 1;
+		break;
+	case CT_TEAM:
+		toReDetect = CT_TEAM;
+		playercount = plugin->getPlayerCount(CT_TEAM) - 1;
+		break;
 	}
+	if ((toReDetect != INVALID_TEAM) && (playercount < 2))
+		match->detectClanName(toReDetect);
 
-	else if (command == "!go" || command == "ready")
+	toReDetect = INVALID_TEAM;
+	switch(oldSide)
 	{
-		i18n->chatSay(recipients,"warmup_disable");
+	case T_TEAM:
+		toReDetect = T_TEAM;
+		playercount = plugin->getPlayerCount(T_TEAM);
+		break;
+	case CT_TEAM:
+		toReDetect = CT_TEAM;
+		playercount = plugin->getPlayerCount(CT_TEAM);
+		break;
 	}
-	// Prob : player_say de warmup va appeler ce code...
+	if ((toReDetect != INVALID_TEAM) && (playercount < 2))
+		match->detectClanName(toReDetect);
+}
+
+void ActivatedMatchState::player_changename(IGameEvent * event)
+{
+	SimplePlugin * plugin = SimplePlugin::getInstance();
+	I18nManager * i18n = plugin->get18nManager();
+
+	std::list<ClanMember *> * playerlist = plugin->getPlayerlist();
+	std::list<ClanMember *>::const_iterator itPlayer = playerlist->begin();
+	std::list<ClanMember *>::const_iterator invalidPlayer = playerlist->end();
+
+	std::list<ClanMember *>::const_iterator thisPlayer = 
+		std::find_if(itPlayer,invalidPlayer,PlayerHavingUserid(event->GetInt("userid")));
+	if (thisPlayer != invalidPlayer)
+	{
+		TeamCode playerteam = (*thisPlayer)->getMyTeam();
+		if ((playerteam > SPEC_TEAM) && (plugin->getPlayerCount(playerteam) == 1))
+			match->detectClanName(playerteam);
+	}
 }
