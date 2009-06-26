@@ -47,7 +47,11 @@ namespace cssmatch
 		/** Is this player referee ? */
 		bool referee;
 	public:
-		ClanMember(IVEngineServer * engine, IPlayerInfoManager * playerinfomanager, int index, bool referee = false);
+		ClanMember(	IVEngineServer * engine,
+					IPlayerInfoManager * playerinfomanager,
+					IServerPluginHelpers * helpers,
+					int index,
+					bool referee = false);
 
 		bool isReferee() const;
 	};

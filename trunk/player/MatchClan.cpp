@@ -76,8 +76,8 @@ std::list<ClanMember *> MatchClan::getMembers()
 	std::list<ClanMember *>::iterator endMembers = playerlist->end();
 	while(itMembers != endMembers)
 	{
-		/*if ((*itMembers)->getMyTeam() == team)
-			clanPlayerList.push_back((*itMembers));*/
+		if ((*itMembers)->getMyTeam() == team)
+			clanPlayerList.push_back((*itMembers));
 		itMembers++;
 	}
 

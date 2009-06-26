@@ -96,6 +96,9 @@ namespace cssmatch
 		friend struct PlayerIsHltv;
 		friend class PlayerToRecipient;
 	protected:
+		/** IServerPluginHelpers instance to force some client commands */
+		IServerPluginHelpers * helpers;
+
 		/** IPlayerInfoManager instance to dynamically query informations about the player */
 		IPlayerInfoManager * playerinfomanager;
 
@@ -112,9 +115,14 @@ namespace cssmatch
 		/** Initialize the informations relating to the player 
 		 * @param engine The valve's IVEngineServer interface (required to query the player's informations)
 		 * @param playerinfomanager The IPlayerInfoManager instance (required to query the player's informations)
+		 * @param helpers The IServerPluginHelpers instance (tools to send messages and force client commands)
 		 * @param index The player index corresponding to the player (must be valid !)
 		 */
-		Player(IVEngineServer * engine, IPlayerInfoManager * playerinfomanager, int index) throw(PlayerException);
+		Player(	IVEngineServer * engine,
+				IPlayerInfoManager * playerinfomanager,
+				IServerPluginHelpers * helpers,
+				int index)
+				throw(PlayerException);
 
 		/** Get the idneity informations about this player 
 		 * @return A PlayerIdentity structure pointer
@@ -152,6 +160,11 @@ namespace cssmatch
 		 */
 		void removeWeapon(WeaponSlotCode slot);
 
+		/** Force a player to use a weapon
+		 * @param weapon The name of the weapon to use
+		 */	
+		void use(const std::string & weapon) const;
+			
 		/** Set the cash account of this player 
 		 * @param newCash New cash amount
 		 */

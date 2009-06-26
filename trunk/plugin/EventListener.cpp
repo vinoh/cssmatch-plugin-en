@@ -20,32 +20,4 @@
  * Portions of this code are also Copyright © 1996-2005 Valve Corporation, All rights reserved
  */
 
-#ifndef __BASE_MATCH_STATE_H__
-#define __BASE_MATCH_STATE_H__
-
-namespace cssmatch
-{
-	class MatchManager;
-
-	/** Base match state (e.g. disabled, kniferound, warmup, set, etc.) */
-	class BaseMatchState
-	{
-	protected:
-		/** Match which is in this state */
-		MatchManager * match;
-	public:
-		/** Prepare a new match state 
-		 * @param match The match which will be in this state
-		 */
-		BaseMatchState(MatchManager * match);
-
-		/** Apply this match state */
-		virtual void startState() = 0;
-
-		/** End this match state <br>
-		 * Remove all event listeners we used here
-		 */
-		virtual void endState() = 0;
-	};
-}
-#endif // __BASE_MATCH_STATE_H__
+#include "EventListener.h"

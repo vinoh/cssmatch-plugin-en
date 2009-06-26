@@ -32,8 +32,8 @@ PlayerIdentity::PlayerIdentity() :
 {
 }
 
-Player::Player(IVEngineServer * engine, IPlayerInfoManager * pInfoManager, int index) throw (PlayerException)
-	: playerinfomanager(pInfoManager), cashHandler("CCSPlayer","m_iAccount"), lifeStateHandler("CBasePlayer","m_lifeState")
+Player::Player(IVEngineServer * engine, IPlayerInfoManager * pInfoManager, IServerPluginHelpers * help, int index) throw (PlayerException)
+	: playerinfomanager(pInfoManager), helpers(help), cashHandler("CCSPlayer","m_iAccount"), lifeStateHandler("CBasePlayer","m_lifeState")
 {
 	identity.index = index;
 
@@ -137,6 +137,11 @@ void Player::removeWeapon(WeaponSlotCode slot)
 	CBaseCombatWeapon * weapon = getWeaponFromWeaponSlot(slot);
 	if (weapon != NULL)
 		weapon->Kill();
+}
+
+void Player::use(const std::string & weapon) const
+{
+	helpers->ClientCommand(identity.pEntity,("use " + weapon).c_str());
 }
 
 void Player::setCash(unsigned int newCash)

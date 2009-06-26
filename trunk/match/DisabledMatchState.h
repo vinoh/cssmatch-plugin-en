@@ -25,23 +25,21 @@
 #ifndef __DISABLE_MATCH_STATE_H__
 #define __DISABLE_MATCH_STATE_H__
 
-class IGameEventManager2;
-class IGameEvent;
-
 namespace cssmatch
 {
 	class MatchManager;
 
 	/** Base class for "no match in progress" state */
-	class DisableMatchState : public BaseMatchState
+	class DisabledMatchState : public BaseMatchState
 	{
 	public:
-		DisableMatchState(MatchManager * match, IGameEventManager2 * eventManager);
+		DisabledMatchState(MatchManager * match);
 
 		// BaseMatchState methods
 		virtual void startState();
 		virtual void endState();
-		virtual void FireGameEvent(IGameEvent * event);
+		//	Please call these methods in the derivated classes
+		//		They define a common behavior for all derivated states
 	};
 }
 

@@ -333,7 +333,8 @@ void SimplePlugin::ClientPutInServer(edict_t * pEntity, char const * playername)
     {
             try
             {
-                    playerlist.push_back(new ClanMember(interfaces.engine,interfaces.playerinfomanager,index));
+				playerlist.push_back(
+					new ClanMember(interfaces.engine,interfaces.playerinfomanager,interfaces.helpers,index));
             }
             catch(const PlayerException & e)
             {
@@ -371,13 +372,6 @@ void SimplePlugin::log(const std::string & message) const
 	std::ostringstream buffer;
 	buffer << PLUGIN_NAME << " : " << message << "\n";
 	interfaces.engine->LogPrint(buffer.str().c_str());
-}
-
-void SimplePlugin::printException(const BaseException & e, const std::string & fileName, int line) const
-{
-	std::ostringstream buffer;
-	buffer << e.what() << " (" << fileName << ", l." << line << ")";
-	log(buffer.str());
 }
 
 void SimplePlugin::queueCommand(const std::string & command) const

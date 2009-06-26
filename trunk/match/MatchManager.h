@@ -25,10 +25,21 @@
 
 #include "../player/MatchClan.h" // MatchClan, ClanMember
 
+#include "../common/common.h"
+#include "../exceptions/BaseException.h"
+
+#include <string>
+
 namespace cssmatch
 {
 	class BaseMatchState;
 	class RunnableConfigurationFile;
+
+	class MatchManagerException : public BaseException
+	{
+	public:
+		MatchManagerException(const std::string & message) : BaseException(message){};
+	};
 
 	/** A match lign-up */
 	struct MatchLignup
@@ -53,6 +64,9 @@ namespace cssmatch
 
 		/** Start date */
 		tm * startTime;
+
+		/** Kniferound winner */
+		MatchClan * kniferoundWinner;
 
 		MatchInfo();
 	};
@@ -79,6 +93,16 @@ namespace cssmatch
 
 		/** Get some informations about the match */
 		MatchInfo * getInfos();
+
+		/** Get a clan by team, depending to the current set 
+		 * @param code The clan's team code 
+		 */
+		MatchClan * getClan(TeamCode code) throw(MatchManagerException);
+
+		/** Redetect a clan name 
+		 * @param code The clan's team code
+		 */
+		void detectClanName(TeamCode code);
 
 		/** Set a new match state <br>
 		 * Call the endState method of the previous state, and the startState of the new state

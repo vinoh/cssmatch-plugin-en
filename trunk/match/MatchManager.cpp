@@ -30,6 +30,7 @@
 
 #include "../configuration/RunnableConfigurationFile.h"
 #include "../plugin/SimplePlugin.h"
+#include "../common/common.h"
 #include "../messages/Countdown.h"
 #include "../messages/I18nManager.h"
 #include "../player/Player.h"
@@ -43,7 +44,7 @@ MatchLignup::MatchLignup() : clan1(T_TEAM), clan2(CT_TEAM)
 {
 }
 
-MatchInfo::MatchInfo() : setNumber(1), roundNumber(1), startTime(getLocalTime())
+MatchInfo::MatchInfo() : setNumber(1), roundNumber(1), startTime(getLocalTime()), kniferoundWinner(NULL)
 {
 }
 
@@ -52,7 +53,7 @@ MatchManager::MatchManager()
 	SimplePlugin * plugin = SimplePlugin::getInstance();
 	ValveInterfaces * interfaces = plugin->getInterfaces();
 
-	state = new DisableMatchState(this,interfaces->gameeventmanager2);
+	state = new DisabledMatchState(this);
 	state->startState();
 }
 
@@ -72,6 +73,60 @@ MatchLignup * MatchManager::getLignup()
 MatchInfo * MatchManager::getInfos()
 {
 	return &infos;
+}
+
+MatchClan * MatchManager::getClan(TeamCode code) throw(MatchManagerException)
+{
+	MatchClan * clan = NULL;
+
+	switch(code)
+	{
+	case T_TEAM:
+		if (infos.setNumber & 1)
+			clan = &lignup.clan1;
+		else
+			clan = &lignup.clan2;
+		break;
+	case CT_TEAM:
+		if (infos.setNumber & 1)
+			clan = &lignup.clan2;
+		else
+			clan = &lignup.clan1;	
+		break;
+	default:
+		throw MatchManagerException("The plugin tried to grab a clan from an invalid team index");
+	}
+
+	return clan;
+}
+
+void MatchManager::detectClanName(TeamCode code)
+{
+	SimplePlugin * plugin = SimplePlugin::getInstance();
+	I18nManager * i18n = plugin->get18nManager();
+
+	std::list<ClanMember *> * playerlist = plugin->getPlayerlist();
+	std::list<ClanMember *>::const_iterator itPlayer = playerlist->begin();
+	std::list<ClanMember *>::const_iterator invalidPlayer = playerlist->end();
+
+	try
+	{
+		getClan(code)->detectClanName();
+
+		RecipientFilter recipients;
+		std::for_each(itPlayer,invalidPlayer,PlayerToRecipient(&recipients));
+
+		i18n->i18nChatSay(recipients,"match_retag");
+
+		std::map<std::string,std::string> parameters;
+		parameters["$team1"] = *(lignup.clan1.getName());
+		parameters["$team2"] = *(lignup.clan2.getName());
+		i18n->i18nChatSay(recipients,"match_name",0,parameters);
+	}
+	catch(const MatchManagerException & e)
+	{
+		printException(e,__FILE__,__LINE__);
+	}
 }
 
 void MatchManager::setMatchState(BaseMatchState * newState)
@@ -146,7 +201,7 @@ void MatchManager::start(RunnableConfigurationFile & config, bool kniferound, Cl
 	}
 	catch(const BaseConvarsAccessorException & e)
 	{
-		plugin->printException(e,__FILE__,__LINE__);
+		printException(e,__FILE__,__LINE__);
 	}
 
 	// Announcement

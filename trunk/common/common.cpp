@@ -40,6 +40,8 @@
 #include <sstream>
 #include <time.h>
 
+#include "../plugin/SimplePlugin.h"
+
 using namespace cssmatch;
 
 tm * cssmatch::getLocalTime()
@@ -52,7 +54,15 @@ void cssmatch::print(const std::string & fileName, int line, const std::string &
 {
 	std::ostringstream buffer;
 	buffer << PLUGIN_NAME << " (" << fileName << " l." << line << ") : " << message << "\n";
-	Msg(buffer.str().c_str());
+	//Msg(buffer.str().c_str());
+	SimplePlugin::getInstance()->log(buffer.str());
+}
+
+void cssmatch::printException(const BaseException & e, const std::string & fileName, int line)
+{
+	std::ostringstream buffer;
+	buffer << e.what() << " (" << fileName << ", l." << line << ")";
+	SimplePlugin::getInstance()->log(buffer.str());
 }
 
 bool cssmatch::isValidEntity(edict_t * entity)

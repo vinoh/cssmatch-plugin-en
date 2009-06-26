@@ -28,6 +28,8 @@
 class IGameEventManager2;
 class IGameEvent;
 
+#include "../plugin/EventListener.h"
+
 namespace cssmatch
 {
 	class MatchManager;
@@ -35,13 +37,15 @@ namespace cssmatch
 	/** Knife round in progress */
 	class KnifeRoundMatchState : public ActivatedMatchState
 	{
+	protected:
+		EventListener<KnifeRoundMatchState> * listener;
 	public:
 		KnifeRoundMatchState(MatchManager * match, IGameEventManager2 * eventManager);
+		~KnifeRoundMatchState();
 
 		// BaseMatchState methods
 		virtual void startState();
 		virtual void endState();
-		virtual void FireGameEvent(IGameEvent * event);
 
 		// Game event callbacks
 		void round_start(IGameEvent * event);
