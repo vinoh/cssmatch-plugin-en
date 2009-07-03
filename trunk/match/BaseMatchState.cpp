@@ -21,11 +21,13 @@
  */
 
 #include "BaseMatchState.h"
-
+#include <string>
+using namespace std;
 
 using namespace cssmatch;
 
 BaseMatchState::BaseMatchState(MatchManager * m)
 	: match(m)
 {
+	std::string coucou("test");
 }
