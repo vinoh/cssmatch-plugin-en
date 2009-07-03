@@ -207,9 +207,13 @@ void MatchManager::start(RunnableConfigurationFile & config, bool kniferound, Cl
 	// Announcement
 	if (umpire != NULL)
 	{
-		std::map<std::string,std::string> parameters;
-		parameters["$admin"] = umpire->getPlayerInfo()->GetName();
-		i18n->i18nChatSay(recipients,"match_started_by",umpire->getIdentity()->index,parameters);
+		IPlayerInfo * playerInfo = umpire->getPlayerInfo();
+		if (isValidPlayer(playerInfo))
+		{
+			std::map<std::string,std::string> parameters;
+			parameters["$admin"] = playerInfo->GetName();
+			i18n->i18nChatSay(recipients,"match_started_by",umpire->getIdentity()->index,parameters);
+		}
 	}
 	else
 		i18n->i18nChatSay(recipients,"match_started");
