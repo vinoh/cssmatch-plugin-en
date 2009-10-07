@@ -18,4 +18,4 @@
 Don't forget to write all the steps you followed to install CSSMatch (even if you repeat this tutorial).
 
 <br>
-_*Note : If your server runs on a 64 bits machine and you experience some problems to install CSSMatch, please try this workaround : http://code.google.com/p/cssmatch-plugin/issues/detail?id=15&colspec=ID%20Status%20Summary#c7*_
+_*Note : If your server runs on a 64 bits machine and you experience some problems to install CSSMatch, please try this workaround : http://code.google.com/p/cssmatch-plugin/issues/detail?id=15&colspec=ID%20Status%20Summary#c7 *_
