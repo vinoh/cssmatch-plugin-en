@@ -1,7 +1,7 @@
 #summary How to install CSSMatch ?
 
   # [http://code.google.com/p/cssmatch-plugin-en/downloads/list Download the plugin]
-  # Extract the archive on your compute (e.g. with [http://www.7-zip.org 7Zip])
+  # Extract the archive on your computer (e.g. with [http://www.7-zip.org 7Zip])
   # Send the content of the _addons_ folder in the server's _addons_ folder
   # Send the content of the _cfg_ folder in the server's _cfg_ folder
   # Reboot your server
@@ -16,3 +16,6 @@
 <br>
 === If you have some problem : ===
 Don't forget to write all the steps you followed to install CSSMatch (even if you repeat this tutorial).
+
+<br>
+_*Note : If your server runs on a 64 bits machine and you experience some problems to install CSSMatch, please try this workaround : http://code.google.com/p/cssmatch-plugin/issues/detail?id=15&colspec=ID%20Status%20Summary#c7*_
