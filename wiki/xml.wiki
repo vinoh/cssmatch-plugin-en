@@ -28,9 +28,11 @@ These three files must be placed in the same folder on your website.
 The home directory of my site _www.my-team.fr_ is *www*. I send two reports in the *www/reports* folder. This folder contains these files :
  * _cssmatch.xsl_
  * _cssmatch.css_
- * _2008-06-29_22h24_de_dust.xml_ (first report)
- * _2008-07-02_10h10_de_dust_.xml (second report)
-To visualize the first report, I visit _www.ma-team.fr/reports/2008-06-29_22h24_de_dust.xml_. To visualize the second report, I visit _www.ma-team.fr/reports/2008-07-02_10h10_de_dust.xml_.
+ * _2009-04-03_22h24_de_dust.xml_ (first report)
+ * _2009-04-04_23h23_de_prodigy.xml_ (second report)
+To visualize the first report, I visit _www.ma-team.fr/reports/2009-04-03_22h24_de_dust.xml_. To visualize the second report, I visit _www.ma-team.fr/reports/2009-04-04_23h23_de_prodigy.xml_.
+
+Here is preview : [http://cssmatch.com/reports/2009-04-04_23h23_de_prodigy.xml 2009-04-04_23h23_de_prodigy.xml]
 
 
 <br>
