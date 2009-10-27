@@ -6,8 +6,8 @@ Here is a complete server.cfg :
 
 {{{
 // Server infos
-hostname "Nom du serveur"
-sv_contact "Votre e-mail"
+hostname "Server name"
+sv_contact "Admin e-mail"
 sv_lan 0 // (0) LAN (1) Web
 sv_region 3 // (0) USA East Cost, (1) USA West Cot, (2) South America, (3) Europe, (4) Asia, (5) Australia, (6) Orient, (7) Africa, (255) the World
 // sv_visiblemaxplayers 17
