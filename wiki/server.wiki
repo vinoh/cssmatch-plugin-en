@@ -3,28 +3,30 @@
 Often your server.cfg is incomplete, so at the end of the match the server configuration is not correctly restored
 
 Here is a complete server.cfg :
+
 {{{
 // Server infos
-hostname "My Hostname"
-sv_contact "My e-mail"
+hostname "Nom du serveur"
+sv_contact "Votre e-mail"
 sv_lan 0 // (0) LAN (1) Web
 sv_region 3 // (0) USA East Cost, (1) USA West Cot, (2) South America, (3) Europe, (4) Asia, (5) Australia, (6) Orient, (7) Africa, (255) the World
 // sv_visiblemaxplayers 17
 
 
-// Server security
-rcon_password "Your secret rcon password"
-sv_password "" // Server password ("" <=> no password)
+// Security
+rcon_password "Your RCON password"
+sv_password "" // server password ("" <=> no password)
 sv_rcon_banpenalty 0
 sv_rcon_minfailures 5
 sv_rcon_minfailuretime 30
 sv_rcon_maxfailures 10
 
-// Server downloads
+
+// Downloads
 // sv_downloadurl "your_mirror_ended_by_/cstrike"
 
 
-// Server logs
+// Logs
 log on
 sv_logbans 1
 sv_logecho 1
@@ -32,13 +34,13 @@ sv_logfile 1
 sv_log_onefile 1
 
 
-// Additional configuration files
+// Configuration files
 exec banned_user.cfg
 exec banned_ip.cfg
 exec mani_server.cfg
 
 
-// Server connection
+// Connectivity
 decalfrequency 10
 sv_allowdownload 1
 sv_allowupload 1
@@ -77,12 +79,12 @@ mp_winlimit 0
 sv_airaccelerate 10
 sv_airmove 1
 sv_alltalk 1
-sv_cheats 1
+sv_cheats 0
 sv_clienttrace 1
 sv_consistency 1
 sv_gravity 800
 sv_maxspeed 320
-sv_pausable 1
+sv_pausable 0
 sv_timeout 120
 sv_voiceenable 1
 phys_pushscale 1
