@@ -1,4 +1,5 @@
 #summary How to install CSSMatch ?
+#labels Featured
 
   # [http://code.google.com/p/cssmatch-plugin-en/downloads/list Download the plugin]
   # Extract the archive on your computer (e.g. with [http://www.7-zip.org 7Zip])
