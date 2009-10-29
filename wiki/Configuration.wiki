@@ -1,4 +1,5 @@
 #summary Configure CSSMatch / Configure a match
+#labels Featured
 
 == How to configure CSSMatch ? ==
 
