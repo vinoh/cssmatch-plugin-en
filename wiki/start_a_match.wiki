@@ -1,4 +1,5 @@
 #summary How to start a match ?
+#labels Featured
 
 This question is often asked. Here is the steps :
 
