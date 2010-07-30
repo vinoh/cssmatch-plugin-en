@@ -2,7 +2,7 @@
 
 Often your server.cfg is incomplete, so at the end of the match the server configuration is not correctly restored
 
-Here is a complete server.cfg :
+Here is a complete server.cfg:
 
 {{{
 // Server infos
@@ -23,7 +23,7 @@ sv_rcon_maxfailures 10
 
 
 // Downloads
-// sv_downloadurl "your_mirror_ended_by_/cstrike"
+// sv_downloadurl "your-mirror/cstrike"
 
 
 // Logs
@@ -40,14 +40,16 @@ exec banned_ip.cfg
 exec mani_server.cfg
 
 
-// Connectivity
-decalfrequency 10
-sv_allowdownload 1
+// Connectivity (tickrate 66)
 sv_allowupload 1
-sv_minrate 0
-sv_minupdaterate 20
-sv_maxrate 0
-sv_maxupdaterate 60
+sv_minupdaterate 66
+sv_maxupdaterate 66
+sv_minrate 30000
+sv_maxrate 35000
+sv_mincmdrate 66
+sv_maxcmdrate 66
+decalfrequency 10
+fps_max 0
 
 
 // Game configuration
@@ -89,4 +91,8 @@ sv_timeout 120
 sv_voiceenable 1
 phys_pushscale 1
 phys_timescale 1
+
+ma_war 0
+
+mattie_eventscripts 1
 }}}
