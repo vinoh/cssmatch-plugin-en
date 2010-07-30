@@ -1,4 +1,4 @@
-#summary How to enable the basic administration options?
+#summary Basic administration options
 
 By default, CSSMatch provides some basic admin options (changelevel, kick, ban, swap, spec). That allows you to not install an administration plugin only for kick and change the map.
 
