@@ -1,4 +1,7 @@
-#summary How to read the reports ?
+#summary How to read the reports?
+
+<wiki:toc max_depth="2" />
+<br>
 
 == Introduction ==
 
