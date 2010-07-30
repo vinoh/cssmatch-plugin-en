@@ -1,6 +1,9 @@
 #summary How to install CSSMatch ?
 #labels Featured
 
+<wiki:toc max_depth="2" />
+<br>
+
   # [http://code.google.com/p/cssmatch-plugin-en/wiki/Downloads?tm=2 Download the plugin]
   # Extract the archive on your computer (e.g. with [http://www.7-zip.org 7Zip])
   # Send the content of the _addons_ folder in the server's _addons_ folder
