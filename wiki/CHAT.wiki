@@ -1,5 +1,8 @@
 #summary Chat commands
 
+<wiki:toc max_depth="2" />
+<br>
+
 = Introduction =
 
 Those chat commands must be used in the chat area. They exist to simplify your life or, more often, give you access to more features.
@@ -11,12 +14,8 @@ Those chat commands must be used in the chat area. They exist to simplify your l
 
 ==== Description ====
 
-Since CSSMatch 1.2, this command allows the referees to access the referee menu.
+This command allows the referees to access the admin menu.
 This command does not appear in the chat.
-
-==== Example ====
-
-`cssmatch`
 
 ----
 == !teamt New terrorist team name ==
@@ -76,3 +75,28 @@ ready
 }}}
 
 ----
+
+== !password New password ==
+
+==== Description ====
+This command sets a new server password.
+
+====Example====
+{{{
+!password inwar
+}}}
+
+----
+
+== !thetime ==
+
+====Description====
+
+This command displays the current time.
+
+----
+
+== !update ==
+
+====Description====
+This command displays the last CSSMatch changelog.
