@@ -3,13 +3,13 @@
 <wiki:toc max_depth="2" />
 <br>
 
-== Introduction ==
+= Introduction =
 
 Each match, a report is generated in the *cfg/cssmatch/rapports* folder. The name of the file generated contains the date and the map of the match.
 
 
 <br>
-== Read the reports with an Internet browser ==
+= Read the reports with an Internet browser =
 
 Three files are required :
  * _cssmatch.xsl_
@@ -19,7 +19,7 @@ These three files must be placed in the same folder. So you can read the report 
 
 
 <br>
-== Read the reports from your Internet site ==
+= Read the reports from your Internet site =
 
 In order to make the report accessible from your website, you have to get these files :
  * _cssmatch.xsl_
@@ -39,7 +39,7 @@ Here is preview : [http://cssmatch.com/reports/2009-04-04_23h23_de_prodigy.xml 2
 
 
 <br>
-== Modify the reports appearance ==
+= Modify the reports appearance =
 
 To modify the appearance of the reports, you must modify the _cssmatch.css_ file. This file is a _[http://en.wikipedia.org/wiki/Cascading_Style_Sheets Cascading Style Sheet]_. 
 
@@ -47,6 +47,6 @@ _*Note :* Share your style on [http://www.cssmatch/forums the forums] :-) !
 
 
 <br>
-== Automatically transfer the reports on your site ==
+= Automatically transfer the reports on your site =
 
 Some systems are in development to automatically transfer the reports (and the sourceTV records) from your servers to your website. [http://www.cssmatch.com/forums/viewforum.php?f=12 Stay aware] :)
