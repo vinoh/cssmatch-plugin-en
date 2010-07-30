@@ -1,4 +1,4 @@
-#summary How to become referee (admin) ?
+#summary How to become referee (admin)?
 
 <wiki:toc max_depth="2" />
 <br>
