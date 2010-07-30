@@ -1,12 +1,9 @@
 #summary How to enable the basic administration options ?
 
-By default, the plugin doesn't allow you to administrate the server via the referee menu.
+By default, CSSMatch provides some basic admin options (changelevel, kick, ban, swap, spec). That allows you to not install an administration plugin only for kick and change the map.
 
-However if you don't wish to keep your administration plugin only for kick and change the map, CSSMatch can provides some basic administration features (changelevel, kick, ban, swap and move to spectator).
-
-To enable these features, add this line in your autoexec.cfg file :
+If you wish to disable these options, add this line in your autoexec.cfg file :
 {{{
-cssmatch_advanced 1
+cssmatch_advanced 0
 }}}
-
-Then reboot your server. So the referee menu now displays a new option called "Administration options".
+Then reboot your server.
