@@ -3,13 +3,13 @@
 <wiki:toc max_depth="2" />
 <br>
 
-=== Become referee : ===
+= Become referee : =
   # Open the adminlist.txt file localized in the _cfg/cssmatch_ folder
   # Add your [http://en.wikipedia.org/wiki/SteamID steamID] at the end of the file
   # Change the map or reboot your server
 
 <br>
-=== Check your rights and use of the referee menu : ===
+= Check your rights and use of the referee menu : =
   # Bind the following command in your config.cfg or via your console : `cssmatch`
     * e.g.: `bind "e" "cssmatch"`
     * Note : if you won't bind the command, it is possible to access the menu typing `cssmatch`
