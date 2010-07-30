@@ -1,3 +1,5 @@
-#summary Which servers use CSSMatch ?
+#summary Which servers use CSSMatch?
 
-Here is the server list which use CSSMatch : http://www.game-monitor.com/search.php?search=cssmatch_version&type=variable&public=&order=-var
+Here is a list of servers using CSSMatch: http://www.game-monitor.com/search.php?search=cssmatch_version&type=variable&public=&order=-var
+
+*Note: SourceTv servers are counted.*
