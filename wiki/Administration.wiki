@@ -1,9 +1,3 @@
 #summary Basic administration options
 
-By default, CSSMatch provides some basic admin options (changelevel, kick, ban, swap, spec). That allows you to not install an administration plugin only for kick and change the map.
-
-If you wish to disable these options, add this line in your autoexec.cfg file :
-{{{
-cssmatch_advanced 0
-}}}
-Then reboot your server.
+Redirection : http://www.cssmatch.com/wiki/wiki.php?title=server-administration
