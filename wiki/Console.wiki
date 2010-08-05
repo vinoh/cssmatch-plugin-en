@@ -1,22 +1,3 @@
 #summary Client commands
 
-<wiki:toc max_depth="2" />
-
-= Introduction =
-
-The client commands are commands that are typed in the player consoles. Typically, you'll bind a key to `cssmatch` :
-{{{
-bind e cssmatch
-}}}
-
-
-= Commands Description =
-----
-==cssmatch==
-This command allow the referees to access the admin menu.
-
-----
-==cssm_rates==
-This command displays into the user console the value of *cl_updaterate*, *cl_cmdrate*, *cl_interp* et *rate* for each player connected. These values could be enforced by the server.
-
-----
+Redirection : http://www.cssmatch.com/wiki/wiki.php?title=client-commands
