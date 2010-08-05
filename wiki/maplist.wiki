@@ -1,7 +1,3 @@
 #summary What is the utility of the maplist.txt in the cssmatch folder?
 
-If the [Administration basic administration options] are enabled, you can change the map via the referee menu.
-
-_The *maplist.txt* file contains the maps listed in the menu_. This restrict the number of choices in the menu for a faster map change.
-
-Feel free to modify this file ;)
+Redirection : http://www.cssmatch.com/wiki/wiki.php?title=maplist-txt-file
