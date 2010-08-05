@@ -1,12 +1,3 @@
 #summary Downloads
-#labels Featured
 
-= Last Versions =
-
- * [http://cssmatch.com/downloads/CSSMatch_2.1.5.zip Version 2.1.5] (Orange Box)
-
-
-<br>
-= All Versions =
-
- * http://cssmatch.com/downloads/
+Redirection : http://www.cssmatch.com/download/download.php?cat=1
