@@ -1,21 +1,3 @@
 #summary Meaning of some error messages
 
-<wiki:toc max_depth="2" />
-<br>
-
-= Error messages in relation with the referee menu =
-
-  *  *_You're not an admin !_*
-*Meaning:* the adminlist.txt file which takes place on your server does not contains your steamID, or the line where is your steamID is not correct.
-
-*Fix:* Follow [Referee these instructions].
-
-
-<br>
-= Error messages in relation with SourceTv =
-  *  *_CSSMatch: SourceTV record cannot start because it's not connected on server_*
-  "I've got this error message, yet tv_enable is 1 in my configuration."
-
-*Meaning:* SourceTV is not connected to the server at the moment when CSSMatch attempts to start the record.
-
-*Fix:* Change the level in order to connect SourceTV.
+Redirection : http://www.cssmatch.com/wiki/wiki.php?title=meaning-of-some-error-messages
